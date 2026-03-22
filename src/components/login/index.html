@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="./login.css" />
+    <title>Login | DriveRoom</title>
+  </head>
+  <body>
+    <section class="login-view">
+      <div class="login-shell container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6">
+            <div class="login-copy">
+              <h1>Entrar es el primer paso para encontrar ese usado que se siente como nuevo.</h1>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <article class="login-card">
+              <div class="login-card-top">
+                <span class="login-chip">Login</span>
+                <span class="login-status">Compra y venta</span>
+              </div>
+
+              <h2>Iniciar sesion</h2>
+              <p class="login-card-text">Ingresa tu email para seguir tu movimiento en el mercado.</p>
+
+              <form id="loginForm" class="login-form" novalidate>
+                <label for="loginEmail" class="form-label">Correo electronico</label>
+                <div class="input-wrap">
+                  <i class="bi bi-envelope-fill"></i>
+                  <input
+                    id="loginEmail"
+                    name="email"
+                    type="email"
+                    class="form-control form-control-lg"
+                    placeholder="nombre@correo.com"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
+                <small id="loginMessage" class="login-message">Ingresa un email valido para continuar.</small>
+
+                <button type="submit" class="btn login-submit w-100">Continuar con email</button>
+              </form>
+
+              <div class="login-divider"><span>o</span></div>
+
+              <button type="button" class="btn btn-light login-alt w-100">
+                <i class="bi bi-google"></i>
+                Continuar con Google
+              </button>
+
+              <p class="login-footer">
+                No tenes cuenta? <a href="#">Crear cuenta</a>
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="./login.js"></script>
+  </body>
+</html>
