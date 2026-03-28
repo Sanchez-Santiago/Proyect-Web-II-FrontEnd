@@ -1,0 +1,45 @@
+<div id="loginModal" class="login-modal" hidden>
+  <div class="login-modal-overlay"></div>
+  <div class="login-modal-content">
+    <button type="button" class="login-modal-close" id="closeLoginModal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    
+    <div class="login-modal-header">
+      <span class="login-chip">DriveRoom</span>
+      <h2 id="loginModalTitle">Iniciar sesión</h2>
+      <p id="loginModalSubtitle">Ingresa tu email para continuar</p>
+    </div>
+
+    <form id="loginModalForm" class="login-modal-form" novalidate>
+      <label for="loginModalEmail" class="form-label">Correo electrónico</label>
+      <div class="input-wrap">
+        <i class="bi bi-envelope-fill"></i>
+        <input
+          id="loginModalEmail"
+          name="email"
+          type="email"
+          class="form-control form-control-lg"
+          placeholder="nombre@correo.com"
+          autocomplete="email"
+          required
+        />
+      </div>
+      <small id="loginModalMessage" class="login-message"></small>
+
+      <button type="submit" class="btn login-submit w-100">Continuar</button>
+    </form>
+
+    <div class="login-divider"><span>o</span></div>
+
+    <button type="button" class="btn login-alt w-100">
+      <i class="bi bi-google"></i>
+      Continuar con Google
+    </button>
+
+    <p class="login-modal-footer">
+      <span id="loginModalFooterText">¿No tenés cuenta?</span>
+      <a href="#" id="loginModalFooterLink">Crear cuenta</a>
+    </p>
+  </div>
+</div>

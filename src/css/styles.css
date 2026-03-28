@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+@import './components/base.css';
+@import './components/home.css';
+@import './components/car-detail.css';
+@import './components/login.css';
+@import './components/login-modal.css';
+@import './components/role.css';
+@import './components/menu.css';
+@import './components/profile.css';

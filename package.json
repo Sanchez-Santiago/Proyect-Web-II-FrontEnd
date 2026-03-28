@@ -1,6 +1,24 @@
 {
-  "name": "proyect-web-ii-frontend",
-  "version": "0.1.0",
+  "name": "driveroom-frontend",
+  "version": "1.0.0",
+  "description": "Plataforma SPA de compra y venta de autos usados con asistencia de IA",
   "private": true,
-  "description": "Frontend estatico de marketplace automotor hecho con HTML, CSS, JavaScript y Bootstrap."
+  "scripts": {
+    "start": "http-server -p 8000",
+    "dev": "http-server -p 8000 -c-1"
+  },
+  "keywords": [
+    "automotive",
+    "cars",
+    "marketplace",
+    "used-cars",
+    "spa",
+    "javascript",
+    "bootstrap"
+  ],
+  "author": "Universidad",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
 }
