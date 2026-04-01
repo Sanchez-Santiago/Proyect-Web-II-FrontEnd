@@ -1,0 +1,333 @@
+:root {
+  --seller-text: #f8fafc;
+  --seller-muted: rgba(248, 250, 252, 0.68);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top center, rgba(249, 115, 22, 0.16), transparent 24%),
+    linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+  color: var(--seller-text);
+}
+
+.seller-space-page {
+  min-height: 100svh;
+  padding: 0.85rem;
+}
+
+.seller-space-layout {
+  min-height: calc(100svh - 1.7rem);
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.seller-space-sidebar,
+.seller-space-panel,
+.seller-space-card,
+.seller-space-note {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seller-space-sidebar {
+  padding: 0.9rem;
+  border-radius: 28px;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 48px rgba(0, 0, 0, 0.24);
+}
+
+.seller-space-brand,
+.seller-space-nav a,
+.seller-space-note,
+.seller-space-panel,
+.seller-space-card {
+  border-radius: 24px;
+}
+
+.seller-space-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.05rem 0.1rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seller-space-brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.seller-space-brand strong,
+.seller-space-nav a strong,
+.seller-space-topbar h1,
+.seller-space-section h2,
+.seller-space-card h3,
+.seller-space-note strong,
+.seller-space-panel strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.seller-space-nav {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.seller-space-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 0.8rem;
+  padding: 0.78rem 0.88rem;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.seller-space-nav a.is-active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
+  border-color: rgba(249, 115, 22, 0.16);
+}
+
+.seller-space-nav a.is-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 16%;
+  width: 2px;
+  height: 64%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffb37d 0%, #f97316 100%);
+}
+
+.seller-space-nav a i {
+  color: rgba(255, 212, 178, 0.92);
+}
+
+.seller-space-nav a small,
+.seller-space-brand small,
+.seller-space-note p,
+.seller-space-topbar p,
+.seller-space-section p,
+.seller-space-card p,
+.seller-space-list li,
+.seller-space-table td,
+.seller-space-metric span,
+.seller-space-tagline {
+  color: var(--seller-muted);
+}
+
+.seller-space-note,
+.seller-space-panel,
+.seller-space-card {
+  padding: 1rem;
+}
+
+.seller-space-main {
+  min-width: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.seller-space-topbar,
+.seller-space-top-actions,
+.seller-space-metrics,
+.seller-space-card-actions,
+.seller-space-inline {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.seller-space-topbar {
+  justify-content: space-between;
+  align-items: end;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.seller-space-workspace-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.seller-space-workspace-switch a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.seller-space-workspace-switch a.is-current {
+  color: #111;
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+}
+
+.seller-space-kicker,
+.seller-space-chip,
+.seller-space-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(249, 115, 22, 0.1);
+  color: #ffb37d;
+}
+
+.seller-space-topbar h1 {
+  margin: 0.6rem 0 0;
+  max-width: 13ch;
+  font-size: clamp(1.95rem, 3.2vw, 3.45rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.seller-space-primary-btn,
+.seller-space-ghost-btn {
+  border-radius: 16px;
+  min-height: 42px;
+  padding: 0 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seller-space-primary-btn {
+  border: 0;
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+}
+
+.seller-space-ghost-btn {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.seller-space-grid-2,
+.seller-space-grid-3,
+.seller-space-hero {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.seller-space-hero {
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.8fr);
+}
+
+.seller-space-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.seller-space-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.seller-space-metrics {
+  flex-wrap: wrap;
+}
+
+.seller-space-metric {
+  flex: 1 1 150px;
+  min-width: 0;
+  padding: 0.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.seller-space-card img {
+  width: 100%;
+  height: 220px;
+  display: block;
+  object-fit: cover;
+  border-radius: 18px;
+  margin-bottom: 0.9rem;
+}
+
+.seller-space-card h3 {
+  margin: 0.5rem 0 0;
+}
+
+.seller-space-list {
+  margin: 0.8rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.seller-space-table-wrap {
+  overflow: auto;
+}
+
+.seller-space-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.seller-space-table th,
+.seller-space-table td {
+  text-align: left;
+  padding: 0.9rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.seller-space-form .form-label {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.seller-space-form .form-control,
+.seller-space-form .form-select,
+.seller-space-form textarea {
+  min-height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.seller-space-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+@media (max-width: 1200px) {
+  .seller-space-layout,
+  .seller-space-hero,
+  .seller-space-grid-2,
+  .seller-space-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .seller-space-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .seller-space-topbar,
+  .seller-space-top-actions,
+  .seller-space-card-actions,
+  .seller-space-inline {
+    flex-direction: column;
+  }
+}

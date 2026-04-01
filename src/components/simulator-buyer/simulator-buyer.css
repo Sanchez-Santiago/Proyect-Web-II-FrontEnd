@@ -1,0 +1,245 @@
+:root {
+  --text: #f8fafc;
+  --muted: rgba(248, 250, 252, 0.68);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top center, rgba(249, 115, 22, 0.18), transparent 22%),
+    linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+  color: var(--text);
+}
+
+.simulator-buyer-page {
+  min-height: 100svh;
+  padding: 0.85rem;
+}
+
+.simulator-buyer-layout {
+  min-height: calc(100svh - 1.7rem);
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.simulator-buyer-sidebar,
+.simulator-buyer-summary-card,
+.simulator-buyer-breakdown-card,
+.simulator-buyer-form-card,
+.simulator-buyer-sidebar-note {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.simulator-buyer-sidebar {
+  padding: 0.9rem;
+  border-radius: 28px;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.simulator-buyer-brand,
+.simulator-buyer-nav a,
+.simulator-buyer-sidebar-note,
+.simulator-buyer-summary-card,
+.simulator-buyer-breakdown-card,
+.simulator-buyer-form-card {
+  border-radius: 24px;
+}
+
+.simulator-buyer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.05rem 0.1rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.simulator-buyer-brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.simulator-buyer-brand strong,
+.simulator-buyer-nav a strong,
+.simulator-buyer-topbar h1,
+.simulator-buyer-summary-card h2 {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.simulator-buyer-nav {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.simulator-buyer-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 0.8rem;
+  padding: 0.78rem 0.88rem;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.simulator-buyer-nav a.is-active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
+  border-color: rgba(249, 115, 22, 0.16);
+}
+
+.simulator-buyer-nav a.is-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 16%;
+  width: 2px;
+  height: 64%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffb37d 0%, #f97316 100%);
+}
+
+.simulator-buyer-nav a i {
+  color: rgba(255, 212, 178, 0.92);
+}
+
+.simulator-buyer-nav a small,
+.simulator-buyer-sidebar-note p,
+.simulator-buyer-summary-card p {
+  color: var(--muted);
+}
+
+.simulator-buyer-sidebar-note,
+.simulator-buyer-summary-card,
+.simulator-buyer-breakdown-card,
+.simulator-buyer-form-card {
+  padding: 1rem;
+}
+
+.simulator-buyer-main {
+  min-width: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.simulator-buyer-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.simulator-buyer-workspace-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.simulator-buyer-workspace-switch a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.simulator-buyer-workspace-switch a.is-current {
+  color: #111;
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+}
+
+.simulator-buyer-kicker,
+.simulator-buyer-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(249, 115, 22, 0.1);
+  color: #ffb37d;
+}
+
+.simulator-buyer-topbar h1 {
+  margin: 0.6rem 0 0;
+  max-width: 13ch;
+  font-size: clamp(1.95rem, 3.2vw, 3.45rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.simulator-buyer-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.8fr);
+  gap: 0.85rem;
+}
+
+.simulator-buyer-breakdown {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 0.85rem;
+}
+
+.simulator-buyer-breakdown div {
+  padding: 0.9rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.simulator-buyer-breakdown span {
+  color: var(--muted);
+}
+
+.simulator-buyer-breakdown strong {
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.simulator-buyer-form-card .form-label {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.simulator-buyer-form-card .form-control {
+  min-height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 1200px) {
+  .simulator-buyer-layout,
+  .simulator-buyer-hero {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .simulator-buyer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .simulator-buyer-topbar {
+    flex-direction: column;
+  }
+}

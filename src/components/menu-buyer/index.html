@@ -34,7 +34,6 @@
             </div>
           </div>
 
-          
           <nav class="menu-buyer-nav">
             <a class="is-active" href="#">
               <i class="bi bi-house-door-fill"></i>
@@ -43,35 +42,35 @@
                 <small>Match y decisiones</small>
               </span>
             </a>
-            <a href="#">
+            <a href="../search-buyer/index.html">
               <i class="bi bi-search"></i>
               <span>
                 <strong>Buscar autos</strong>
                 <small>Lenguaje natural</small>
               </span>
             </a>
-            <a href="#">
+            <a href="../assistant-buyer/index.html">
               <i class="bi bi-stars"></i>
               <span>
                 <strong>Asistente IA</strong>
                 <small>Analisis y sugerencias</small>
               </span>
             </a>
-            <a href="#">
+            <a href="../favorites-buyer/index.html">
               <i class="bi bi-heart-fill"></i>
               <span>
                 <strong>Favoritos</strong>
                 <small>Seguimiento inteligente</small>
               </span>
             </a>
-            <a href="#">
+            <a href="../comparator-buyer/index.html">
               <i class="bi bi-layout-text-window-reverse"></i>
               <span>
                 <strong>Comparador</strong>
                 <small>Pros, contras y score</small>
               </span>
             </a>
-            <a href="#">
+            <a href="../simulator-buyer/index.html">
               <i class="bi bi-cash-coin"></i>
               <span>
                 <strong>Simulador</strong>
@@ -93,10 +92,10 @@
               <nav class="menu-buyer-workspace-switch" aria-label="Cambiar menu">
                 <a class="is-current" href="../menu-buyer/index.html">Comprador</a>
                 <a href="../menu-seller/index.html">Vendedor</a>
-                <a href="../menu-admin/index.html">Admin</a>
+                <a href="../users-admin/index.html">Admin</a>
               </nav>
               <span class="menu-buyer-kicker">Inicio</span>
-              <h1>Tu proximo auto no se busca. Se descubre con IA.</h1>
+              <h1>Tu proximo auto no se busca. Se desliza.</h1>
             </div>
             <div class="menu-buyer-top-actions">
               <button type="button" class="menu-buyer-ghost-btn">Comparar autos</button>
@@ -104,112 +103,279 @@
             </div>
           </header>
 
-          <section class="menu-buyer-hero">
-            <article class="menu-buyer-hero-card">
-              <div class="menu-buyer-hero-copy">
-                <span class="menu-buyer-chip">Auto destacado</span>
-                <h2>Toyota Corolla XEi 2021</h2>
-                <p>Mejor equilibrio entre seguridad, valor real, consumo y reventa frente a los ultimos autos que viste.</p>
-                <div class="menu-buyer-hero-actions">
-                  <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
-                  <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
-                </div>
-              </div>
-
-              <div class="menu-buyer-hero-visual">
-                <img
-                  src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
-                  alt="Toyota Corolla destacado"
-                />
-                <div class="menu-buyer-score">
-                  <strong>96%</strong>
-                  <span>Match IA</span>
-                </div>
-              </div>
-            </article>
-
-            <aside class="menu-buyer-ai-panel">
-              <span class="menu-buyer-chip">Copiloto IA</span>
-              <h3>Esto te diria ahora</h3>
-              <blockquote>
-                “Este Corolla es mejor que el hatchback que viste ayer porque baja tu gasto mensual y mejora la reventa a 24 meses.”
-              </blockquote>
-              <div class="menu-buyer-ai-metrics">
-                <div>
-                  <span>Riesgo mecanico</span>
-                  <strong>Bajo</strong>
-                </div>
-                <div>
-                  <span>Costo mensual</span>
-                  <strong>$451k</strong>
-                </div>
-              </div>
-            </aside>
+          <section class="menu-buyer-feed-intro">
+            <div class="menu-buyer-feed-copy">
+              <span class="menu-buyer-chip">Modo swipe</span>
+              <p>
+                Mismo concepto de inicio, pero ahora recorres todos los vehiculos en cards grandes
+                con scroll vertical y snap, uno por uno.
+              </p>
+            </div>
+            <div class="menu-buyer-feed-stats">
+              <span><strong>8</strong> autos listos</span>
+              <span><strong>91%</strong> match promedio</span>
+              <span><strong>IA</strong> prioriza costo, reventa y riesgo</span>
+            </div>
           </section>
 
-          <section class="menu-buyer-car-grid">
-            <article class="menu-buyer-car-card">
-              <img
-                src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1200&q=80"
-                alt="Honda Civic"
-              />
-              <div class="menu-buyer-car-body">
-                <div class="menu-buyer-car-head">
-                  <div>
-                    <h3>Honda Civic 2020</h3>
-                    <p>$12.500.000</p>
+          <section class="menu-buyer-swipe-feed" aria-label="Feed de vehiculos">
+            <article class="menu-buyer-swipe-card">
+              <div class="menu-buyer-swipe-hero">
+                <div class="menu-buyer-swipe-copy">
+                  <span class="menu-buyer-chip">Auto destacado</span>
+                  <h2>Toyota Corolla XEi 2021</h2>
+                  <p>
+                    Mejor equilibrio entre seguridad, valor real, consumo y reventa frente a los
+                    ultimos autos que viste.
+                  </p>
+                  <div class="menu-buyer-swipe-actions">
+                    <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
+                    <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
                   </div>
-                  <span class="menu-buyer-car-score">92%</span>
                 </div>
-                <div class="menu-buyer-car-meta">
-                  <span><i class="bi bi-speedometer2"></i> 63.000 km</span>
-                  <span><i class="bi bi-cash-stack"></i> $418k/mes</span>
+
+                <div class="menu-buyer-swipe-visual">
+                  <img
+                    src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
+                    alt="Toyota Corolla destacado"
+                  />
+                  <div class="menu-buyer-score">
+                    <strong>96%</strong>
+                    <span>Match IA</span>
+                  </div>
                 </div>
-                <div class="menu-buyer-car-actions">
-                  <button type="button" class="menu-buyer-ghost-btn">Ver</button>
-                  <button type="button" class="menu-buyer-primary-btn">Comparar</button>
+              </div>
+
+              <div class="menu-buyer-swipe-lower">
+                <aside class="menu-buyer-ai-panel">
+                  <span class="menu-buyer-chip">Copiloto IA</span>
+                  <h3>Esto te diria ahora</h3>
+                  <blockquote>
+                    “Este Corolla es mejor que el hatchback que viste ayer porque baja tu gasto mensual y mejora la reventa a 24 meses.”
+                  </blockquote>
+                  <div class="menu-buyer-ai-metrics">
+                    <div>
+                      <span>Riesgo mecanico</span>
+                      <strong>Bajo</strong>
+                    </div>
+                    <div>
+                      <span>Costo mensual</span>
+                      <strong>$451k</strong>
+                    </div>
+                  </div>
+                </aside>
+
+                <div class="menu-buyer-car-card">
+                  <div class="menu-buyer-car-body">
+                    <div class="menu-buyer-car-head">
+                      <div>
+                        <h3>Toyota Corolla XEi 2021</h3>
+                        <p>$13.200.000</p>
+                      </div>
+                      <span class="menu-buyer-car-score">96%</span>
+                    </div>
+                    <div class="menu-buyer-car-meta">
+                      <span><i class="bi bi-speedometer2"></i> 54.000 km</span>
+                      <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+                      <span><i class="bi bi-cash-stack"></i> $451k/mes</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <article class="menu-buyer-car-card">
-              <img
-                src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&q=80"
-                alt="Volkswagen Polo"
-              />
-              <div class="menu-buyer-car-body">
-                <div class="menu-buyer-car-head">
-                  <div>
-                    <h3>Volkswagen Polo 2021</h3>
-                    <p>$11.900.000</p>
+            <article class="menu-buyer-swipe-card">
+              <div class="menu-buyer-swipe-hero">
+                <div class="menu-buyer-swipe-copy">
+                  <span class="menu-buyer-chip">Sedan recomendado</span>
+                  <h2>Honda Civic 2020</h2>
+                  <p>
+                    Muy consistente si priorizas confort, mantenimiento previsible y buena reventa
+                    sin salirte del rango de presupuesto.
+                  </p>
+                  <div class="menu-buyer-swipe-actions">
+                    <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
+                    <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
                   </div>
-                  <span class="menu-buyer-car-score">89%</span>
                 </div>
-                <div class="menu-buyer-car-meta">
-                  <span><i class="bi bi-speedometer2"></i> 48.000 km</span>
-                  <span><i class="bi bi-cash-stack"></i> $396k/mes</span>
+
+                <div class="menu-buyer-swipe-visual">
+                  <img
+                    src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1200&q=80"
+                    alt="Honda Civic 2020"
+                  />
+                  <div class="menu-buyer-score">
+                    <strong>92%</strong>
+                    <span>Match IA</span>
+                  </div>
                 </div>
-                <div class="menu-buyer-car-actions">
-                  <button type="button" class="menu-buyer-ghost-btn">Ver</button>
-                  <button type="button" class="menu-buyer-primary-btn">Comparar</button>
+              </div>
+
+              <div class="menu-buyer-swipe-lower">
+                <aside class="menu-buyer-ai-panel">
+                  <span class="menu-buyer-chip">Copiloto IA</span>
+                  <h3>Esto te diria ahora</h3>
+                  <blockquote>
+                    “Pierde un poco contra el Corolla en costo total, pero gana en confort y sensacion de manejo.”
+                  </blockquote>
+                  <div class="menu-buyer-ai-metrics">
+                    <div>
+                      <span>Riesgo mecanico</span>
+                      <strong>Bajo</strong>
+                    </div>
+                    <div>
+                      <span>Costo mensual</span>
+                      <strong>$418k</strong>
+                    </div>
+                  </div>
+                </aside>
+
+                <div class="menu-buyer-car-card">
+                  <div class="menu-buyer-car-body">
+                    <div class="menu-buyer-car-head">
+                      <div>
+                        <h3>Honda Civic 2020</h3>
+                        <p>$12.500.000</p>
+                      </div>
+                      <span class="menu-buyer-car-score">92%</span>
+                    </div>
+                    <div class="menu-buyer-car-meta">
+                      <span><i class="bi bi-speedometer2"></i> 63.000 km</span>
+                      <span><i class="bi bi-gear"></i> Automatico</span>
+                      <span><i class="bi bi-cash-stack"></i> $418k/mes</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </article>
 
-            <article class="menu-buyer-chat-card">
-              <div class="menu-buyer-chat-head">
-                <span class="menu-buyer-chip">Asistente IA</span>
-                <strong>Consulta rapida</strong>
+            <article class="menu-buyer-swipe-card">
+              <div class="menu-buyer-swipe-hero">
+                <div class="menu-buyer-swipe-copy">
+                  <span class="menu-buyer-chip">Compacto eficiente</span>
+                  <h2>Volkswagen Polo 2021</h2>
+                  <p>
+                    Opcion urbana con consumo contenido y costo total competitivo para una compra mas
+                    racional.
+                  </p>
+                  <div class="menu-buyer-swipe-actions">
+                    <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
+                    <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
+                  </div>
+                </div>
+
+                <div class="menu-buyer-swipe-visual">
+                  <img
+                    src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&q=80"
+                    alt="Volkswagen Polo 2021"
+                  />
+                  <div class="menu-buyer-score">
+                    <strong>89%</strong>
+                    <span>Match IA</span>
+                  </div>
+                </div>
               </div>
-              <div class="menu-buyer-chat-bubble is-ai">
-                Este Corolla se vende rapido. Si te interesa, prioriza analisis y contacto hoy.
+
+              <div class="menu-buyer-swipe-lower">
+                <aside class="menu-buyer-ai-panel">
+                  <span class="menu-buyer-chip">Copiloto IA</span>
+                  <h3>Esto te diria ahora</h3>
+                  <blockquote>
+                    “Es el mas racional para uso urbano y mantiene buen score por costo mensual y consumo.”
+                  </blockquote>
+                  <div class="menu-buyer-ai-metrics">
+                    <div>
+                      <span>Riesgo mecanico</span>
+                      <strong>Bajo</strong>
+                    </div>
+                    <div>
+                      <span>Costo mensual</span>
+                      <strong>$396k</strong>
+                    </div>
+                  </div>
+                </aside>
+
+                <div class="menu-buyer-car-card">
+                  <div class="menu-buyer-car-body">
+                    <div class="menu-buyer-car-head">
+                      <div>
+                        <h3>Volkswagen Polo 2021</h3>
+                        <p>$11.900.000</p>
+                      </div>
+                      <span class="menu-buyer-car-score">89%</span>
+                    </div>
+                    <div class="menu-buyer-car-meta">
+                      <span><i class="bi bi-speedometer2"></i> 48.000 km</span>
+                      <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+                      <span><i class="bi bi-cash-stack"></i> $396k/mes</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="menu-buyer-chat-bubble is-user">
-                Comparame este con el Civic.
+            </article>
+
+            <article class="menu-buyer-swipe-card">
+              <div class="menu-buyer-swipe-hero">
+                <div class="menu-buyer-swipe-copy">
+                  <span class="menu-buyer-chip">Valor oportunidad</span>
+                  <h2>Chevrolet Cruze LT 2018</h2>
+                  <p>
+                    Entra mejor por precio, mantiene buen equipamiento y la IA lo ubica como opcion
+                    conveniente si queres cuidar presupuesto.
+                  </p>
+                  <div class="menu-buyer-swipe-actions">
+                    <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
+                    <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
+                  </div>
+                </div>
+
+                <div class="menu-buyer-swipe-visual">
+                  <img
+                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+                    alt="Chevrolet Cruze LT 2018"
+                  />
+                  <div class="menu-buyer-score">
+                    <strong>86%</strong>
+                    <span>Match IA</span>
+                  </div>
+                </div>
               </div>
-              <div class="menu-buyer-chat-input">
-                <input type="text" value="¿Me conviene este auto?" readonly />
-                <button type="button"><i class="bi bi-arrow-up-right"></i></button>
+
+              <div class="menu-buyer-swipe-lower">
+                <aside class="menu-buyer-ai-panel">
+                  <span class="menu-buyer-chip">Copiloto IA</span>
+                  <h3>Esto te diria ahora</h3>
+                  <blockquote>
+                    “Conviene si queres estirar menos presupuesto sin caer demasiado en calidad y equipamiento.”
+                  </blockquote>
+                  <div class="menu-buyer-ai-metrics">
+                    <div>
+                      <span>Riesgo mecanico</span>
+                      <strong>Medio-bajo</strong>
+                    </div>
+                    <div>
+                      <span>Costo mensual</span>
+                      <strong>$362k</strong>
+                    </div>
+                  </div>
+                </aside>
+
+                <div class="menu-buyer-car-card">
+                  <div class="menu-buyer-car-body">
+                    <div class="menu-buyer-car-head">
+                      <div>
+                        <h3>Chevrolet Cruze LT 2018</h3>
+                        <p>$10.800.000</p>
+                      </div>
+                      <span class="menu-buyer-car-score">86%</span>
+                    </div>
+                    <div class="menu-buyer-car-meta">
+                      <span><i class="bi bi-speedometer2"></i> 71.000 km</span>
+                      <span><i class="bi bi-shield-check"></i> Riesgo medio-bajo</span>
+                      <span><i class="bi bi-cash-stack"></i> $362k/mes</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </article>
           </section>

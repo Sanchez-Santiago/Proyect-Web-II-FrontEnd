@@ -1,0 +1,698 @@
+:root {
+  --bg: #090909;
+  --panel: #111111;
+  --panel-soft: #181818;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #f8fafc;
+  --muted: rgba(248, 250, 252, 0.68);
+  --orange: #f97316;
+  --white: #ffffff;
+  --dark-text: #111111;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top center, rgba(249, 115, 22, 0.18), transparent 22%),
+    linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+  color: var(--text);
+}
+
+.search-buyer-page {
+  min-height: 100svh;
+  padding: 0.85rem;
+}
+
+.search-buyer-layout {
+  min-height: calc(100svh - 1.7rem);
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.search-buyer-sidebar {
+  padding: 0.9rem;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.94) 0%, rgba(10, 10, 10, 0.96) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 48px rgba(0, 0, 0, 0.24);
+}
+
+.search-buyer-brand,
+.search-buyer-nav a,
+.search-buyer-sidebar-note,
+.search-buyer-search-card,
+.search-buyer-insight-card,
+.search-buyer-results-card,
+.search-buyer-result-card,
+.search-buyer-compare-card {
+  border-radius: 24px;
+}
+
+.search-buyer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.05rem 0.1rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.search-buyer-brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.search-buyer-brand strong,
+.search-buyer-nav a strong,
+.search-buyer-sidebar-note strong,
+.search-buyer-topbar h1,
+.search-buyer-section-head h2,
+.search-buyer-result-head h3,
+.search-buyer-compare-card strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.search-buyer-brand strong {
+  letter-spacing: -0.04em;
+  color: #fff;
+}
+
+.search-buyer-brand small,
+.search-buyer-sidebar-note p,
+.search-buyer-nav a small,
+.search-buyer-section-head p,
+.search-buyer-form-message,
+.search-buyer-option small,
+.search-buyer-insight-grid dt,
+.search-buyer-insight-note p,
+.search-buyer-result-copy,
+.search-buyer-result-head p,
+.search-buyer-compare-card p {
+  color: var(--muted);
+}
+
+.search-buyer-sidebar-note,
+.search-buyer-search-card,
+.search-buyer-insight-card,
+.search-buyer-results-card {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.search-buyer-sidebar-note {
+  padding: 0.95rem;
+}
+
+.search-buyer-chip,
+.search-buyer-kicker,
+.search-buyer-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-buyer-chip,
+.search-buyer-kicker,
+.search-buyer-status {
+  background: rgba(249, 115, 22, 0.1);
+  color: #ffb37d;
+}
+
+.search-buyer-nav {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.search-buyer-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 0.8rem;
+  align-items: start;
+  padding: 0.78rem 0.88rem;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.search-buyer-nav a strong {
+  font-size: 0.94rem;
+  line-height: 1.15;
+}
+
+.search-buyer-nav a small {
+  display: block;
+  margin-top: 0.14rem;
+  font-size: 0.72rem;
+  line-height: 1.3;
+}
+
+.search-buyer-nav a.is-active {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
+  border-color: rgba(249, 115, 22, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 24px rgba(0, 0, 0, 0.14);
+}
+
+.search-buyer-nav a.is-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 16%;
+  width: 2px;
+  height: 64%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffb37d 0%, #f97316 100%);
+}
+
+.search-buyer-nav a:hover {
+  transform: translateX(2px);
+  border-color: rgba(249, 115, 22, 0.12);
+  background: rgba(249, 115, 22, 0.05);
+}
+
+.search-buyer-nav a i {
+  margin-top: 0.15rem;
+  color: rgba(255, 212, 178, 0.92);
+}
+
+.search-buyer-sidebar-note strong {
+  margin-top: 0.3rem;
+  font-size: 1.28rem;
+  color: #fff;
+}
+
+.search-buyer-main {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.search-buyer-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.search-buyer-workspace-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.search-buyer-workspace-switch a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.search-buyer-workspace-switch a:hover {
+  color: #ffffff;
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.search-buyer-workspace-switch a.is-current {
+  color: #111111;
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.24);
+}
+
+.search-buyer-topbar h1 {
+  margin: 0.6rem 0 0;
+  max-width: 13ch;
+  letter-spacing: -0.055em;
+  font-size: clamp(1.95rem, 3.2vw, 3.45rem);
+  line-height: 0.96;
+}
+
+.search-buyer-top-actions,
+.search-buyer-result-actions,
+.search-buyer-result-meta,
+.search-buyer-form-buttons,
+.search-buyer-progress-copy,
+.search-buyer-insight-top {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.search-buyer-primary-btn,
+.search-buyer-ghost-btn {
+  border: 0;
+  border-radius: 16px;
+  min-height: 42px;
+  padding: 0 0.95rem;
+  font-weight: 700;
+}
+
+.search-buyer-primary-btn {
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(249, 115, 22, 0.26);
+}
+
+.search-buyer-ghost-btn {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-buyer-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.72fr);
+  gap: 0.85rem;
+}
+
+.search-buyer-search-card,
+.search-buyer-insight-card,
+.search-buyer-results-card {
+  padding: 1.1rem;
+}
+
+.search-buyer-section-head {
+  display: flex;
+  gap: 0.9rem;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.search-buyer-section-head h2 {
+  margin: 0;
+  font-size: clamp(1.55rem, 2.2vw, 2.2rem);
+  letter-spacing: -0.05em;
+}
+
+.search-buyer-section-head p {
+  margin: 0.45rem 0 0;
+  line-height: 1.6;
+  max-width: 60ch;
+}
+
+.search-buyer-form .form-control,
+.search-buyer-form .form-select,
+.search-buyer-form textarea {
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #f8fafc;
+}
+
+.search-buyer-form .form-label {
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.search-buyer-form .form-control,
+.search-buyer-form .form-select {
+  min-height: 60px;
+}
+
+.search-buyer-form .form-control::placeholder {
+  color: rgba(248, 250, 252, 0.42);
+}
+
+.search-buyer-form textarea {
+  padding: 1rem 1.1rem;
+  resize: vertical;
+}
+
+.search-buyer-form .form-control:focus,
+.search-buyer-form .form-select:focus,
+.search-buyer-form textarea:focus {
+  border-color: rgba(249, 115, 22, 0.36);
+  box-shadow: 0 0 0 0.22rem rgba(249, 115, 22, 0.14);
+}
+
+.search-buyer-quick-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.search-buyer-filter-pill {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+  color: #f8fafc;
+  min-height: 42px;
+  padding: 0 0.9rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.search-buyer-filter-pill,
+.search-buyer-save-btn,
+.search-buyer-primary-btn,
+.search-buyer-ghost-btn {
+  cursor: pointer;
+}
+
+.search-buyer-filter-pill:hover {
+  border-color: rgba(249, 115, 22, 0.22);
+  background: rgba(249, 115, 22, 0.08);
+}
+
+.search-buyer-option-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.search-buyer-option {
+  display: flex;
+  gap: 0.8rem;
+  align-items: start;
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.015) 100%);
+}
+
+.search-buyer-option input {
+  margin-top: 0.25rem;
+}
+
+.search-buyer-form-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}
+
+.search-buyer-form-buttons {
+  justify-content: end;
+}
+
+.search-buyer-form-message {
+  margin: 0;
+  max-width: 52ch;
+}
+
+.search-buyer-form-message.success {
+  color: #9ae6b4;
+}
+
+.search-buyer-insight-card {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+}
+
+.search-buyer-insight-top,
+.search-buyer-progress-copy {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.search-buyer-insight-top strong,
+.search-buyer-progress-copy strong,
+.search-buyer-insight-grid dd {
+  color: #f8fafc;
+}
+
+.search-buyer-insight-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.search-buyer-insight-grid div,
+.search-buyer-insight-note,
+.search-buyer-compare-card {
+  padding: 0.9rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.search-buyer-insight-grid dt,
+.search-buyer-insight-grid dd {
+  margin: 0;
+}
+
+.search-buyer-insight-grid dd {
+  margin-top: 0.12rem;
+  font-weight: 700;
+}
+
+.search-buyer-insight-note span {
+  color: #ffb37d;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.search-buyer-insight-note p {
+  margin: 0.5rem 0 0;
+  line-height: 1.6;
+}
+
+.search-buyer-compare-card {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.search-buyer-results-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.search-buyer-result-card {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.search-buyer-result-card.is-featured {
+  grid-row: span 2;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.98) 0%, rgba(12, 12, 12, 1) 100%);
+}
+
+.search-buyer-result-visual {
+  position: relative;
+  min-height: 280px;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.24), rgba(0, 0, 0, 0.04));
+}
+
+.search-buyer-result-visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.search-buyer-score {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  padding: 0.72rem 0.9rem;
+  background: rgba(12, 12, 12, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  text-align: center;
+  backdrop-filter: blur(14px);
+}
+
+.search-buyer-score strong {
+  display: block;
+  font-size: 1.65rem;
+  color: #fff;
+}
+
+.search-buyer-score span {
+  color: #ffd4b2;
+}
+
+.search-buyer-result-body {
+  padding: 1rem;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.search-buyer-result-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.search-buyer-result-head.compact h3 {
+  margin: 0;
+  font-size: 1.16rem;
+  letter-spacing: -0.04em;
+}
+
+.search-buyer-result-head h3 {
+  margin: 0.55rem 0 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.05em;
+}
+
+.search-buyer-result-head p {
+  margin: 0.22rem 0 0;
+  color: #ffd4b2;
+  font-weight: 700;
+}
+
+.search-buyer-save-btn,
+.search-buyer-mini-score {
+  min-width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.search-buyer-save-btn.is-saved {
+  background: rgba(249, 115, 22, 0.14);
+  border-color: rgba(249, 115, 22, 0.26);
+  color: #fff;
+}
+
+.search-buyer-result-copy {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.search-buyer-result-meta {
+  flex-wrap: wrap;
+}
+
+.search-buyer-result-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.68rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #f4f4f5;
+  font-size: 0.9rem;
+}
+
+.search-buyer-result-card blockquote {
+  margin: 0;
+  padding: 0.95rem;
+  border-radius: 20px;
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.16);
+  color: #fff;
+  line-height: 1.55;
+}
+
+@media (max-height: 900px) {
+  .search-buyer-page {
+    padding: 0.7rem;
+  }
+
+  .search-buyer-layout {
+    min-height: calc(100svh - 1.4rem);
+    grid-template-columns: 264px minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 1380px) {
+  .search-buyer-results-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .search-buyer-result-card.is-featured {
+    grid-row: auto;
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 1200px) {
+  .search-buyer-layout,
+  .search-buyer-hero,
+  .search-buyer-results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-buyer-page {
+    overflow: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .search-buyer-page {
+    padding: 0.7rem;
+  }
+
+  .search-buyer-layout {
+    min-height: calc(100svh - 1.4rem);
+    grid-template-columns: 1fr;
+  }
+
+  .search-buyer-topbar,
+  .search-buyer-top-actions,
+  .search-buyer-form-actions,
+  .search-buyer-form-buttons,
+  .search-buyer-insight-top,
+  .search-buyer-progress-copy,
+  .search-buyer-result-actions {
+    flex-direction: column;
+  }
+
+  .search-buyer-workspace-switch {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .search-buyer-option-grid,
+  .search-buyer-insight-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .search-buyer-section-head {
+    flex-direction: column;
+  }
+
+  .search-buyer-option-grid {
+    display: grid;
+  }
+}

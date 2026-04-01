@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="./simulator-buyer.css" />
+    <title>Simulador comprador | DriveRoom</title>
+  </head>
+  <body>
+    <div class="simulator-buyer-page">
+      <div class="simulator-buyer-layout">
+        <aside class="simulator-buyer-sidebar">
+          <div class="simulator-buyer-brand">
+            <span>DR</span>
+            <div>
+              <strong>DriveRoom</strong>
+              <small>AI Buyer Console</small>
+            </div>
+          </div>
+
+          <nav class="simulator-buyer-nav">
+            <a href="../menu-buyer/index.html"><i class="bi bi-house-door-fill"></i><span><strong>Inicio</strong><small>Match y decisiones</small></span></a>
+            <a href="../search-buyer/index.html"><i class="bi bi-search"></i><span><strong>Buscar autos</strong><small>Lenguaje natural</small></span></a>
+            <a href="../assistant-buyer/index.html"><i class="bi bi-stars"></i><span><strong>Asistente IA</strong><small>Analisis y sugerencias</small></span></a>
+            <a href="../favorites-buyer/index.html"><i class="bi bi-heart-fill"></i><span><strong>Favoritos</strong><small>Seguimiento inteligente</small></span></a>
+            <a href="../comparator-buyer/index.html"><i class="bi bi-layout-text-window-reverse"></i><span><strong>Comparador</strong><small>Pros, contras y score</small></span></a>
+            <a class="is-active" href="../simulator-buyer/index.html"><i class="bi bi-cash-coin"></i><span><strong>Simulador</strong><small>Costo real mensual</small></span></a>
+          </nav>
+
+          <div class="simulator-buyer-sidebar-note">
+            <span>Costo estimado</span>
+            <strong id="simulatorTotal">$451.000 / mes</strong>
+            <p id="simulatorInsight">Escenario balanceado para un Corolla 2021 con entrega fuerte y uso mixto.</p>
+          </div>
+        </aside>
+
+        <main class="simulator-buyer-main">
+          <header class="simulator-buyer-topbar">
+            <div>
+              <nav class="simulator-buyer-workspace-switch" aria-label="Cambiar menu">
+                <a class="is-current" href="../menu-buyer/index.html">Comprador</a>
+                <a href="../menu-seller/index.html">Vendedor</a>
+                <a href="../users-admin/index.html">Admin</a>
+              </nav>
+              <span class="simulator-buyer-kicker">Simulador</span>
+              <h1>Calcula el costo real mensual sin romper la misma perspectiva del workspace comprador.</h1>
+            </div>
+          </header>
+
+          <section class="simulator-buyer-hero">
+            <article class="simulator-buyer-summary-card">
+              <span class="simulator-buyer-chip">Costo real</span>
+              <h2>El precio publicado no alcanza</h2>
+              <p>La lectura correcta mezcla valor del auto, entrega inicial, seguro, combustible y mantenimiento para comparar con criterio.</p>
+            </article>
+
+            <aside class="simulator-buyer-breakdown-card">
+              <span class="simulator-buyer-chip">Desglose mensual</span>
+              <div class="simulator-buyer-breakdown">
+                <div><span>Cuota</span><strong id="simInstallment">$206.000</strong></div>
+                <div><span>Seguro</span><strong id="simInsuranceValue">$85.000</strong></div>
+                <div><span>Combustible</span><strong id="simFuelValue">$120.000</strong></div>
+                <div><span>Mantenimiento</span><strong id="simMaintenanceValue">$40.000</strong></div>
+              </div>
+            </aside>
+          </section>
+
+          <form id="simulatorBuyerForm" class="simulator-buyer-form-card">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="simVehiclePrice" class="form-label">Precio del auto</label>
+                <input id="simVehiclePrice" type="number" class="form-control" value="13200000" />
+              </div>
+              <div class="col-md-6">
+                <label for="simDownPayment" class="form-label">Entrega inicial</label>
+                <input id="simDownPayment" type="number" class="form-control" value="4000000" />
+              </div>
+              <div class="col-md-6">
+                <label for="simMonths" class="form-label">Meses de financiamiento</label>
+                <input id="simMonths" type="number" class="form-control" value="36" />
+              </div>
+              <div class="col-md-6">
+                <label for="simRate" class="form-label">Tasa mensual %</label>
+                <input id="simRate" type="number" class="form-control" value="3" />
+              </div>
+              <div class="col-md-4">
+                <label for="simInsurance" class="form-label">Seguro mensual</label>
+                <input id="simInsurance" type="number" class="form-control" value="85000" />
+              </div>
+              <div class="col-md-4">
+                <label for="simFuel" class="form-label">Combustible mensual</label>
+                <input id="simFuel" type="number" class="form-control" value="120000" />
+              </div>
+              <div class="col-md-4">
+                <label for="simMaintenance" class="form-label">Mantenimiento mensual</label>
+                <input id="simMaintenance" type="number" class="form-control" value="40000" />
+              </div>
+            </div>
+          </form>
+        </main>
+      </div>
+    </div>
+
+    <script src="./simulator-buyer.js"></script>
+  </body>
+</html>

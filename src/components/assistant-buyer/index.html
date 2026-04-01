@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="./assistant-buyer.css" />
+    <title>Asistente IA comprador | DriveRoom</title>
+  </head>
+  <body>
+    <div class="assistant-buyer-page">
+      <div class="assistant-buyer-layout">
+        <aside class="assistant-buyer-sidebar">
+          <div class="assistant-buyer-brand">
+            <span>DR</span>
+            <div>
+              <strong>DriveRoom</strong>
+              <small>AI Buyer Console</small>
+            </div>
+          </div>
+
+          <nav class="assistant-buyer-nav">
+            <a href="../menu-buyer/index.html">
+              <i class="bi bi-house-door-fill"></i>
+              <span><strong>Inicio</strong><small>Match y decisiones</small></span>
+            </a>
+            <a href="../search-buyer/index.html">
+              <i class="bi bi-search"></i>
+              <span><strong>Buscar autos</strong><small>Lenguaje natural</small></span>
+            </a>
+            <a class="is-active" href="../assistant-buyer/index.html">
+              <i class="bi bi-stars"></i>
+              <span><strong>Asistente IA</strong><small>Analisis y sugerencias</small></span>
+            </a>
+            <a href="../favorites-buyer/index.html">
+              <i class="bi bi-heart-fill"></i>
+              <span><strong>Favoritos</strong><small>Seguimiento inteligente</small></span>
+            </a>
+            <a href="../comparator-buyer/index.html">
+              <i class="bi bi-layout-text-window-reverse"></i>
+              <span><strong>Comparador</strong><small>Pros, contras y score</small></span>
+            </a>
+            <a href="../simulator-buyer/index.html">
+              <i class="bi bi-cash-coin"></i>
+              <span><strong>Simulador</strong><small>Costo real mensual</small></span>
+            </a>
+          </nav>
+
+          <div class="assistant-buyer-sidebar-note">
+            <span>Copiloto</span>
+            <strong id="assistantBuyerStatus">Listo para ayudarte</strong>
+            <p id="assistantBuyerHint">Pide comparaciones, riesgos, costos o siguientes pasos para avanzar con una unidad.</p>
+          </div>
+        </aside>
+
+        <main class="assistant-buyer-main">
+          <header class="assistant-buyer-topbar">
+            <div>
+              <nav class="assistant-buyer-workspace-switch" aria-label="Cambiar menu">
+                <a class="is-current" href="../menu-buyer/index.html">Comprador</a>
+                <a href="../menu-seller/index.html">Vendedor</a>
+                <a href="../users-admin/index.html">Admin</a>
+              </nav>
+              <span class="assistant-buyer-kicker">Asistente IA</span>
+              <h1>Conversa con una IA que entiende presupuesto, riesgo y oportunidad.</h1>
+            </div>
+            <div class="assistant-buyer-top-actions">
+              <button type="button" class="assistant-buyer-ghost-btn">Guardar hilo</button>
+              <button type="button" class="assistant-buyer-primary-btn">Generar resumen</button>
+            </div>
+          </header>
+
+          <section class="assistant-buyer-hero">
+            <article class="assistant-buyer-insight-card">
+              <span class="assistant-buyer-chip">Copiloto comprador</span>
+              <h2>IA orientada a decision de compra</h2>
+              <p>
+                El asistente cruza lo que buscas, el riesgo de cada auto, el costo mensual y la
+                calidad del anuncio para ayudarte a decidir mas rapido.
+              </p>
+              <div class="assistant-buyer-metrics">
+                <div><span>Contexto activo</span><strong>Perfil + favoritos</strong></div>
+                <div><span>Autos en seguimiento</span><strong>4 candidatos</strong></div>
+                <div><span>Modo</span><strong>Analisis balanceado</strong></div>
+              </div>
+            </article>
+
+            <aside class="assistant-buyer-prompts-card">
+              <span class="assistant-buyer-chip">Prompts sugeridos</span>
+              <button type="button" class="assistant-buyer-prompt-btn" data-prompt="Comparame el Corolla 2021 con el Civic 2020 en costo total y reventa.">
+                Comparame Corolla vs Civic
+              </button>
+              <button type="button" class="assistant-buyer-prompt-btn" data-prompt="Que riesgo ves en el Cruze 2018 frente a las otras opciones?">
+                Riesgo del Cruze
+              </button>
+              <button type="button" class="assistant-buyer-prompt-btn" data-prompt="Cual es la mejor opcion si priorizo ciudad, viajes y bajo mantenimiento?">
+                Mejor opcion para uso mixto
+              </button>
+              <button type="button" class="assistant-buyer-prompt-btn" data-prompt="Redactame un mensaje claro para contactar al vendedor del Corolla.">
+                Mensaje para vendedor
+              </button>
+            </aside>
+          </section>
+
+          <section class="assistant-buyer-chat-grid">
+            <article class="assistant-buyer-chat-card">
+              <div class="assistant-buyer-chat-head">
+                <div>
+                  <span class="assistant-buyer-chip">Conversacion activa</span>
+                  <strong>Analisis de candidatos</strong>
+                </div>
+                <small id="assistantBuyerCounter">3 mensajes generados</small>
+              </div>
+
+              <div id="assistantBuyerMessages" class="assistant-buyer-messages">
+                <div class="assistant-buyer-message is-ai">
+                  Si priorizas equilibrio general, el Corolla sigue arriba por confiabilidad, costo total y valor de reventa.
+                </div>
+                <div class="assistant-buyer-message is-user">
+                  Quiero algo que no me complique con mantenimiento y me sirva para ciudad y viajes.
+                </div>
+                <div class="assistant-buyer-message is-ai">
+                  En ese caso el Corolla y el Civic son tus dos opciones mas consistentes. El Polo entra si quieres bajar costo mensual.
+                </div>
+              </div>
+
+              <form id="assistantBuyerForm" class="assistant-buyer-composer">
+                <input
+                  id="assistantBuyerInput"
+                  type="text"
+                  class="form-control"
+                  placeholder="Preguntale por riesgo, comparacion, contacto o costo real..."
+                />
+                <button type="submit" class="assistant-buyer-primary-btn">Enviar</button>
+              </form>
+            </article>
+
+            <aside class="assistant-buyer-side-stack">
+              <article class="assistant-buyer-summary-card">
+                <span class="assistant-buyer-chip">Resumen IA</span>
+                <strong id="assistantBuyerSummaryTitle">Mejor recomendacion actual</strong>
+                <p id="assistantBuyerSummaryText">
+                  Corolla XEi 2021 como opcion mas solida si buscas bajo riesgo y buena reventa.
+                </p>
+              </article>
+
+              <article class="assistant-buyer-summary-card">
+                <span class="assistant-buyer-chip">Siguiente accion</span>
+                <strong>Contactar y pedir historial</strong>
+                <p>
+                  La IA recomienda validar mantenimiento, titularidad y disponibilidad para inspeccion antes de comparar precio final.
+                </p>
+              </article>
+            </aside>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./assistant-buyer.js"></script>
+  </body>
+</html>
