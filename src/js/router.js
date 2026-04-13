@@ -1,16 +1,16 @@
 import state from './state.js';
 
 const routes = {
-  '': { template: 'views/home.html', script: 'views/home.js', title: 'DriveRoom | Autos usados con IA' },
-  'home': { template: 'views/home.html', script: 'views/home.js', title: 'DriveRoom | Autos usados con IA' },
-  'car-detail': { template: 'views/car-detail.html', script: 'views/car-detail.js', title: 'Detalle del auto | DriveRoom' },
-  'login': { template: 'views/login.html', script: 'views/login.js', title: 'Login | DriveRoom' },
-  'role': { template: 'views/role.html', script: 'views/role.js', title: 'Elegir acceso | DriveRoom' },
-  'menu-buyer': { template: 'views/menu-buyer.html', script: 'views/menu-buyer.js', title: 'Menu comprador | DriveRoom' },
-  'menu-seller': { template: 'views/menu-seller.html', script: 'views/menu-seller.js', title: 'Menu vendedor | DriveRoom' },
-  'menu-admin': { template: 'views/menu-admin.html', script: 'views/menu-admin.js', title: 'Menu administrador | DriveRoom' },
-  'profile-buyer': { template: 'views/profile-buyer.html', script: 'views/profile-buyer.js', title: 'Gestionar perfil comprador | DriveRoom' },
-  'profile-seller': { template: 'views/profile-seller.html', script: 'views/profile-seller.js', title: 'Gestionar perfil vendedor | DriveRoom' }
+  '': { template: 'src/views/home.html', script: 'src/views/home.js', title: 'DriveRoom | Autos usados con IA' },
+  'home': { template: 'src/views/home.html', script: 'src/views/home.js', title: 'DriveRoom | Autos usados con IA' },
+  'car-detail': { template: 'src/views/car-detail.html', script: 'src/views/car-detail.js', title: 'Detalle del auto | DriveRoom' },
+  'login': { template: 'src/views/login.html', script: 'src/views/login.js', title: 'Login | DriveRoom' },
+  'role': { template: 'src/views/role.html', script: 'src/views/role.js', title: 'Elegir acceso | DriveRoom' },
+  'menu-buyer': { template: 'src/views/menu-buyer.html', script: 'src/views/menu-buyer.js', title: 'Menu comprador | DriveRoom' },
+  'menu-seller': { template: 'src/views/menu-seller.html', script: 'src/views/menu-seller.js', title: 'Menu vendedor | DriveRoom' },
+  'menu-admin': { template: 'src/views/menu-admin.html', script: 'src/views/menu-admin.js', title: 'Menu administrador | DriveRoom' },
+  'profile-buyer': { template: 'src/views/profile-buyer.html', script: 'src/views/profile-buyer.js', title: 'Gestionar perfil comprador | DriveRoom' },
+  'profile-seller': { template: 'src/views/profile-seller.html', script: 'src/views/profile-seller.js', title: 'Gestionar perfil vendedor | DriveRoom' }
 };
 
 let currentScriptModule = null;

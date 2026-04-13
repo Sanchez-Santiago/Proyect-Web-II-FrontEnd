@@ -16,6 +16,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80',
     score: 96,
+    condition: 'Excelente',
+    interiorCondition: 5,
+    paintCondition: 4,
+    rimsCondition: 5,
+    dashboardCondition: 5,
+    tiresCondition: 4,
     seller: {
       name: 'Juan Pérez',
       type: 'particular',
@@ -37,6 +43,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=600&q=80',
     score: 92,
+    condition: 'Bueno',
+    interiorCondition: 4,
+    paintCondition: 4,
+    rimsCondition: 3,
+    dashboardCondition: 4,
+    tiresCondition: 4,
     seller: {
       name: 'Auto Motors',
       type: 'agencia',
@@ -58,6 +70,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=600&q=80',
     score: 89,
+    condition: 'Bueno',
+    interiorCondition: 4,
+    paintCondition: 3,
+    rimsCondition: 4,
+    dashboardCondition: 4,
+    tiresCondition: 3,
     seller: {
       name: 'María González',
       type: 'particular',
@@ -79,6 +97,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=600&q=80',
     score: 88,
+    condition: 'Regular',
+    interiorCondition: 3,
+    paintCondition: 3,
+    rimsCondition: 4,
+    dashboardCondition: 3,
+    tiresCondition: 4,
     seller: {
       name: 'Camiones SA',
       type: 'agencia',
@@ -100,6 +124,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80',
     score: 91,
+    condition: 'Excelente',
+    interiorCondition: 5,
+    paintCondition: 5,
+    rimsCondition: 5,
+    dashboardCondition: 5,
+    tiresCondition: 5,
     seller: {
       name: 'Lucas García',
       type: 'particular',
@@ -121,6 +151,12 @@ const cars = [
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80',
     score: 74,
+    condition: 'Regular',
+    interiorCondition: 3,
+    paintCondition: 3,
+    rimsCondition: 4,
+    dashboardCondition: 3,
+    tiresCondition: 3,
     seller: {
       name: 'Autos Córdoba',
       type: 'agencia',
@@ -141,6 +177,17 @@ function formatPrice(price) {
 function createCarCard(car) {
   const card = document.createElement('article');
   card.className = 'home-car-card';
+  
+  function renderStars(rating) {
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+      stars += i <= rating ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+    }
+    return stars;
+  }
+  
+  const conditionClass = car.condition === 'Excelente' ? 'excellent' : car.condition === 'Bueno' ? 'good' : 'regular';
+  
   card.innerHTML = `
     <div class="home-car-image">
       <img src="${car.image}" alt="${car.brand} ${car.model}" />
@@ -155,11 +202,17 @@ function createCarCard(car) {
           <h3>${car.brand} ${car.model}</h3>
           <p class="home-car-price">${car.priceFormatted}</p>
         </div>
+        <span class="home-car-condition ${conditionClass}">${car.condition}</span>
       </div>
       <div class="home-car-meta">
         <span><i class="bi bi-calendar"></i> ${car.year}</span>
         <span><i class="bi bi-speedometer2"></i> ${car.mileageFormatted}</span>
         <span><i class="bi bi-geo-alt"></i> ${car.location}</span>
+      </div>
+      <div class="home-car-condition-details">
+        <div class="condition-item" title="Interior"><span>Interior</span>${renderStars(car.interiorCondition)}</div>
+        <div class="condition-item" title="Pintura"><span>Pintura</span>${renderStars(car.paintCondition)}</div>
+        <div class="condition-item" title="Neumáticos"><span>Gomas</span>${renderStars(car.tiresCondition)}</div>
       </div>
       <div class="home-car-actions">
         <button type="button" class="home-car-detail-btn" data-navigate="car-detail" data-car-id="${car.id}">Ver detalle</button>

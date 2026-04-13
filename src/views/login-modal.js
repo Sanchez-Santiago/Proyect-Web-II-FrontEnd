@@ -142,7 +142,7 @@ export default {
     
     const modalHtml = document.getElementById('loginModal');
     if (!modalHtml) {
-      fetch('./views/login-modal.html')
+      fetch('./src/views/login-modal.html')
         .then(res => res.text())
         .then(html => {
           app.insertAdjacentHTML('beforeend', html);

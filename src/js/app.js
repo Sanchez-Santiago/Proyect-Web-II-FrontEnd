@@ -207,15 +207,16 @@ const AppState = {
 // ROUTER - Gestión de rutas
 // ------------------------------------------
 const Routes = {
-  '': { template: 'views/home.html', title: 'DriveRoom | Autos usados con IA' },
-  'home': { template: 'views/home.html', title: 'DriveRoom | Autos usados con IA' },
-  'car-detail': { template: 'views/car-detail.html', title: 'Detalle del auto | DriveRoom' },
-  'role': { template: 'views/role.html', title: 'Elegir acceso | DriveRoom', protected: true },
-  'menu-buyer': { template: 'views/menu-buyer.html', title: 'Menu comprador | DriveRoom', protected: true },
-  'menu-seller': { template: 'views/menu-seller.html', title: 'Menu vendedor | DriveRoom', protected: true },
-  'menu-admin': { template: 'views/menu-admin.html', title: 'Menu administrador | DriveRoom', protected: true, adminOnly: true },
-  'profile-buyer': { template: 'views/profile-buyer.html', title: 'Gestionar perfil comprador | DriveRoom', protected: true },
-  'profile-seller': { template: 'views/profile-seller.html', title: 'Gestionar perfil vendedor | DriveRoom', protected: true }
+  '': { template: 'src/views/home.html', title: 'DriveRoom | Autos usados con IA' },
+  'home': { template: 'src/views/home.html', title: 'DriveRoom | Autos usados con IA' },
+  'login': { template: 'src/views/login.html', title: 'Login | DriveRoom' },
+  'car-detail': { template: 'src/views/car-detail.html', title: 'Detalle del auto | DriveRoom' },
+  'role': { template: 'src/views/role.html', title: 'Elegir acceso | DriveRoom' },
+  'menu-buyer': { template: 'src/views/menu-buyer.html', title: 'Menu comprador | DriveRoom' },
+  'menu-seller': { template: 'src/views/menu-seller.html', title: 'Menu vendedor | DriveRoom' },
+  'menu-admin': { template: 'src/views/menu-admin.html', title: 'Menu administrador | DriveRoom' },
+  'profile-buyer': { template: 'src/views/profile-buyer.html', title: 'Gestionar perfil comprador | DriveRoom' },
+  'profile-seller': { template: 'src/views/profile-seller.html', title: 'Gestionar perfil vendedor | DriveRoom' }
 };
 
 function navigateTo(hash) {
@@ -244,6 +245,8 @@ async function loadView(viewName) {
     // Initialize view-specific functionality
     if (viewName === 'home') {
       initHomeView();
+    } else if (viewName === 'login') {
+      initLoginView();
     } else if (viewName === 'car-detail') {
       initCarDetailView();
     } else if (viewName === 'role') {
@@ -280,29 +283,6 @@ function handleRouteChange() {
   if (!route) {
     loadView('home');
     return;
-  }
-  
-  // Check if route is protected
-  if (route.protected) {
-    // Check if admin-only route
-    if (route.adminOnly && !AppState.hasAdminAccess()) {
-      // Not admin, redirect to role selection or home
-      if (!AppState.isLoggedIn()) {
-        AppState.pendingAction = () => navigateTo(viewName);
-        AppState.openLoginModal({ showModal: true });
-        return;
-      } else {
-        navigateTo('role');
-        return;
-      }
-    }
-    
-    // Check if user is logged in
-    if (!AppState.isLoggedIn()) {
-      AppState.pendingAction = () => navigateTo(viewName);
-      AppState.openLoginModal({ showModal: true });
-      return;
-    }
   }
   
   loadView(viewName);
@@ -358,6 +338,64 @@ function renderHomeCars() {
 function initHomeView() {
   renderHomeCars();
   setupHomeActions();
+}
+
+// ------------------------------------------
+// LOGIN VIEW - Funcionalidad de login
+// ------------------------------------------
+function initLoginView() {
+  const form = document.getElementById('loginForm');
+  const emailInput = document.getElementById('loginEmail');
+  const message = document.getElementById('loginMessage');
+
+  if (!form || !emailInput || !message) return;
+
+  function setMessage(text, type) {
+    message.textContent = text;
+    message.classList.remove('error', 'success');
+    if (type) message.classList.add(type);
+  }
+
+  function resolveUserRole(email) {
+    const normalizedEmail = email.toLowerCase();
+    if (normalizedEmail === 'admin@driveroom.com' || normalizedEmail.includes('admin')) {
+      return 'admin';
+    }
+    return 'user';
+  }
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!email) {
+      setMessage('Ingresa tu correo para continuar.', 'error');
+      emailInput.focus();
+      return;
+    }
+
+    if (!emailIsValid) {
+      setMessage('El formato del email no es válido.', 'error');
+      emailInput.focus();
+      return;
+    }
+
+    const role = resolveUserRole(email);
+    const sessionUser = {
+      email,
+      role,
+      isAdmin: role === 'admin',
+    };
+
+    AppState.saveSession(sessionUser);
+    setMessage('Acceso validado. Redirigiendo para elegir tu modo de ingreso.', 'success');
+
+    window.setTimeout(function () {
+      navigateTo('role');
+    }, 600);
+  });
 }
 
 function setupHomeActions() {
@@ -418,7 +456,7 @@ function setupHomeActions() {
 
   document.querySelectorAll('[data-action="register"]').forEach(btn => {
     btn.addEventListener('click', () => {
-      AppState.openLoginModal({ showRegister: true });
+      navigateTo('login');
     });
   });
 }
@@ -728,7 +766,7 @@ async function initApp() {
   
   // Load login modal HTML FIRST (before subscribing to state)
   try {
-    const response = await fetch('./views/login-modal.html');
+    const response = await fetch('./src/views/login-modal.html');
     const modalHtml = await response.text();
     app.insertAdjacentHTML('beforeend', modalHtml);
     setupLoginModal();
