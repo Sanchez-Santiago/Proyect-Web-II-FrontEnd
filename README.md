@@ -1,4 +1,4 @@
-# DriveRoom - Plataforma de Compra y Venta de Autos Usados
+# MotorMarket - Plataforma de Compra y Venta de Autos Usados
 
 ## Descripción General
 
@@ -8,7 +8,7 @@ Plataforma web SPA (Single Page Application) desarrollada para la compra y venta
 
 - **HTML5** - Estructura semántica de las páginas
 - **CSS3** - Estilos personalizados (sin frameworks de estilado)
-- **JavaScript Vanilla (ES6+)** - Lógica de aplicación sin módulos ES
+- **JavaScript Vanilla (ES6+)** - Lógica de aplicación con módulos ES
 - **Bootstrap 5.3** - Framework CSS para componentes base y grid
 - **Bootstrap Icons** - Sistema de iconografía
 
@@ -19,20 +19,30 @@ Plataforma web SPA (Single Page Application) desarrollada para la compra y venta
 - Listado de vehículos destacados con imágenes, precios y puntuación IA
 - Sistema de búsqueda por marca, precio y año
 - Cards interactivos con información clave de cada vehículo
-
-### Detalle de Vehículo
-
-- Información completa del auto (año, km, transmisión, combustible)
-- Datos del vendedor con verificación
-- Análisis IA del vehículo
-- Botones de acción (contactar, favorito, ofertar, comparar)
+- Barra de progreso para el score de IA (en lugar de estrellas)
 
 ### Sistema de Autenticación
 
-- Login bajo demanda (solo al interactuar)
-- Modal de login/register integrado
+- Login/register con email y contraseña
 - Persistencia de sesión con localStorage
-- Detección automática de rol de administrador
+- Modal de login/register integrado
+- Inspector Mode para desarrollo
+
+###Inspector Mode
+
+Permite probar la interfaz sin necesidad de un backend:
+
+- Sesión automática iniciada como "Inspector User"
+- 6 vehículos hardcodeados disponibles
+- 3 favoritos guardados
+- 2 conversaciones de mensajes
+- 3 notificaciones
+- Switch de rol (comprador/vendedor)
+
+Para activar/desactivar, editar `.env`:
+```
+VITE_INSPECTOR_MODE=true
+```
 
 ### Roles de Usuario
 
@@ -51,158 +61,117 @@ src/
 │       ├── base.css       # Variables y reset
 │       ├── home.css       # Estilos del home
 │       ├── car-detail.css # Estilos del detalle
-│       ├── login.css      # Estilos del login standalone
-│       ├── login-modal.css# Estilos del modal
-│       ├── role.css       # Estilos de selección de rol
-│       ├── menu.css      # Estilos de menus
-│       └── profile.css    # Estilos de perfiles
+│       ├── login.css      # Estilos del login
+│       ├── messages.css  # Estilos del chat
+│       └── menu.css     # Estilos de menus
 ├── js/
-│   └── app.js            # Toda la lógica JavaScript
-└── views/                # Plantillas HTML
-    ├── home.html         # Template del home
-    ├── car-detail.html  # Template de detalle
-    ├── login-modal.html # Template del modal
-    ├── role.html        # Template de selección de rol
-    ├── menu-buyer.html  # Dashboard comprador
-    ├── menu-seller.html # Dashboard vendedor
-    ├── menu-admin.html  # Dashboard administrador
-    ├── profile-buyer.html  # Perfil comprador
-    └── profile-seller.html # Perfil vendedor
+│   ├── router.js         # Sistema de routing SPA
+│   ├── state.js          # Estado global de la aplicación
+│   └── app.js           # Lógica principal legacy
+├── hooks/               # Hooks de API
+│   ├── useApi.js
+│   ├── useAuth.js
+│   ├── useVehicles.js
+│   ├── useFavorites.js
+│   ├── useMessages.js
+│   └── useUpload.js
+├── data/
+│   └── cars.js          # Datos de vehículos
+└── views/               # Plantillas HTML organizadas
+    ├── home/            # Página principal
+    ├── auth/            # Login, register, role
+    ├── vehicles/         # Detail, add
+    ├── user/
+    │   ├── buyer/       # Menu, profile, favorites
+    │   └── seller/      # Menu, profile
+    ├── messages/
+    │   ├── buyer/      # List, chat
+    │   └── seller/      # List, chat
+    └── admin/           # Menu admin
 ```
 
 ## Cómo Ejecutar el Proyecto
 
 ### Prerrequisitos
 
+- Node.js instalado
 - Navegador web moderno (Chrome, Firefox, Edge, Safari)
-- Servidor HTTP local (ver opciones abajo)
 
-### Opción 1: Python (recomendado)
-
-Si tienes Python instalado:
+###Instalación
 
 ```bash
-cd "C:\Users\sanch\OneDrive\Documentos\DEV\Proyect-Web-II-FrontEnd"
-python -m http.server 8000
+npm install
 ```
 
-Luego abrir en el navegador: `http://localhost:8000/src/index.html`
-
-### Opción 2: Node.js
-
-Si tienes Node.js instalado:
+###Ejecución
 
 ```bash
-cd "C:\Users\sanch\OneDrive\Documentos\DEV\Proyect-Web-II-FrontEnd"
-npx http-server -p 8000
+npm run dev
 ```
 
-Luego abrir en el navegador: `http://localhost:8000/src/index.html`
+Luego abrir en el navegador: `http://127.0.0.1:8000`
 
-### Opción 3: Live Server (VS Code)
+### Variables de Entorno
 
-1. Instalar extensión "Live Server" en VS Code
-2. Abrir el archivo `src/index.html`
-3. Click derecho y seleccionar "Open with Live Server"
+Crear archivo `.env` basado en `.env.example`:
+
+```
+VITE_API_BASE_URL=http://localhost:3000/api
+VITE_INSPECTOR_MODE=false
+```
 
 ## Cómo Usar la Aplicación
 
-### Flujo Básico
+###Inspector Mode (Desarrollo)
+
+Con `VITE_INSPECTOR_MODE=true`:
+
+1. La sesión se inicia automáticamente
+2. Header muestra "Inspector User" con badge de notificaciones
+3. Botón de campana para ver notificaciones
+4. Botón de corazón para favoritos
+5. Click en notificaciónabre el chat
+
+###Flujo Básico (Sin Inspector Mode)
 
 **1. Explorar vehículos (sin login)**
 
 Al abrir la app, verás el Home con vehículos destacados. Puedes:
 - Ver todos los autos en el listado
 - Usar los filtros de búsqueda (marca, precio, año)
-- Click en "Ver detalle" para ver información completa de cada vehículo
+- Click en "Ver detalle" para ver información completa
 
-**2. Ver detalle de un vehículo**
+**2. Crear cuenta / Ingresar**
 
-La página de detalle es pública y muestra:
-- Fotos del vehículo
-- Precio y puntuación IA
-- Características técnicas (año, km, transmisión, combustible)
-- Datos del vendedor (nombre, tipo, verificación)
-- Análisis IA con recomendaciones
+- Click en "Iniciar sesión" o "Crear cuenta"
+- Completar formulario de registro/login
+- Elegir rol (comprador/vendedor)
 
-**3. Interactuar (requiere login)**
+**3. Perfil y Dashboard**
 
-Las siguientes acciones piden autenticación:
-- Guardar en favoritos (❤️)
-- Comparar vehículos (↔)
-- Contactar vendedor (💬)
-- Hacer oferta (💰)
-
-Al intentar cualquier acción, se abre el modal de login/register.
-
-**4. Crear cuenta / Ingresar**
-
-En el modal de login:
-- Ingresar tu email
-- Click en "Continuar"
-- Para acceso de administrador, usar email: `admin@driveroom.com` o cualquier email que contenga "admin"
-
-El sistema detecta automáticamente si el usuario es administrador.
-
-**5. Elegir rol**
-
-Después del login, se muestra la página de selección de rol:
-- **Comprador**: Para quienes buscan comprar un auto
-- **Vendedor**: Para quienes desean publicar y vender
-- **Administrador**: Solo visible si el email contiene "admin"
-
-**6. Perfil y Dashboard**
-
-Según el rol elegido:
 - Completar el perfil correspondiente
 - Acceder al dashboard con herramientas específicas del rol
-
-### Funcionalidades por Rol
-
-#### Comprador
-
-- Recomendaciones personalizadas de la IA
-- Búsqueda avanzada con lenguaje natural
-- Guardar favoritos
-- Comparar vehículos
-- Simulador de costo mensual
-- Alertas de nuevas publicaciones
-
-#### Vendedor
-
-- Publicar vehículos con asistencia IA
-- Gestión de leads y consultas
-- Optimización de publicaciones (fotos, precio)
-- Análisis de mercado y competencia
-- Respuestas automáticas con IA
-
-#### Administrador
-
-- Panel de control ejecutivo
-- Gestión de usuarios y publicaciones
-- Moderación de contenido
-- Métricas y analytics
-- Configuración del motor IA
-- Alertas de fraude y anomalías
 
 ## Rutas Disponibles
 
 | Ruta | Descripción | Requiere Login |
 |------|-------------|----------------|
 | `#home` | Home público con vehículos | No |
-| `#car-detail/{id}` | Detalle de vehículo | No |
-| `#role` | Selección de rol | Sí |
-| `#menu-buyer` | Dashboard comprador | Sí |
-| `#menu-seller` | Dashboard vendedor | Sí |
-| `#menu-admin` | Dashboard admin | Sí (admin) |
-| `#profile-buyer` | Perfil comprador | Sí |
-| `#profile-seller` | Perfil vendedor | Sí |
+| `#auth/login` | Login | No |
+| `#auth/register` | Registro | No |
+| `#vehicles/detail/{id}` | Detalle de vehículo | No |
+| `#vehicles/add` | Publicar vehículo | Sí (vendedor) |
+| `#user/buyer/menu` | Dashboard comprador | Sí |
+| `#user/buyer/favorites` | Favoritos comprador | Sí |
+| `#messages/buyer` | Mensajes comprador | Sí |
+| `#user/seller/menu` | Dashboard vendedor | Sí |
+| `#admin/menu` | Dashboard admin | Sí (admin) |
 
 ## Agregar Más Vehículos
 
-Los vehículos están definidos en el archivo `src/js/app.js`, en la constante `CARS_DATA`.
+Los vehículos están definidos en `src/data/cars.js`.
 
-Para agregar un nuevo vehículo, agregar un objeto al array:
+Para agregar un nuevo vehículo:
 
 ```javascript
 {
@@ -219,16 +188,18 @@ Para agregar un nuevo vehículo, agregar un objeto al array:
   location: 'Córdoba',
   image: 'URL_DE_LA_IMAGEN',
   score: 94,
+  interiorCondition: 4,
+  paintCondition: 4,
+  tiresCondition: 4,
+  dashboardCondition: 4,
   seller: {
     name: 'Nombre del vendedor',
-    type: 'particular' o 'agencia',
-    verified: true o false,
+    type: 'particular',
+    verified: true,
     phone: '+54 9 351 ...'
   }
 }
 ```
-
-**Nota**: El `id` debe ser único y creciente.
 
 ## Personalizar Estilos
 
@@ -240,7 +211,7 @@ Los colores están definidos en `src/css/components/base.css`:
 :root {
   --bg: #090909;           /* Fondo principal */
   --panel: #111111;        /* Paneles */
-  --text: #f8fafc;        /* Texto principal */
+  --text: #f8fafc;         /* Texto principal */
   --muted: rgba(248, 250, 252, 0.68); /* Texto secundario */
   --orange: #f97316;      /* Color principal (naranja) */
   --white: #ffffff;
@@ -250,13 +221,10 @@ Los colores están definidos en `src/css/components/base.css`:
 
 ### Tipografías
 
-Las fuentes utilizadas son:
 - **Manrope**: Texto general
 - **Space Grotesk**: Títulos y headings
 
-Se cargan desde Google Fonts automáticamente en `styles.css`.
-
-## Troubleshooting (Problemas Comunes)
+## Troubleshooting
 
 ### La página aparece en blanco
 
@@ -264,25 +232,14 @@ Se cargan desde Google Fonts automáticamente en `styles.css`.
 2. Usar Ctrl+Shift+R para hard refresh
 3. Verificar la consola del navegador (F12) para errores
 
-### No se cargan los estilos
+### Inspector Mode no funciona
 
-1. Verificar que exista el archivo `src/css/styles.css`
-2. Verificar la consola para errores 404
-
-### Los vehículos no aparecen
-
-1. Verificar que el archivo `src/js/app.js` esté cargando correctamente
-2. Revisar la consola del navegador para errores JavaScript
-
-### El login no funciona
-
-1. Verificar que localStorage esté habilitado en el navegador
-2. Probar con email de prueba: cualquier email funciona
-3. Para admin: usar email con "admin" (ej: admin@test.com)
+1. Verificar que `.env` tenga `VITE_INSPECTOR_MODE=true`
+2. Verificar la consola para errores de JavaScript
 
 ### Error "CORS" al cargar vistas
 
-Este proyecto funciona mejor con un servidor HTTP local (python o http-server). No funcionará abriendo el archivo directamente con doble click.
+Este proyecto funciona mejor con un servidor HTTP local.
 
 ## Notas Técnicas
 
@@ -290,13 +247,12 @@ Este proyecto funciona mejor con un servidor HTTP local (python o http-server). 
 
 - Mobile first
 - Breakpoints: 480px, 600px, 768px, 900px, 1200px
-- Grid adaptable para listados de vehículos
 
 ### Persistencia de Datos
 
 - Sesión de usuario en localStorage (`driveroom_session`)
-- Datos de vehículos hardcodeados en `CARS_DATA`
-- No requiere backend - todo funciona en el cliente
+- Inspector session en localStorage (`driveroom_inspector_session`)
+- Datos de vehículos en `src/data/cars.js`
 
 ### Navegación
 

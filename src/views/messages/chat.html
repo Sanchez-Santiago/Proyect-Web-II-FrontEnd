@@ -1,0 +1,43 @@
+<section class="chat-view">
+  <div class="chat-shell container">
+    <div class="chat-header">
+      <button type="button" class="chat-back" data-navigate="user/messages">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div class="chat-info">
+        <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+        <div>
+          <h2 id="chatVehicleTitle">Toyota Corolla XEi 2021</h2>
+          <span id="chatSellerName">Juan Pérez</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="message message-incoming">
+        <p>Hola, me interesa el auto. ¿Está disponible para verlo?</p>
+        <span class="message-time">10:30</span>
+      </div>
+      <div class="message message-outgoing">
+        <p>Sí, está disponible. ¿Cuándo puedes pasar?</p>
+        <span class="message-time">10:32</span>
+      </div>
+      <div class="message message-incoming">
+        <p>Puedo pasar mañana por la tarde.</p>
+        <span class="message-time">10:35</span>
+      </div>
+      <div class="message message-outgoing">
+        <p>Perfecto, te espero mañana a las 16hs.</p>
+        <span class="message-time">10:38</span>
+      </div>
+    </div>
+
+    <form class="chat-input" id="chatForm">
+      <input type="text" id="chatMessageInput" placeholder="Escribe tu mensaje..." autocomplete="off" />
+      <button type="submit" class="chat-send-btn">
+        <i class="bi bi-send-fill"></i>
+      </button>
+    </form>
+  </div>
+</section>

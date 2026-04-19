@@ -42,7 +42,7 @@ export default {
           <li><i class="bi bi-check-circle-fill"></i> Acceso a herramientas internas para soporte y seguimiento.</li>
           <li><i class="bi bi-check-circle-fill"></i> Vista operativa para tomar decisiones sobre el sistema.</li>
         </ul>
-        <button type="button" class="role-card-action" data-navigate="menu-admin">Continuar como administrador</button>`;
+        <button type="button" class="role-card-action" data-navigate="admin/menu">Continuar como administrador</button>`;
       grid.appendChild(card);
     }
 

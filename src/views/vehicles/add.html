@@ -1,0 +1,234 @@
+<section class="add-vehicle-view">
+  <div class="add-vehicle-shell container">
+    <div class="add-vehicle-header">
+      <button type="button" class="add-vehicle-back" data-navigate="user/seller/menu">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div>
+        <span class="add-vehicle-chip">Publicar</span>
+        <h1>Publica tu vehiculo y deja que la IA te ayude a encontrar comprador.</h1>
+      </div>
+    </div>
+
+    <form id="addVehicleForm" class="add-vehicle-form" novalidate>
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Datos basicos</span>
+          <h2>Marca, modelo y precio</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="vehicleBrand" class="form-label">Marca *</label>
+            <select id="vehicleBrand" name="brand" class="form-select form-select-lg" required>
+              <option value="">Selecciona</option>
+              <option value="Toyota">Toyota</option>
+              <option value="Honda">Honda</option>
+              <option value="Volkswagen">Volkswagen</option>
+              <option value="Ford">Ford</option>
+              <option value="Chevrolet">Chevrolet</option>
+              <option value="Peugeot">Peugeot</option>
+              <option value="Nissan">Nissan</option>
+              <option value="Renault">Renault</option>
+              <option value="Fiat">Fiat</option>
+              <option value="Mercedes-Benz">Mercedes-Benz</option>
+              <option value="BMW">BMW</option>
+              <option value="Audi">Audi</option>
+              <option value="Hyundai">Hyundai</option>
+              <option value="Kia">Kia</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleModel" class="form-label">Modelo *</label>
+            <input id="vehicleModel" name="model" type="text" class="form-control form-control-lg" placeholder="Corolla XEi" required />
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleYear" class="form-label">Ano *</label>
+            <select id="vehicleYear" name="year" class="form-select form-select-lg" required>
+              <option value="">Selecciona</option>
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+              <option value="2019">2019</option>
+              <option value="2018">2018</option>
+              <option value="2017">2017</option>
+              <option value="2016">2016</option>
+              <option value="2015">2015</option>
+              <option value="2014">2014</option>
+              <option value="2013">2013</option>
+              <option value="2012">2012</option>
+              <option value="2011">2011</option>
+              <option value="2010">2010</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleType" class="form-label">Tipo *</label>
+            <select id="vehicleType" name="vehicleType" class="form-select form-select-lg" required>
+              <option value="">Selecciona</option>
+              <option value="SEDAN">Sedan</option>
+              <option value="HATCHBACK">Hatchback</option>
+              <option value="SUV">SUV</option>
+              <option value="PICKUP">Pickup</option>
+              <option value="COUPE">Coupe</option>
+              <option value="CONVERTIBLE">Convertible</option>
+              <option value="WAGON">Wagon</option>
+              <option value="UTILITY">Utilitario</option>
+              <option value="MINIVAN">Minivan</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehiclePrice" class="form-label">Precio (ARS) *</label>
+            <input id="vehiclePrice" name="price" type="number" class="form-control form-control-lg" placeholder="14500000" min="0" step="10000" required />
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleMileage" class="form-label">Kilometros</label>
+            <input id="vehicleMileage" name="mileage" type="number" class="form-control form-control-lg" placeholder="45000" min="0" />
+          </div>
+        </div>
+      </article>
+
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Caracteristicas</span>
+          <h2>Combustible, transmision y color</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="vehicleFuel" class="form-label">Combustible</label>
+            <select id="vehicleFuel" name="fuelType" class="form-select form-select-lg">
+              <option value="">Selecciona</option>
+              <option value="NAFTA">Nafta</option>
+              <option value="DIESEL">Diesel</option>
+              <option value="GNV">GNV</option>
+              <option value="HIBRIDO">Hibrido</option>
+              <option value="ELECTRICO">Electrico</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleTransmission" class="form-label">Transmision</label>
+            <select id="vehicleTransmission" name="transmission" class="form-select form-select-lg">
+              <option value="">Selecciona</option>
+              <option value="MANUAL">Manual</option>
+              <option value="AUTOMATIC">Automatica</option>
+              <option value="SEMI_AUTOMATIC">Semi automatica</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="vehicleColor" class="form-label">Color</label>
+            <select id="vehicleColor" name="color" class="form-select form-select-lg">
+              <option value="">Selecciona</option>
+              <option value="Blanco">Blanco</option>
+              <option value="Negro">Negro</option>
+              <option value="Gris">Gris</option>
+              <option value="Plata">Plata</option>
+              <option value="Azul">Azul</option>
+              <option value="Rojo">Rojo</option>
+              <option value="Verde">Verde</option>
+              <option value="Dorado">Dorado</option>
+              <option value="Negro">Negro</option>
+              <option value="Beige">Beige</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+        </div>
+      </article>
+
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Ubicacion</span>
+          <h2>donde esta el vehiculo</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="vehicleProvince" class="form-label">Provincia *</label>
+            <input id="vehicleProvince" name="province" type="text" class="form-control form-control-lg" placeholder="Cordoba" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="vehicleCity" class="form-label">Ciudad / Zona *</label>
+            <input id="vehicleCity" name="city" type="text" class="form-control form-control-lg" placeholder="Nueva Cordoba" required />
+          </div>
+        </div>
+      </article>
+
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Historia</span>
+          <h2>Service y mantenimiento</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="vehicleLastService" class="form-label">Ultimo service</label>
+            <input id="vehicleLastService" name="lastServiceDate" type="date" class="form-control form-control-lg" />
+          </div>
+
+          <div class="col-md-6">
+            <label for="vehicleLastOil" class="form-label">Ultimo cambio de aceite</label>
+            <input id="vehicleLastOil" name="lastOilChange" type="date" class="form-control form-control-lg" />
+          </div>
+
+          <div class="col-12">
+            <label for="vehicleAccidents" class="form-label">Accidentes o cambios importantes</label>
+            <textarea id="vehicleAccidents" name="accidents" class="form-control" rows="3" placeholder="Ejemplo: cambio de paragolpes derecho en 2023, sin otros cambios..."></textarea>
+          </div>
+        </div>
+      </article>
+
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Descripcion</span>
+          <h2>Detalles para compradores</h2>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <label for="vehicleDescription" class="form-label">Descripcion *</label>
+            <textarea id="vehicleDescription" name="description" class="form-control" rows="5" placeholder="Describe el estado, equipamiento, duenos anteriores, porque lo vendes, etc." required></textarea>
+          </div>
+        </div>
+      </article>
+
+      <article class="form-card">
+        <div class="section-head">
+          <span class="section-step">Fotos</span>
+          <h2>Sube fotos de tu vehiculo</h2>
+        </div>
+
+        <div class="add-vehicle-images">
+          <div class="image-upload-area" id="imageUploadArea">
+            <i class="bi bi-cloud-arrow-up"></i>
+            <p>Arrastra fotos aqui o</p>
+            <label for="vehicleImages" class="btn image-upload-btn">Seleccionar archivos</label>
+            <input type="file" id="vehicleImages" name="images" accept="image/*" multiple hidden />
+          </div>
+          <div class="image-preview-grid" id="imagePreviewGrid"></div>
+        </div>
+        <small class="form-hint">Sube varias fotos: exterior, interior, motor, baul, rodado</small>
+      </article>
+
+      <div class="form-actions">
+        <small id="addVehicleMessage" class="form-message">Completa los campos requeridos (*) para publicar.</small>
+        <div class="form-actions-buttons">
+          <button type="button" class="btn btn-secondary" data-navigate="user/seller/menu">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Publicar vehiculo</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

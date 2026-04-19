@@ -1,0 +1,65 @@
+<section class="messages-view">
+  <div class="messages-shell container">
+    <div class="messages-header">
+      <button type="button" class="messages-back" data-navigate="user/buyer/menu">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div>
+        <span class="messages-chip">Mensajes</span>
+        <h1>Tus conversaciones</h1>
+      </div>
+    </div>
+
+    <div class="messages-list" id="conversationsList">
+      <article class="conversation-item" data-navigate="user/messages/chat/1">
+        <div class="conversation-avatar">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+        </div>
+        <div class="conversation-content">
+          <div class="conversation-header">
+            <h3>Toyota Corolla XEi 2021</h3>
+            <span class="conversation-time">2h</span>
+          </div>
+          <p class="conversation-user">Juan Pérez</p>
+          <p class="conversation-preview">Hola, me interesa el auto. ¿Está disponible?</p>
+        </div>
+        <span class="conversation-unread">3</span>
+      </article>
+
+      <article class="conversation-item" data-navigate="user/messages/chat/2">
+        <div class="conversation-avatar">
+          <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+        </div>
+        <div class="conversation-content">
+          <div class="conversation-header">
+            <h3>Honda Civic 2020</h3>
+            <span class="conversation-time">1d</span>
+          </div>
+          <p class="conversation-user">Auto Motors</p>
+          <p class="conversation-preview">Gracias por tu interés, te envío más fotos.</p>
+        </div>
+      </article>
+
+      <article class="conversation-item" data-navigate="user/messages/chat/3">
+        <div class="conversation-avatar">
+          <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+        </div>
+        <div class="conversation-content">
+          <div class="conversation-header">
+            <h3>Volkswagen Polo 2021</h3>
+            <span class="conversation-time">3d</span>
+          </div>
+          <p class="conversation-user">María González</p>
+          <p class="conversation-preview">¿Puedo ir a verlo mañana?</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="messages-empty" id="messagesEmpty" hidden>
+      <i class="bi bi-chat-dots"></i>
+      <p>No tienes conversaciones todavía.</p>
+      <small>Cuando contactes a un vendedor, aparecerá aquí.</small>
+    </div>
+  </div>
+</section>

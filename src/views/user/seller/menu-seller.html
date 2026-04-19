@@ -17,7 +17,7 @@
             <small>Ventas y prioridades</small>
           </span>
         </a>
-        <a href="#">
+        <a href="#vehicle/add" data-navigate="vehicle/add">
           <i class="bi bi-plus-square-fill"></i>
           <span>
             <strong>Publicar auto</strong>
@@ -38,18 +38,11 @@
             <small>Precio y competencia</small>
           </span>
         </a>
-        <a href="#">
-          <i class="bi bi-people-fill"></i>
+        <a href="#user/seller/messages" data-navigate="user/seller/messages">
+          <i class="bi bi-chat-dots-fill"></i>
           <span>
-            <strong>Leads</strong>
-            <small>Ranking inteligente</small>
-          </span>
-        </a>
-        <a href="#">
-          <i class="bi bi-magic"></i>
-          <span>
-            <strong>Optimizacion</strong>
-            <small>Fotos y conversion</small>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
           </span>
         </a>
       </nav>
@@ -64,17 +57,15 @@
     <main class="menu-main">
       <header class="menu-topbar">
         <div>
-          <nav class="menu-workspace-switch" aria-label="Cambiar menu">
-            <a href="#" data-navigate="menu-buyer">Comprador</a>
-            <a class="is-current" href="#" data-navigate="menu-seller">Vendedor</a>
-            <a href="#" data-navigate="menu-admin">Admin</a>
+          <nav class="menu-workspace-switch" aria-label="Cambiar menu" style="opacity:0.5;pointer-events:none;">
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
           </nav>
           <span class="menu-kicker">Inicio</span>
           <h1>Tu proxima venta no se improvisa. Se optimiza con IA.</h1>
         </div>
         <div class="menu-top-actions">
           <button type="button" class="menu-ghost-btn">Ver leads</button>
-          <button type="button" class="menu-primary-btn">Publicar con IA</button>
+          <button type="button" class="menu-primary-btn" data-navigate="vehicle/add">Publicar con IA</button>
         </div>
       </header>
 
@@ -85,8 +76,7 @@
             <h2>Chevrolet Cruze LT 2018</h2>
             <p>La publicacion tiene demanda real. Ajustando precio, portada y enfoque comercial puede cerrar mucho antes.</p>
             <div class="menu-hero-actions">
-              <button type="button" class="menu-primary-btn">Optimizar anuncio</button>
-              <button type="button" class="menu-ghost-btn">Ver mercado</button>
+              <button type="button" class="menu-primary-btn" data-navigate="add-vehicle">Publicar vehiculo</button>
             </div>
           </div>
 

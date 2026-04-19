@@ -291,4 +291,55 @@
   .login-card h2 {
     font-size: 2.3rem;
   }
+
+  .input-wrap select {
+    min-height: 62px;
+    padding-left: 3rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--white);
+  }
+
+  .input-wrap select:focus {
+    border-color: rgba(249, 115, 22, 0.36);
+    box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .input-wrap select option {
+    background: #1a1a1a;
+    color: var(--white);
+  }
+}
+
+.register-view {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: 3rem 0;
+}
+
+.register-shell {
+  position: relative;
+}
+
+.register-copy {
+  max-width: 560px;
+  padding-right: 2.2rem;
+}
+
+.register-copy h1,
+.register-card h2 {
+  margin: 0;
+  color: var(--white);
+}
+
+.register-copy h1 {
+  max-width: 9ch;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(3.2rem, 5.8vw, 5.7rem);
+  line-height: 0.93;
+  letter-spacing: -0.06em;
+  text-wrap: balance;
 }

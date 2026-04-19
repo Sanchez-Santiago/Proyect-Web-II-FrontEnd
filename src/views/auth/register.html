@@ -1,0 +1,132 @@
+<section class="register-view">
+  <div class="register-shell container">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-6">
+        <div class="register-copy">
+          <h1>Crear tu cuenta es gratis y te da acceso completo al mercado de autos usados.</h1>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <article class="login-card">
+          <div class="login-card-top">
+            <span class="login-chip">Registro</span>
+            <span class="login-status">Nueva cuenta</span>
+          </div>
+
+          <h2>Crear cuenta</h2>
+          <p class="login-card-text">Completa tus datos para empezar a buscar o vender.</p>
+
+          <form id="registerForm" class="login-form" novalidate>
+            <label for="registerName" class="form-label">Nombre completo</label>
+            <div class="input-wrap">
+              <i class="bi bi-person-fill"></i>
+              <input
+                id="registerName"
+                name="name"
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Juan Pérez"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <label for="registerEmail" class="form-label">Correo electrónico</label>
+            <div class="input-wrap">
+              <i class="bi bi-envelope-fill"></i>
+              <input
+                id="registerEmail"
+                name="email"
+                type="email"
+                class="form-control form-control-lg"
+                placeholder="nombre@correo.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <label for="registerPassword" class="form-label">Contraseña</label>
+            <div class="input-wrap">
+              <i class="bi bi-lock-fill"></i>
+              <input
+                id="registerPassword"
+                name="password"
+                type="password"
+                class="form-control form-control-lg"
+                placeholder="Mínimo 6 caracteres"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <label for="registerConfirmPassword" class="form-label">Confirmar contraseña</label>
+            <div class="input-wrap">
+              <i class="bi bi-lock-fill"></i>
+              <input
+                id="registerConfirmPassword"
+                name="confirmPassword"
+                type="password"
+                class="form-control form-control-lg"
+                placeholder="Repite tu contraseña"
+                autocomplete="new-password"
+                required
+              />
+            </div>
+
+            <label for="registerRole" class="form-label">¿Qué quieres hacer?</label>
+            <div class="input-wrap">
+              <i class="bi bi-person-badge-fill"></i>
+              <select
+                id="registerRole"
+                name="role"
+                class="form-select form-select-lg"
+                required
+              >
+                <option value="">Selecciona una opción</option>
+                <option value="BUYER">Comprar autos</option>
+                <option value="SELLER">Vender autos</option>
+              </select>
+            </div>
+
+            <label for="registerProvince" class="form-label">Provincia</label>
+            <div class="input-wrap">
+              <i class="bi bi-geo-alt-fill"></i>
+              <input
+                id="registerProvince"
+                name="province"
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Córdoba"
+                autocomplete="address-level1"
+                required
+              />
+            </div>
+
+            <label for="registerCity" class="form-label">Ciudad</label>
+            <div class="input-wrap">
+              <i class="bi bi-geo-fill"></i>
+              <input
+                id="registerCity"
+                name="city"
+                type="text"
+                class="form-control form-control-lg"
+                placeholder="Córdoba"
+                autocomplete="address-level2"
+                required
+              />
+            </div>
+
+            <small id="registerMessage" class="login-message">Completa todos los campos para crear tu cuenta.</small>
+
+            <button type="submit" class="btn login-submit w-100">Crear cuenta</button>
+
+            <p class="login-footer">
+              Ya tenés cuenta? <a href="#">Iniciar sesión</a>
+            </p>
+          </form>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

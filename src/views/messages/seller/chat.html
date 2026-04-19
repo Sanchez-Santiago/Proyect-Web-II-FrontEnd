@@ -1,0 +1,30 @@
+<section class="chat-view">
+  <div class="chat-shell container">
+    <div class="chat-header">
+      <button type="button" class="chat-back" data-navigate="user/seller/messages">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div class="chat-info">
+        <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+        <div>
+          <h2 id="chatVehicleTitle">Toyota Corolla XEi 2021</h2>
+          <span id="chatBuyerName">Juan Pérez</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+    </div>
+
+    <form class="chat-input" id="chatForm">
+      <div class="chat-input-wrapper">
+        <input type="text" id="chatMessageInput" placeholder="Escribe tu mensaje... (Markdown soportado)" autocomplete="off" />
+        <button type="submit" class="chat-send-btn">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+      <small class="chat-markdown-hint">Usa **negritas**, *cursivas*, `código`</small>
+    </form>
+  </div>
+</section>

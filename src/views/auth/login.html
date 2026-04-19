@@ -31,21 +31,29 @@
                 required
               />
             </div>
-            <small id="loginMessage" class="login-message">Ingresa un email valido para continuar.</small>
 
-            <button type="submit" class="btn login-submit w-100">Continuar con email</button>
+            <label for="loginPassword" class="form-label">Contrasena</label>
+            <div class="input-wrap">
+              <i class="bi bi-lock-fill"></i>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                class="form-control form-control-lg"
+                placeholder="Tu contrasena"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+
+            <small id="loginMessage" class="login-message">Ingresa tu email y contrasena.</small>
+
+            <button type="submit" class="btn login-submit w-100">Iniciar sesion</button>
+
+            <p class="login-footer">
+              No tenes cuenta? <a href="#auth/register" data-navigate="auth/register">Crear cuenta</a>
+            </p>
           </form>
-
-          <div class="login-divider"><span>o</span></div>
-
-          <button type="button" class="btn btn-light login-alt w-100">
-            <i class="bi bi-google"></i>
-            Continuar con Google
-          </button>
-
-          <p class="login-footer">
-            No tenes cuenta? <a href="#">Crear cuenta</a>
-          </p>
         </article>
       </div>
     </div>

@@ -28,17 +28,18 @@
   gap: 0.75rem;
 }
 
-.home-brand span {
+.brand-logo {
   width: 42px;
   height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 12px;
-  background: transparent;
-  border: 1px solid rgba(249, 115, 22, 0.34);
-  color: #ffd4b2;
-  font-weight: 800;
-  font-size: 1.1rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1rem;
+  font-style: italic;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
 .home-brand strong {
@@ -307,26 +308,11 @@
   object-fit: cover;
 }
 
-.home-car-score {
+.home-car-score-container {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
-  color: #fff;
-  font-weight: 800;
-  font-size: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1;
-}
-
-.home-car-score small {
-  font-size: 0.65rem;
-  font-weight: 600;
-  opacity: 0.9;
+  z-index: 10;
 }
 
 .home-car-favorite {
@@ -433,6 +419,46 @@
   margin-bottom: 1rem;
   font-size: 0.75rem;
   color: #888;
+}
+
+.home-car-condition-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+}
+
+.home-car-condition-details .condition-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.condition-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #666;
+  min-width: 50px;
+}
+
+.condition-bar-track {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.condition-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.condition-value {
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 32px;
+  text-align: right;
 }
 
 .home-car-condition-details .condition-item {
