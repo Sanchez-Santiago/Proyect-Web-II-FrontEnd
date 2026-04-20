@@ -30,23 +30,10 @@
     event.preventDefault();
 
     const email = emailInput.value.trim();
-    const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    if (!email) {
-      setMessage('Ingresa tu correo para continuar.', 'error');
-      emailInput.focus();
-      return;
-    }
-
-    if (!emailIsValid) {
-      setMessage('El formato del email no es valido.', 'error');
-      emailInput.focus();
-      return;
-    }
-
-    const role = resolveUserRole(email);
+    const sessionEmail = email || 'invitado@driveroom.local';
+    const role = resolveUserRole(sessionEmail);
     const sessionUser = {
-      email,
+      email: sessionEmail,
       role,
       isAdmin: role === 'admin',
     };

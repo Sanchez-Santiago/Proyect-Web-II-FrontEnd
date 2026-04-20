@@ -248,7 +248,8 @@ body {
 }
 
 .menu-buyer-primary-btn,
-.menu-buyer-ghost-btn {
+.menu-buyer-ghost-btn,
+.menu-buyer-logout-btn {
   border: 0;
   border-radius: 16px;
   min-height: 42px;
@@ -266,6 +267,31 @@ body {
   background: rgba(255, 255, 255, 0.04);
   color: var(--white);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+a.menu-buyer-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.menu-buyer-logout-btn {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+  color: #111111;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(249, 115, 22, 0.22);
+}
+
+.menu-buyer-logout-btn:hover {
+  color: #111111;
+  filter: brightness(1.04);
 }
 
 .menu-buyer-feed-intro {

@@ -203,7 +203,8 @@ body {
 }
 
 .admin-space-primary-btn,
-.admin-space-ghost-btn {
+.admin-space-ghost-btn,
+.admin-space-logout-btn {
   border-radius: 16px;
   min-height: 42px;
   padding: 0 0.95rem;
@@ -221,6 +222,31 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   color: #fff;
+}
+
+a.admin-space-ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.admin-space-logout-btn {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+  color: #111111;
+  text-decoration: none;
+  box-shadow: 0 14px 28px rgba(249, 115, 22, 0.22);
+}
+
+.admin-space-logout-btn:hover {
+  color: #111111;
+  filter: brightness(1.04);
 }
 
 .admin-space-grid-2,
