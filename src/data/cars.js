@@ -1,3 +1,9 @@
+/**
+ * Cars Data - Catálogo de vehículos disponibles
+ * Datos de ejemplo para la aplicación MotorMarket
+ * Incluye: información del vehículo, condición, vendedor, imágenes
+ */
+
 export const CARS_DATA = [
   {
     id: 1,
@@ -10,8 +16,15 @@ export const CARS_DATA = [
     mileageFormatted: '45.000 km',
     transmission: 'Automática',
     fuel: 'Nafta',
+    color: 'Blanco',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=800&q=80'
+    ],
     score: 96,
     condition: 'Excelente',
     interiorCondition: 5,
@@ -19,6 +32,10 @@ export const CARS_DATA = [
     rimsCondition: 5,
     dashboardCondition: 5,
     tiresCondition: 4,
+    description: 'Excelente vehículo en óptimas condiciones. Service oficial completo hasta 2024. Sin deuda de patentes. Todos los papeles al día. Neumáticos nuevos. Batería nueva. Listo para transferir.',
+    lastServiceDate: '2024-01-15',
+    lastOilChange: '2024-01-15',
+    accidents: 'Ninguno',
     seller: {
       name: 'Juan Pérez',
       type: 'particular',
@@ -37,8 +54,15 @@ export const CARS_DATA = [
     mileageFormatted: '63.000 km',
     transmission: 'Automática',
     fuel: 'Nafta',
+    color: 'Gris',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80'
+    ],
     score: 92,
     condition: 'Bueno',
     interiorCondition: 4,
@@ -46,6 +70,10 @@ export const CARS_DATA = [
     rimsCondition: 3,
     dashboardCondition: 4,
     tiresCondition: 4,
+    description: 'Very good condition vehicle. Full service history. All papers up to date. Ready to transfer.',
+    lastServiceDate: '2023-11-20',
+    lastOilChange: '2023-11-20',
+    accidents: 'Ninguno',
     seller: {
       name: 'Auto Motors',
       type: 'agencia',
@@ -60,24 +88,35 @@ export const CARS_DATA = [
     year: 2021,
     price: 11900000,
     priceFormatted: '$11.900.000',
-    mileage: 48000,
-    mileageFormatted: '48.000 km',
+    mileage: 18000,
+    mileageFormatted: '18.000 km',
     transmission: 'Manual',
     fuel: 'Nafta',
+    color: 'Negro',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c9b1?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80'
+    ],
     score: 89,
-    condition: 'Bueno',
-    interiorCondition: 4,
-    paintCondition: 3,
+    condition: 'Excelente',
+    interiorCondition: 5,
+    paintCondition: 5,
     rimsCondition: 4,
-    dashboardCondition: 4,
-    tiresCondition: 3,
+    dashboardCondition: 5,
+    tiresCondition: 5,
+    description: 'Vehículo prácticamente nuevo. Muy pocas horas de uso. Service oficial. Sin ningún tipo de deuda.',
+    lastServiceDate: '2024-02-10',
+    lastOilChange: '2024-02-10',
+    accidents: 'Ninguno',
     seller: {
-      name: 'María González',
-      type: 'particular',
-      verified: false,
-      phone: '+54 9 351 456 7890'
+      name: 'Autos Córdoba',
+      type: 'agencia',
+      verified: true,
+      phone: '+54 9 351 555 6666'
     }
   },
   {
@@ -87,24 +126,35 @@ export const CARS_DATA = [
     year: 2020,
     price: 24900000,
     priceFormatted: '$24.900.000',
-    mileage: 72000,
-    mileageFormatted: '72.000 km',
-    transmission: 'Automática',
-    fuel: 'Diésel',
+    mileage: 45000,
+    mileageFormatted: '45.000 km',
+    transmission: 'Manual',
+    fuel: 'Diiesel',
+    color: 'Blanco',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1567991034429-3b522c7e3787?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80'
+    ],
     score: 88,
-    condition: 'Regular',
-    interiorCondition: 3,
-    paintCondition: 3,
+    condition: 'Bueno',
+    interiorCondition: 4,
+    paintCondition: 4,
     rimsCondition: 4,
-    dashboardCondition: 3,
-    tiresCondition: 4,
+    dashboardCondition: 4,
+    tiresCondition: 3,
+    description: 'Potente pick-up 4x4. Excelente para trabajo y familia. Service al día. Neumáticos en buen estado.',
+    lastServiceDate: '2023-12-05',
+    lastOilChange: '2023-12-05',
+    accidents: 'Ninguno',
     seller: {
-      name: 'Camiones SA',
-      type: 'agencia',
+      name: 'Diego Gómez',
+      type: 'particular',
       verified: true,
-      phone: '+54 9 351 111 2222'
+      phone: '+54 9 351 789 0123'
     }
   },
   {
@@ -114,51 +164,73 @@ export const CARS_DATA = [
     year: 2022,
     price: 16300000,
     priceFormatted: '$16.300.000',
-    mileage: 28000,
-    mileageFormatted: '28.000 km',
-    transmission: 'Automática',
+    mileage: 12000,
+    mileageFormatted: '12.000 km',
+    transmission: 'Manual',
     fuel: 'Nafta',
+    color: 'Rojo',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80',
-    score: 91,
+    image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c9b1?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=800&q=80'
+    ],
+    score: 94,
     condition: 'Excelente',
     interiorCondition: 5,
     paintCondition: 5,
     rimsCondition: 5,
     dashboardCondition: 5,
     tiresCondition: 5,
+    description: 'Auto casi nuevo. Único dueño. Service oficial. Impecable estado. Recién service.',
+    lastServiceDate: '2024-03-01',
+    lastOilChange: '2024-03-01',
+    accidents: 'Ninguno',
     seller: {
-      name: 'Lucas García',
+      name: 'María López',
       type: 'particular',
       verified: true,
-      phone: '+54 9 351 333 4444'
+      phone: '+54 9 351 234 5678'
     }
   },
   {
     id: 6,
     brand: 'Chevrolet',
-    model: 'Cruze LT',
+    model: 'Cruze',
     year: 2018,
     price: 9800000,
     priceFormatted: '$9.800.000',
-    mileage: 85000,
-    mileageFormatted: '85.000 km',
+    mileage: 55000,
+    mileageFormatted: '55.000 km',
     transmission: 'Manual',
     fuel: 'Nafta',
+    color: 'Gris Plata',
     location: 'Córdoba',
-    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80',
-    score: 74,
+    image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80',
+    images: [
+      'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1567991034429-3b522c7e3787?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?auto=format&fit=crop&w=800&q=80'
+    ],
+    score: 78,
     condition: 'Regular',
     interiorCondition: 3,
     paintCondition: 3,
-    rimsCondition: 4,
-    dashboardCondition: 3,
+    rimsCondition: 3,
+    dashboardCondition: 4,
     tiresCondition: 3,
+    description: 'Vehículo en buen funcionamiento. Necesita algunos arreglos menores. Precio negociable.',
+    lastServiceDate: '2023-08-15',
+    lastOilChange: '2023-08-15',
+    accidents: 'Golpe lateral izquierdo',
     seller: {
-      name: 'Autos Córdoba',
-      type: 'agencia',
-      verified: true,
-      phone: '+54 9 351 555 6666'
+      name: 'Carlos Rodríguez',
+      type: 'particular',
+      verified: false,
+      phone: '+54 9 351 345 6789'
     }
   }
 ];

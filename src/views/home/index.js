@@ -73,7 +73,7 @@ function renderStars(rating) {
         ${renderConditionBar('Neumáticos', car.tiresCondition)}
       </div>
       <div class="home-car-actions">
-        <button type="button" class="home-car-detail-btn" data-navigate="vehicle/detail/${car.id}">Ver detalle</button>
+        <button type="button" class="home-car-detail-btn" data-navigate="vehicles/detail/${car.id}">Ver detalle</button>
         <button type="button" class="home-car-compare-btn" data-action="compare" data-car-id="${car.id}">
           <i class="bi bi-arrow-left-right"></i>
         </button>
@@ -91,6 +91,56 @@ function renderCars() {
   cars.forEach(car => {
     grid.appendChild(createCarCard(car));
   });
+}
+
+function filterCars() {
+  const searchInput = document.getElementById('homeSearchInput');
+  const filterBrand = document.getElementById('homeFilterBrand');
+  const filterPrice = document.getElementById('homeFilterPrice');
+  const filterYear = document.getElementById('homeFilterYear');
+  
+  const search = searchInput?.value.toLowerCase() || '';
+  const brand = filterBrand?.value.toLowerCase() || '';
+  const price = filterPrice?.value || '';
+  const year = filterYear?.value || '';
+  
+  let filtered = [...getCars()];
+  
+  if (search) {
+    filtered = filtered.filter(car => 
+      car.brand.toLowerCase().includes(search) || 
+      car.model.toLowerCase().includes(search) ||
+      car.year.toString().includes(search)
+    );
+  }
+  
+  if (brand) {
+    filtered = filtered.filter(car => car.brand.toLowerCase() === brand);
+  }
+  
+  if (price) {
+    if (price === 'hasta-10m') {
+      filtered = filtered.filter(car => car.price < 10000000);
+    } else if (price === '10m-20m') {
+      filtered = filtered.filter(car => car.price >= 10000000 && car.price < 20000000);
+    } else if (price === '20m-35m') {
+      filtered = filtered.filter(car => car.price >= 20000000 && car.price < 35000000);
+    } else if (price === 'mas-35m') {
+      filtered = filtered.filter(car => car.price >= 35000000);
+    }
+  }
+  
+  if (year) {
+    filtered = filtered.filter(car => car.year.toString() === year);
+  }
+  
+  cars = filtered;
+  renderCars();
+}
+
+function clearFilters() {
+  cars = getCars();
+  renderCars();
 }
 
 function setupActions() {
@@ -131,6 +181,14 @@ function setupActions() {
       }
     });
   });
+  
+  document.getElementById('homeSearchBtn')?.addEventListener('click', filterCars);
+  document.getElementById('homeSearchInput')?.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') filterCars();
+  });
+  document.getElementById('homeFilterBrand')?.addEventListener('change', filterCars);
+  document.getElementById('homeFilterPrice')?.addEventListener('change', filterCars);
+  document.getElementById('homeFilterYear')?.addEventListener('change', filterCars);
 }
 
 export default {

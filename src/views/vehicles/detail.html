@@ -1,7 +1,7 @@
 <div class="car-detail-page">
   <header class="car-detail-header">
     <div class="car-detail-header-content">
-      <button type="button" class="car-detail-back" data-navigate="home">
+      <button type="button" class="car-detail-back" onclick="window.history.back()">
         <i class="bi bi-arrow-left"></i>
         Volver
       </button>
@@ -17,9 +17,9 @@
   <section class="car-detail-main">
     <div class="car-detail-grid">
       <div class="car-detail-gallery">
-        <div class="car-detail-main-image">
+        <div class="car-main-image">
           <img id="carMainImage" src="" alt="Auto" />
-          <span class="car-detail-score" id="carScore"></span>
+          <div class="car-score-badge" id="carScore"></div>
         </div>
       </div>
 
@@ -33,6 +33,10 @@
         </div>
 
         <div class="car-detail-specs" id="carSpecs"></div>
+
+        <div class="car-detail-state">
+          <h3>Estado del vehículo</h3>
+        </div>
 
         <div class="car-detail-description">
           <h3>Descripción</h3>
@@ -50,17 +54,17 @@
               <span id="sellerType"></span>
               <span class="seller-verified" id="sellerVerified"></span>
             </div>
-            <button type="button" class="car-detail-seller-btn" data-action="contact">
-              <i class="bi bi-chat-dots"></i>
-              Contactar
-            </button>
           </div>
         </div>
 
         <div class="car-detail-buttons">
           <button type="button" class="car-detail-primary-btn" data-action="contact">
             <i class="bi bi-chat-dots"></i>
-            Contactar vendedor
+            Enviar mensaje
+          </button>
+          <button type="button" class="car-detail-secondary-btn" data-action="buy">
+            <i class="bi bi-cart"></i>
+            Comprar ahora
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useAuth } from '../../hooks/useAuth.js';
-import { navigateTo } from '../router.js';
-import state from '../state.js';
+import { navigateTo } from '../../js/router.js';
+import state from '../../js/state.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 

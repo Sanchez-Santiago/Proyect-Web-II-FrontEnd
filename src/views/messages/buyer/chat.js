@@ -1,7 +1,7 @@
-import { useMessages } from '../../hooks/useMessages.js';
-import { navigateTo } from '../../js/router.js';
-import state from '../../js/state.js';
-import { getCarById } from '../../data/cars.js';
+import { useMessages } from '../../../hooks/useMessages.js';
+import { navigateTo } from '../../../js/router.js';
+import state from '../../../js/state.js';
+import { getCarById } from '../../../data/cars.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 

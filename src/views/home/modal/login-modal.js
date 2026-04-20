@@ -1,4 +1,4 @@
-import state from '../state.js';
+import state from '../../js/state.js';
 
 let modalElement = null;
 let isInitialized = false;

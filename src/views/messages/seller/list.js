@@ -1,6 +1,36 @@
-import { useMessages } from '../../hooks/useMessages.js';
-import { navigateTo } from '../../router.js';
-import state from '../../../state.js';
+import { useMessages } from '../../../hooks/useMessages.js';
+import { navigateTo } from '../../../js/router.js';
+import state from '../../../js/state.js';
+
+function isInspectorMode() {
+  return typeof window.getInspectorData === 'function';
+}
+
+function formatTimeAgo(ts) {
+  const diff = Date.now() - ts;
+  if (diff < 3600000) return Math.floor(diff / 3600000) + 'h';
+  if (diff < 86400000) return Math.floor(diff / 86400000) + 'd';
+  return Math.floor(diff / 86400000) + 'd';
+}
+
+function getInspectorConversations() {
+  const inspectorData = window.getInspectorData();
+  const conversationsList = inspectorData.conversations || [];
+  
+  return conversationsList.map(conv => {
+    const vehicle = conv.vehicle;
+    return {
+      id: conv.id,
+      vehicleId: conv.vehicleId,
+      vehicleTitle: vehicle ? `${vehicle.brand} ${vehicle.model} ${vehicle.year}` : `Vehículo ${conv.vehicleId}`,
+      vehicleImage: vehicle?.image || 'https://placehold.co/100x100',
+      userName: conv.seller?.name || 'Vendedor',
+      lastMessage: conv.lastMessage,
+      timeAgo: formatTimeAgo(conv.lastMessageTime),
+      unread: conv.unread ? 1 : 0
+    };
+  });
+}
 
 export default {
   async init() {
@@ -17,6 +47,13 @@ export default {
     }
 
     this.setupTabs(tabs, conversationsList, leadsList, empty);
+
+    if (isInspectorMode()) {
+      const conversations = getInspectorConversations.call(this);
+      this.renderConversations(conversations, conversationsList);
+      this.renderLeads(conversations, leadsList);
+      return;
+    }
 
     const messages = useMessages();
 

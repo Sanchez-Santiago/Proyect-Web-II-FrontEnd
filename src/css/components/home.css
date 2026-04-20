@@ -337,13 +337,12 @@
   font-size: 1.1rem;
 }
 
-.home-car-favorite:hover i,
-.home-car-favorite.is-active i {
+.home-car-favorite:hover i {
   color: #f97316;
 }
 
-.home-car-favorite.is-active i::before {
-  content: "\e狐狸";
+.home-car-favorite.is-active i {
+  color: #ef4444;
 }
 
 .home-car-body {

@@ -315,7 +315,7 @@ function createCarCard(car) {
         <span><i class="bi bi-geo-alt"></i> ${car.location}</span>
       </div>
       <div class="home-car-actions">
-        <button type="button" class="home-car-detail-btn" data-navigate="car-detail" data-car-id="${car.id}">Ver detalle</button>
+        <button type="button" class="home-car-detail-btn" data-navigate="vehicles/detail/${car.id}">Ver detalle</button>
         <button type="button" class="home-car-compare-btn" data-action="compare" data-car-id="${car.id}">
           <i class="bi bi-arrow-left-right"></i>
         </button>

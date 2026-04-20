@@ -4,7 +4,7 @@ const Inspector = {
   container: null,
 
   init() {
-    if (!import.meta.env.VITE_INSPECTOR_MODE) return;
+    return; // Inspector deshabilitado en modo simple
 
     this.createContainer();
     this.createToggle();

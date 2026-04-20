@@ -24,25 +24,26 @@
       <div class="home-search">
         <div class="home-search-bar">
           <i class="bi bi-search"></i>
-          <input type="text" placeholder="Buscar por marca, modelo, año..." />
+          <input type="text" id="homeSearchInput" placeholder="Buscar por marca, modelo, año..." />
         </div>
         <div class="home-search-filters">
-          <select class="home-filter-select">
+          <select id="homeFilterBrand" class="home-filter-select">
             <option value="">Marca</option>
             <option value="toyota">Toyota</option>
             <option value="honda">Honda</option>
             <option value="volkswagen">Volkswagen</option>
             <option value="ford">Ford</option>
             <option value="chevrolet">Chevrolet</option>
+            <option value="peugeot">Peugeot</option>
           </select>
-          <select class="home-filter-select">
+          <select id="homeFilterPrice" class="home-filter-select">
             <option value="">Precio</option>
             <option value="hasta-10m">Hasta 10M</option>
             <option value="10m-20m">10M - 20M</option>
             <option value="20m-35m">20M - 35M</option>
             <option value="mas-35m">Más de 35M</option>
           </select>
-          <select class="home-filter-select">
+          <select id="homeFilterYear" class="home-filter-select">
             <option value="">Año</option>
             <option value="2024">2024</option>
             <option value="2023">2023</option>
@@ -50,7 +51,7 @@
             <option value="2021">2021</option>
             <option value="2020">2020</option>
           </select>
-          <button type="button" class="home-search-btn">Buscar</button>
+          <button type="button" id="homeSearchBtn" class="home-search-btn">Buscar</button>
         </div>
       </div>
     </div>
@@ -70,8 +71,8 @@
     <div class="home-cta-content">
       <div class="home-cta-text">
         <h2>¿Querés vender tu auto?</h2>
-        <p>Publicá en DriveRoom y dejá que la IA te ayude a encontrar el mejor comprador, al mejor precio.</p>
-        <button type="button" class="home-cta-btn" data-action="register">Publicar mi auto</button>
+        <p>Publicá en MotorMarket y dejá que la IA te ayude a encontrar el mejor comprador, al mejor precio.</p>
+        <button type="button" class="home-cta-btn" data-navigate="vehicles/add">Publicar mi auto</button>
       </div>
       <div class="home-cta-visual">
         <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Vende tu auto" />
@@ -82,8 +83,8 @@
   <footer class="home-footer">
     <div class="home-footer-content">
       <div class="home-footer-brand">
-        <span>DR</span>
-        <strong>DriveRoom</strong>
+        <span>MM</span>
+        <strong>MotorMarket</strong>
         <p>La plataforma de autos usados con inteligencia artificial.</p>
       </div>
       <div class="home-footer-links">

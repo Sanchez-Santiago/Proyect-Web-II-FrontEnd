@@ -1,10 +1,9 @@
-import { useMessages } from '../../hooks/useMessages.js';
-import { navigateTo } from '../../router.js';
-import state from '../../state.js';
-import { getCarById } from '../../data/cars.js';
+import { useMessages } from '../../../hooks/useMessages.js';
+import { navigateTo } from '../../../js/router.js';
+import state from '../../../js/state.js';
+import { getCarById } from '../../../data/cars.js';
 
 let conversations = [];
-const isInspector = typeof window.getInspectorData === 'function';
 
 function formatTimeAgo(ts) {
   const diff = Date.now() - ts;
@@ -13,21 +12,30 @@ function formatTimeAgo(ts) {
   return Math.floor(diff / 86400000) + 'd';
 }
 
+function isInspectorMode() {
+  return typeof window.getInspectorData === 'function';
+}
+
 function getInspectorConversations() {
+  console.log('[INSPECTOR] getInspectorConversations called');
   const inspectorData = window.getInspectorData();
-  const messages = inspectorData.messages || [];
+  console.log('[INSPECTOR] inspectorData:', inspectorData);
+  const conversationsList = inspectorData.conversations || [];
+  console.log('[INSPECTOR] conversations:', conversationsList);
+  console.log('[INSPECTOR] Conversation count:', conversationsList.length);
   
-  return messages.map(msg => {
-    const car = getCarById(msg.vehicleId);
+  return conversationsList.map(conv => {
+    const vehicle = conv.vehicle || getCarById(conv.vehicleId);
+    const seller = conv.seller || inspectorData.sellers?.find(s => s.id == conv.sellerId);
     return {
-      id: msg.id,
-      vehicleId: msg.vehicleId,
-      vehicleTitle: car ? `${car.brand} ${car.model} ${car.year}` : `Vehículo ${msg.vehicleId}`,
-      vehicleImage: car?.image || 'https://placehold.co/100x100',
-      userName: msg.fromName,
-      lastMessage: msg.lastMessage,
-      timeAgo: formatTimeAgo(msg.timestamp),
-      unread: msg.unread ? 1 : 0,
+      id: conv.id,
+      vehicleId: conv.vehicleId,
+      vehicleTitle: vehicle ? `${vehicle.brand} ${vehicle.model} ${vehicle.year}` : `Vehículo ${conv.vehicleId}`,
+      vehicleImage: vehicle?.image || 'https://placehold.co/100x100',
+      userName: seller?.name || 'Vendedor',
+      lastMessage: conv.lastMessage,
+      timeAgo: formatTimeAgo(conv.lastMessageTime),
+      unread: conv.unread ? 1 : 0,
       isIncoming: true
     };
   });
@@ -45,7 +53,7 @@ export default {
       return;
     }
 
-    if (isInspector) {
+    if (isInspectorMode()) {
       conversations = getInspectorConversations();
     } else {
       const messages = useMessages();
@@ -76,8 +84,9 @@ export default {
         userName: 'Juan Pérez',
         lastMessage: 'Hola, me interesa el auto. ¿Está disponible?',
         timeAgo: '2h',
-        unread: 3,
-        isIncoming: true
+unread: 3,
+        isIncoming: true,
+        isNavigate: 'messages/buyer/chat/1'
       },
       {
         id: 2,
@@ -88,7 +97,8 @@ export default {
         lastMessage: 'Gracias por tu interés, te envío más fotos.',
         timeAgo: '1d',
         unread: 0,
-        isIncoming: true
+        isIncoming: true,
+        isNavigate: `messages/buyer/chat/2`
       }
     ];
   },
@@ -103,7 +113,7 @@ export default {
     convs.forEach(conv => {
       const item = document.createElement('article');
       item.className = 'conversation-item';
-      item.dataset.navigate = `user/buyer/messages/chat/${conv.vehicleId}`;
+      item.dataset.navigate = conv.isNavigate || `messages/buyer/chat/${conv.vehicleId}`;
       
       item.innerHTML = `
         <div class="conversation-avatar">

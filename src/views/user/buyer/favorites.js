@@ -1,7 +1,7 @@
 import { useFavorites } from '../../hooks/useFavorites.js';
 import { getCars } from '../../data/cars.js';
-import { navigateTo } from '../../router.js';
-import state from '../../state.js';
+import { navigateTo } from '../../js/router.js';
+import state from '../../js/state.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 
@@ -76,7 +76,7 @@ export default {
         <div class="favorite-info">
           <h3>${car.brand} ${car.model}</h3>
           <p class="favorite-price">${car.priceFormatted}</p>
-          <button type="button" class="favorite-detail-btn" data-navigate="vehicle/detail/${car.id}">Ver detalle</button>
+          <button type="button" class="favorite-detail-btn" data-navigate="vehicles/detail/${car.id}">Ver detalle</button>
         </div>
       `;
 

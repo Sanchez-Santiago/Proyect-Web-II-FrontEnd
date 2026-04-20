@@ -1,7 +1,7 @@
 import { useVehicles } from '../../hooks/useVehicles.js';
 import { useUpload } from '../../hooks/useUpload.js';
-import { navigateTo } from '../router.js';
-import state from '../state.js';
+import { navigateTo } from '../../js/router.js';
+import state from '../../js/state.js';
 
 export default {
   init() {

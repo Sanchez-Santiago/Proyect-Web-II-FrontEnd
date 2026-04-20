@@ -20,6 +20,7 @@ Plataforma web SPA (Single Page Application) desarrollada para la compra y venta
 - Sistema de búsqueda por marca, precio y año
 - Cards interactivos con información clave de cada vehículo
 - Barra de progreso para el score de IA (en lugar de estrellas)
+- Filtros funcionales:Marca, Precio, Año
 
 ### Sistema de Autenticación
 
@@ -32,17 +33,13 @@ Plataforma web SPA (Single Page Application) desarrollada para la compra y venta
 
 Permite probar la interfaz sin necesidad de un backend:
 
-- Sesión automática iniciada como "Inspector User"
+- Sesión automática iniciada como "Usuario Inspector"
 - 6 vehículos hardcodeados disponibles
-- 3 favoritos guardados
-- 2 conversaciones de mensajes
-- 3 notificaciones
+- 5 conversaciones de mensajes simuladas
+- 5 notificaciones
 - Switch de rol (comprador/vendedor)
 
-Para activar/desactivar, editar `.env`:
-```
-VITE_INSPECTOR_MODE=true
-```
+El Inspector Mode está siempre activo en desarrollo.
 
 ### Roles de Usuario
 
@@ -67,7 +64,7 @@ src/
 ├── js/
 │   ├── router.js         # Sistema de routing SPA
 │   ├── state.js          # Estado global de la aplicación
-│   └── app.js           # Lógica principal legacy
+│   └── inspector.js      # Herramientas de inspección (deshabilitado)
 ├── hooks/               # Hooks de API
 │   ├── useApi.js
 │   ├── useAuth.js
@@ -76,7 +73,8 @@ src/
 │   ├── useMessages.js
 │   └── useUpload.js
 ├── data/
-│   └── cars.js          # Datos de vehículos
+│   ├── cars.js          # Datos de vehículos
+│   └── inspector-data.js # Datos simulados para Inspector Mode
 └── views/               # Plantillas HTML organizadas
     ├── home/            # Página principal
     ├── auth/            # Login, register, role
@@ -86,7 +84,7 @@ src/
     │   └── seller/      # Menu, profile
     ├── messages/
     │   ├── buyer/      # List, chat
-    │   └── seller/      # List, chat
+    │   └── seller/     # List, chat
     └── admin/           # Menu admin
 ```
 
@@ -94,63 +92,23 @@ src/
 
 ### Prerrequisitos
 
-- Node.js instalado
 - Navegador web moderno (Chrome, Firefox, Edge, Safari)
+- Servidor HTTP local (Python, PHP, etc.)
 
-###Instalación
-
-```bash
-npm install
-```
-
-###Ejecución
+### Ejecución con Python
 
 ```bash
-npm run dev
+# En la raíz del proyecto
+python3 -m http.server 8000
 ```
 
 Luego abrir en el navegador: `http://127.0.0.1:8000`
 
-### Variables de Entorno
+### Ejecución con PHP
 
-Crear archivo `.env` basado en `.env.example`:
-
+```bash
+php -S 127.0.0.1:8000
 ```
-VITE_API_BASE_URL=http://localhost:3000/api
-VITE_INSPECTOR_MODE=false
-```
-
-## Cómo Usar la Aplicación
-
-###Inspector Mode (Desarrollo)
-
-Con `VITE_INSPECTOR_MODE=true`:
-
-1. La sesión se inicia automáticamente
-2. Header muestra "Inspector User" con badge de notificaciones
-3. Botón de campana para ver notificaciones
-4. Botón de corazón para favoritos
-5. Click en notificaciónabre el chat
-
-###Flujo Básico (Sin Inspector Mode)
-
-**1. Explorar vehículos (sin login)**
-
-Al abrir la app, verás el Home con vehículos destacados. Puedes:
-- Ver todos los autos en el listado
-- Usar los filtros de búsqueda (marca, precio, año)
-- Click en "Ver detalle" para ver información completa
-
-**2. Crear cuenta / Ingresar**
-
-- Click en "Iniciar sesión" o "Crear cuenta"
-- Completar formulario de registro/login
-- Elegir rol (comprador/vendedor)
-
-**3. Perfil y Dashboard**
-
-- Completar el perfil correspondiente
-- Acceder al dashboard con herramientas específicas del rol
 
 ## Rutas Disponibles
 
@@ -164,8 +122,42 @@ Al abrir la app, verás el Home con vehículos destacados. Puedes:
 | `#user/buyer/menu` | Dashboard comprador | Sí |
 | `#user/buyer/favorites` | Favoritos comprador | Sí |
 | `#messages/buyer` | Mensajes comprador | Sí |
+| `#messages/buyer/chat/{id}` | Chat comprador | Sí |
 | `#user/seller/menu` | Dashboard vendedor | Sí |
 | `#admin/menu` | Dashboard admin | Sí (admin) |
+
+## Cómo Usar la Aplicación
+
+###Inspector Mode (Desarrollo)
+
+1. La sesión se inicia automáticamente como "Usuario Inspector"
+2. Puedes ver los 6 vehículos en el home
+3. Usa los filtros de búsqueda para encontrar vehículos
+4. Click en "Ver detalle" para ver información completa
+5. Click en "Contactar" para abrir el chat
+6. Click en "Favoritos" para guardar vehículos
+7. Navega a "Mensajes" para ver conversaciones simuladas
+
+### Flujo Básico
+
+**1. Explorar vehículos (sin login)**
+
+Al abrir la app, verás el Home con vehículos destacados. Puedes:
+- Ver todos los autos en el listado
+- Usar los filtros de búsqueda (marca, precio, año)
+- Escribir en el campo de búsqueda texto libre
+- Click en "Ver detalle" para ver información completa
+
+**2. Crear cuenta / Ingresar**
+
+- Click en "Iniciar sesión" o "Crear cuenta"
+- Completar formulario de registro/login
+- Elegir rol (comprador/vendedor)
+
+**3. Perfil y Dashboard**
+
+- Completar el perfil correspondiente
+- Acceder al dashboard con herramientas específicas del rol
 
 ## Agregar Más Vehículos
 
@@ -184,14 +176,19 @@ Para agregar un nuevo vehículo:
   mileage: 15000,
   mileageFormatted: '15.000 km',
   transmission: 'Automática',
-  fuel: 'Diiesel',
+  fuel: 'Diésel',
   location: 'Córdoba',
   image: 'URL_DE_LA_IMAGEN',
+  images: ['URL1', 'URL2'],
   score: 94,
   interiorCondition: 4,
   paintCondition: 4,
   tiresCondition: 4,
   dashboardCondition: 4,
+  description: 'Descripción del vehículo',
+  lastServiceDate: '2024-01-01',
+  lastOilChange: '2024-01-01',
+  accidents: 'Ninguno',
   seller: {
     name: 'Nombre del vendedor',
     type: 'particular',
@@ -232,14 +229,16 @@ Los colores están definidos en `src/css/components/base.css`:
 2. Usar Ctrl+Shift+R para hard refresh
 3. Verificar la consola del navegador (F12) para errores
 
-### Inspector Mode no funciona
+### Error de MIME type
 
-1. Verificar que `.env` tenga `VITE_INSPECTOR_MODE=true`
-2. Verificar la consola para errores de JavaScript
+Si ves errores como " disallowed MIME type", verifica que:
+- Las rutas de import sean correctas (deben terminar en `.js`)
+- Los archivos existan en las rutas especificadas
 
-### Error "CORS" al cargar vistas
+### Inspector Mode no carga datos
 
-Este proyecto funciona mejor con un servidor HTTP local.
+1. Verificar la consola para `[INSPECTOR]` logs
+2. Verificar que `window.getInspectorData()` esté definido
 
 ## Notas Técnicas
 
@@ -250,8 +249,8 @@ Este proyecto funciona mejor con un servidor HTTP local.
 
 ### Persistencia de Datos
 
-- Sesión de usuario en localStorage (`driveroom_session`)
-- Inspector session en localStorage (`driveroom_inspector_session`)
+- Sesión de usuario en localStorage (`motormarket_session`)
+- Inspector session en localStorage (`motormarket_inspector_session`)
 - Datos de vehículos en `src/data/cars.js`
 
 ### Navegación
@@ -259,6 +258,7 @@ Este proyecto funciona mejor con un servidor HTTP local.
 - SPA con hash routing
 - Sin recarga de página
 - Transiciones suaves entre vistas
+- Botones "Volver" usan `window.history.back()`
 
 ## Autores y Créditos
 
