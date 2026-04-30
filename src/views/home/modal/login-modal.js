@@ -5,7 +5,7 @@ let isInitialized = false;
 
 function resolveUserRole(email) {
   const normalizedEmail = email.toLowerCase();
-  if (normalizedEmail === 'admin@driveroom.com' || normalizedEmail.includes('admin')) {
+  if (normalizedEmail === 'admin@motormarket.com' || normalizedEmail.includes('admin')) {
     return 'admin';
   }
   return 'user';

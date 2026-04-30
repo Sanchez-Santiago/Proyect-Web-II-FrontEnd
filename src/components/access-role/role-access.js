@@ -1,5 +1,5 @@
 (function () {
-  const STORAGE_KEY = 'driveroom_session';
+  const STORAGE_KEY = 'motormarket_session';
   const grid = document.getElementById('roleAccessGrid');
   const welcome = document.getElementById('roleAccessWelcome');
 

@@ -1,7 +1,8 @@
 const API_BASE_URL = '/api';
+const INSPECTOR_MODE = true;
 
 function getAuthHeaders() {
-  const sessionRaw = localStorage.getItem('driveroom_session');
+  const sessionRaw = localStorage.getItem('motormarket_session');
   if (!sessionRaw) return {};
 
   try {
@@ -32,10 +33,23 @@ function createApiState() {
   };
 }
 
+// Mock response helper for inspector mode
+function createMockState(data) {
+  const state = createApiState();
+  state.setLoading(false);
+  state.setData(data);
+  return state;
+}
+
 async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
   const state = createApiState();
   state.setLoading(true);
   state.setError(null);
+
+  // Inspector mode: simulate API responses with mock data
+  if (INSPECTOR_MODE) {
+    return handleInspectorRequest(method, endpoint, body, state);
+  }
 
   try {
     const options = {
@@ -79,6 +93,116 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
   }
 
   return state;
+}
+
+async function handleInspectorRequest(method, endpoint, body, state) {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 200));
+
+  try {
+    // Import inspector data dynamically
+    const { getInspectorData } = await import('../data/inspector-data.js');
+    const data = getInspectorData();
+
+    // Parse endpoint to route to appropriate mock data
+    if (endpoint.startsWith('/auth')) {
+      handleAuthMock(method, endpoint, body, data, state);
+    } else if (endpoint.startsWith('/vehicles')) {
+      handleVehiclesMock(method, endpoint, body, data, state);
+    } else if (endpoint.startsWith('/conversations')) {
+      handleConversationsMock(method, endpoint, body, data, state);
+    } else if (endpoint.startsWith('/favorites')) {
+      handleFavoritesMock(method, endpoint, body, data, state);
+    } else {
+      state.setData({ success: true });
+    }
+  } catch (err) {
+    state.setError(err.message);
+    throw new ApiError(0, err.message);
+  } finally {
+    state.setLoading(false);
+  }
+
+  return state;
+}
+
+function handleAuthMock(method, endpoint, body, data, state) {
+  if (endpoint === '/auth/login' && method === 'POST') {
+    state.setData({ ...data.session, token: 'inspector-token-123' });
+  } else if (endpoint === '/auth/register' && method === 'POST') {
+    state.setData({ ...data.session, token: 'inspector-token-123' });
+  } else if (endpoint === '/auth/me' && method === 'GET') {
+    state.setData(data.session);
+  } else if (endpoint === '/auth/logout' && method === 'POST') {
+    state.setData({ success: true });
+  } else {
+    state.setData(data.session);
+  }
+}
+
+function handleVehiclesMock(method, endpoint, body, data, state) {
+  if (method === 'GET') {
+    if (endpoint === '/vehicles' || endpoint === '/vehicles/') {
+      state.setData(data.vehicles);
+    } else {
+      const matches = endpoint.match(/\/vehicles\/(\d+)/);
+      if (matches) {
+        const vehicle = data.vehicles.find(v => v.id == matches[1]);
+        state.setData(vehicle || null);
+      } else {
+        state.setData(data.vehicles);
+      }
+    }
+  } else if (method === 'POST' && endpoint === '/vehicles') {
+    const newVehicle = { ...body, id: data.vehicles.length + 1 };
+    data.vehicles.push(newVehicle);
+    state.setData(newVehicle);
+  } else if (method === 'PUT') {
+    const matches = endpoint.match(/\/vehicles\/(\d+)/);
+    if (matches) {
+      const idx = data.vehicles.findIndex(v => v.id == matches[1]);
+      if (idx !== -1) {
+        data.vehicles[idx] = { ...data.vehicles[idx], ...body };
+        state.setData(data.vehicles[idx]);
+      }
+    }
+  } else if (method === 'DELETE') {
+    const matches = endpoint.match(/\/vehicles\/(\d+)/);
+    if (matches) {
+      const idx = data.vehicles.findIndex(v => v.id == matches[1]);
+      if (idx !== -1) {
+        data.vehicles.splice(idx, 1);
+        state.setData({ success: true });
+      }
+    }
+  }
+}
+
+function handleConversationsMock(method, endpoint, body, data, state) {
+  if (method === 'GET') {
+    state.setData(data.conversations);
+  } else if (method === 'POST') {
+    const newConversation = { ...body, id: data.conversations.length + 1 };
+    data.conversations.push(newConversation);
+    state.setData(newConversation);
+  }
+}
+
+function handleFavoritesMock(method, endpoint, body, data, state) {
+  if (method === 'GET') {
+    state.setData(data.favorites);
+  } else if (method === 'POST') {
+    if (!data.favorites.includes(body.vehicleId)) {
+      data.favorites.push(body.vehicleId);
+    }
+    state.setData(data.favorites);
+  } else if (method === 'DELETE') {
+    const idx = data.favorites.indexOf(body.vehicleId);
+    if (idx !== -1) {
+      data.favorites.splice(idx, 1);
+    }
+    state.setData(data.favorites);
+  }
 }
 
 class ApiError extends Error {

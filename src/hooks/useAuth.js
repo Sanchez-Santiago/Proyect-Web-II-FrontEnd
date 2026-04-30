@@ -1,6 +1,6 @@
 import { useApi, ApiError } from './useApi.js';
 
-const STORAGE_KEY = 'driveroom_session';
+const STORAGE_KEY = 'motormarket_session';
 
 function getSession() {
   try {

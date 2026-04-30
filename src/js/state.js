@@ -1,4 +1,4 @@
-const STORAGE_KEY = 'driveroom_session';
+const STORAGE_KEY = 'motormarket_session';
 
 const state = {
   session: null,
