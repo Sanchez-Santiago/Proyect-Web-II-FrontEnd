@@ -50,10 +50,44 @@
   margin: 0;
 }
 
-.messages-list, .seller-conversations-list {
+.messages-list, .seller-conversations-list, .conversations-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.leads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.messages-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.messages-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.messages-tab:hover {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.messages-tab.active {
+  background: var(--orange-soft);
+  color: var(--orange);
+  border-color: rgba(249, 115, 22, 0.3);
 }
 
 /* Conversation Items */

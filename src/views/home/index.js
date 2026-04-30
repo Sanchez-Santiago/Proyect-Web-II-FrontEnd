@@ -283,25 +283,7 @@ export default {
         
         html += '</div></div>';
         
-        const style = document.createElement('style');
-        style.id = 'notification-styles';
-        style.textContent = `
-          .notification-panel { position:fixed;top:60px;right:10px;width:320px;max-height:450px;background:#fff;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.15);z-index:99999;overflow:hidden; }
-          .notification-header { display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid #e5e7eb; }
-          .notification-header h4 { margin:0;font-size:16px;font-weight:600;color:#111; }
-          .notification-close { background:none;border:none;cursor:pointer;color:#6b7280;font-size:18px; }
-          .notification-close:hover { color:#111; }
-          .notification-list { max-height:380px;overflow-y:auto; }
-          .notification-item { display:flex;gap:12px;padding:14px;border-left:3px solid #e5e7eb;background:#f9fafb;border-radius:0 8px 8px 0;margin:8px 12px;transition:all 0.2s; }
-          .notification-item:hover { background:#f3f4f6; }
-          .notification-icon { font-size:18px; }
-          .notification-content { flex:1; }
-          .notification-title { font-size:12px;font-weight:600;color:#111; }
-          .notification-message { font-size:11px;color:#444;margin:2px 0; }
-          .notification-time { font-size:10px;color:#9ca3af; }
-          .notification-empty { padding:24px;text-align:center;color:#6b7280;font-size:13px; }
-        `;
-        document.head.appendChild(style);
+        // Styles are now in src/css/components/notification-panel.css
         
         const panel = document.createElement('div');
         panel.id = 'inspector-notifications-panel';
