@@ -1,12 +1,206 @@
-<div class="menu-page">
-  <div class="menu-layout">
-    <aside class="menu-sidebar">
-<div class="menu-brand">
-          <span>MM</span>
-          <div>
-            <strong>MotorMarket</strong>
-            <small>AI Seller Console</small>
+<div class="menu-seller-page">
+  <div class="menu-seller-layout">
+    <aside class="menu-seller-sidebar">
+      <div class="menu-seller-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Seller Console</small>
+        </div>
+      </div>
+      
+      <nav class="menu-seller-nav">
+        <a class="is-active" href="#" data-navigate="home">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Home</strong>
+            <small>Volver al inicio</small>
+          </span>
+        </a>
+        <a href="#user/seller/publications" data-navigate="user/seller/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Mis publicaciones</strong>
+            <small>Gestiona tus avisos</small>
+          </span>
+        </a>
+        <a href="#vehicles/add" data-navigate="vehicles/add">
+          <i class="bi bi-plus-square-fill"></i>
+          <span>
+            <strong>Crear publicacion</strong>
+            <small>Carga asistida por IA</small>
+          </span>
+        </a>
+        <a href="#messages/seller" data-navigate="messages/seller">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
+          </span>
+        </a>
+        <a href="#admin/analytics" data-navigate="admin/analytics">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>
+            <strong>Analityicas</strong>
+            <small>Performance y datos</small>
+          </span>
+        </a>
+        <a href="#user/seller/sales" data-navigate="user/seller/sales">
+          <i class="bi bi-cash-stack"></i>
+          <span>
+            <strong>Ventas</strong>
+            <small>Historial y pipeline</small>
+          </span>
+        </a>
+        <a href="#user/seller/insights" data-navigate="user/seller/insights">
+          <i class="bi bi-stars"></i>
+          <span>
+            <strong>Insights IA</strong>
+            <small>Recomendaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/profile" data-navigate="user/seller/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-seller-sidebar-note">
+        <span>Radar comercial</span>
+        <strong>11 leads calientes</strong>
+        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-seller-main">
+      <header class="menu-seller-topbar">
+        <div>
+          <nav class="menu-seller-workspace-switch" aria-label="Cambiar menu" style="opacity:0.5;pointer-events:none;">
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+          </nav>
+          <span class="menu-seller-kicker">Inicio</span>
+          <h1>Tu proxima venta no se improvisa. Se optimiza con IA.</h1>
+        </div>
+        <div class="menu-seller-top-actions">
+          <button type="button" class="menu-seller-ghost-btn">Ver leads</button>
+          <button type="button" class="menu-seller-primary-btn" data-navigate="vehicles/add">Publicar con IA</button>
+        </div>
+      </header>
+      
+      <section class="menu-seller-hero">
+        <article class="menu-seller-hero-card">
+          <div class="menu-seller-hero-copy">
+            <span class="menu-seller-chip">Unidad destacada</span>
+            <h2>Chevrolet Cruze LT 2018</h2>
+            <p>La publicacion tiene demanda real. Ajustando precio, portada y enfoque comercial puede cerrar mucho antes.</p>
+            <div class="menu-seller-hero-actions">
+              <button type="button" class="menu-seller-primary-btn" data-navigate="vehicles/add">Publicar vehiculo</button>
+            </div>
           </div>
+          
+          <div class="menu-seller-hero-visual">
+            <img
+              src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+              alt="Chevrolet Cruze destacado"
+            />
+            <div class="menu-seller-score">
+              <strong>74</strong>
+              <span>Score IA</span>
+            </div>
+          </div>
+        </article>
+        
+        <aside class="menu-seller-ai-panel">
+          <span class="menu-seller-chip">Copiloto IA</span>
+          <h3>Esto haria ahora</h3>
+          <blockquote>
+            "Baja 5% el precio y cambia la foto principal. Con eso tu probabilidad de cierre sube fuerte en 72 horas."
+          </blockquote>
+          <div class="menu-seller-ai-metrics">
+            <div>
+              <span>Tiempo de venta</span>
+              <strong>72 hs</strong>
+            </div>
+            <div>
+              <span>Accion clave</span>
+              <strong>Bajar 5%</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+      
+      <section class="menu-seller-car-grid">
+        <article class="menu-seller-car-card">
+          <img
+            src="https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1200&q=80"
+            alt="Volkswagen Amarok"
+          />
+          <div class="menu-seller-car-body">
+            <div class="menu-seller-car-head">
+              <div>
+                <h3>Volkswagen Amarok 2020</h3>
+                <p>$24.900.000</p>
+              </div>
+              <span class="menu-seller-car-score">88%</span>
+            </div>
+            <div class="menu-seller-car-meta">
+              <span><i class="bi bi-eye-fill"></i> 1.284 vistas</span>
+              <span><i class="bi bi-chat-left-dots-fill"></i> 17 consultas</span>
+            </div>
+            <div class="menu-seller-car-actions">
+              <button type="button" class="menu-seller-ghost-btn">Ver</button>
+              <button type="button" class="menu-seller-primary-btn">Optimizar</button>
+            </div>
+          </div>
+        </article>
+        
+        <article class="menu-seller-car-card">
+          <img
+            src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
+            alt="Peugeot 208"
+          />
+          <div class="menu-seller-car-body">
+            <div class="menu-seller-car-head">
+              <div>
+                <h3>Peugeot 208 2022</h3>
+                <p>$16.300.000</p>
+              </div>
+              <span class="menu-seller-car-score">91%</span>
+            </div>
+            <div class="menu-seller-car-meta">
+              <span><i class="bi bi-eye-fill"></i> 2.019 vistas</span>
+              <span><i class="bi bi-chat-left-dots-fill"></i> 26 consultas</span>
+            </div>
+            <div class="menu-seller-car-actions">
+              <button type="button" class="menu-seller-ghost-btn">Ver</button>
+              <button type="button" class="menu-seller-primary-btn">Responder</button>
+            </div>
+          </div>
+        </article>
+        
+        <article class="menu-seller-chat-card">
+          <div class="menu-seller-chat-head">
+            <span class="menu-seller-chip">Asistente IA</span>
+            <strong>Cierre rapido</strong>
+          </div>
+          <div class="menu-seller-chat-bubble is-ai">
+            Este comprador tiene alta intencion. Responde con financiacion y disponibilidad para visita.
+          </div>
+          <div class="menu-seller-chat-bubble is-user">
+            Redactame una respuesta para un lead serio.
+          </div>
+          <div class="menu-seller-chat-input">
+            <input type="text" value="Genera una respuesta comercial clara y breve." readonly />
+            <button type="button"><i class="bi bi-arrow-up-right"></i></button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
         </div>
 
       <nav class="menu-nav">

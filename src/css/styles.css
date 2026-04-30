@@ -10,3 +10,21 @@
 @import './components/profile.css';
 @import './components/messages.css';
 @import './components/investment-advisor.css';
+
+/* Componentes en src/components/*/ */
+@import '../components/access-role/role-access.css';
+@import '../components/assistant-buyer/assistant-buyer.css';
+@import '../components/comparator-buyer/comparator-buyer.css';
+@import '../components/favorites-buyer/favorites-buyer.css';
+@import '../components/menu-admin/menu-admin.css';
+@import '../components/menu-buyer/menu-buyer.css';
+@import '../components/menu-seller/menu-seller.css';
+@import '../components/profile-buyer/profile-buyer.css';
+@import '../components/profile-seller/profile-seller.css';
+@import '../components/search-buyer/search-buyer.css';
+@import '../components/simulator-buyer/simulator-buyer.css';
+
+/* Nuevos componentes */
+@import './components/publications.css';
+@import './components/sales.css';
+@import './components/admin-workspace.css';
