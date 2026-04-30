@@ -11,18 +11,18 @@
 @import './components/messages.css';
 @import './components/investment-advisor.css';
 
-/* Componentes en src/components/*/ */
-@import '../components/access-role/role-access.css';
-@import '../components/assistant-buyer/assistant-buyer.css';
-@import '../components/comparator-buyer/comparator-buyer.css';
-@import '../components/favorites-buyer/favorites-buyer.css';
-@import '../components/menu-admin/menu-admin.css';
-@import '../components/menu-buyer/menu-buyer.css';
-@import '../components/menu-seller/menu-seller.css';
-@import '../components/profile-buyer/profile-buyer.css';
-@import '../components/profile-seller/profile-seller.css';
-@import '../components/search-buyer/search-buyer.css';
-@import '../components/simulator-buyer/simulator-buyer.css';
+/* Componentes en src/css/components/ */
+@import './components/role-access.css';
+@import './components/assistant-buyer.css';
+@import './components/comparator-buyer.css';
+@import './components/favorites-buyer.css';
+@import './components/menu-admin.css';
+@import './components/menu-buyer.css';
+@import './components/menu-seller.css';
+@import './components/profile-buyer.css';
+@import './components/profile-seller.css';
+@import './components/search-buyer.css';
+@import './components/simulator-buyer.css';
 
 /* Nuevos componentes */
 @import './components/publications.css';

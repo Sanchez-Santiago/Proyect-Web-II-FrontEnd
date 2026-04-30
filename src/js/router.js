@@ -62,7 +62,7 @@ const routes = {
   
   'user/buyer/menu': { template: 'src/views/user/buyer/menu-buyer.html', script: 'src/views/user/buyer/menu-buyer.js', title: 'Menu comprador | MotorMarket' },
   'user/buyer/profile': { template: 'src/views/user/buyer/profile-buyer.html', script: 'src/views/user/buyer/profile-buyer.js', title: 'Gestionar perfil comprador | MotorMarket' },
-  'user/buyer/favorites': { template: 'src/components/favorites-buyer/index.html', script: 'src/components/favorites-buyer/favorites-buyer.js', title: 'Favoritos | MotorMarket' },
+  'user/buyer/favorites': { template: 'src/views/user/buyer/favorites.html', script: 'src/views/user/buyer/favorites.js', title: 'Favoritos | MotorMarket' },
   'user/buyer/investment-advisor': { template: 'src/views/user/buyer/investment-advisor.html', script: 'src/views/user/buyer/investment-advisor.js', title: 'Insights IA | MotorMarket' },
   
   'messages/buyer': { template: 'src/views/messages/buyer/list.html', script: 'src/views/messages/buyer/list.js', title: 'Mensajes | MotorMarket' },
