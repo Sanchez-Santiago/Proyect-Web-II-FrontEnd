@@ -1,7 +1,7 @@
 <section class="favorites-view">
   <div class="favorites-shell container">
     <div class="favorites-header">
-      <button type="button" class="favorites-back" onclick="window.history.back()">
+      <button type="button" class="favorites-back" data-navigate="user/buyer/menu">
         <i class="bi bi-arrow-left"></i>
         Volver
       </button>
@@ -12,6 +12,59 @@
     </div>
 
     <div class="favorites-grid" id="favoritesGrid">
+      <article class="favorite-card" data-favorite-card>
+        <div class="favorite-img">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=600&q=80" alt="Toyota Corolla" />
+          <button type="button" class="favorite-remove" data-remove-btn>Quitar</button>
+        </div>
+        <div class="favorite-body">
+          <h3>Toyota Corolla XEi 2021</h3>
+          <p class="favorite-price">$18.700.000</p>
+          <div class="favorite-meta">
+            <span><i class="bi bi-speedometer2"></i> 45.000 km</span>
+            <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+          </div>
+          <button type="button" class="favorite-detail-btn" data-navigate="vehicles/detail/1">Ver detalle</button>
+        </div>
+      </article>
+
+      <article class="favorite-card" data-favorite-card>
+        <div class="favorite-img">
+          <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=600&q=80" alt="Honda Civic" />
+          <button type="button" class="favorite-remove" data-remove-btn>Quitar</button>
+        </div>
+        <div class="favorite-body">
+          <h3>Honda Civic EXL 2020</h3>
+          <p class="favorite-price">$17.200.000</p>
+          <div class="favorite-meta">
+            <span><i class="bi bi-speedometer2"></i> 63.000 km</span>
+            <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+          </div>
+          <button type="button" class="favorite-detail-btn" data-navigate="vehicles/detail/2">Ver detalle</button>
+        </div>
+      </article>
+
+      <article class="favorite-card" data-favorite-card>
+        <div class="favorite-img">
+          <img src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=600&q=80" alt="Volkswagen Polo" />
+          <button type="button" class="favorite-remove" data-remove-btn>Quitar</button>
+        </div>
+        <div class="favorite-body">
+          <h3>Volkswagen Polo 2022</h3>
+          <p class="favorite-price">$14.800.000</p>
+          <div class="favorite-meta">
+            <span><i class="bi bi-speedometer2"></i> 28.000 km</span>
+            <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+          </div>
+          <button type="button" class="favorite-detail-btn" data-navigate="vehicles/detail/5">Ver detalle</button>
+        </div>
+      </article>
+    </div>
+
+    <div class="favorites-sidebar-note">
+      <span>Resumen</span>
+      <strong id="favoritesCount">3 unidades</strong>
+      <p id="favoritesInsight">Sigues teniendo una shortlist útil para comparar con criterio.</p>
     </div>
 
     <div class="favorites-empty" id="favoritesEmpty" hidden>

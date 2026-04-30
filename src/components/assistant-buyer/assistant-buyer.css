@@ -1,0 +1,334 @@
+:root {
+  --text: #f8fafc;
+  --muted: rgba(248, 250, 252, 0.68);
+  --line: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top center, rgba(249, 115, 22, 0.18), transparent 22%),
+    linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+  color: var(--text);
+}
+
+.assistant-buyer-page {
+  min-height: 100svh;
+  padding: 0.85rem;
+}
+
+.assistant-buyer-layout {
+  min-height: calc(100svh - 1.7rem);
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.assistant-buyer-sidebar,
+.assistant-buyer-insight-card,
+.assistant-buyer-prompts-card,
+.assistant-buyer-chat-card,
+.assistant-buyer-summary-card,
+.assistant-buyer-sidebar-note {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.assistant-buyer-sidebar {
+  padding: 0.9rem;
+  border-radius: 28px;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.assistant-buyer-brand,
+.assistant-buyer-nav a,
+.assistant-buyer-sidebar-note,
+.assistant-buyer-insight-card,
+.assistant-buyer-prompts-card,
+.assistant-buyer-chat-card,
+.assistant-buyer-summary-card {
+  border-radius: 24px;
+}
+
+.assistant-buyer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.05rem 0.1rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.assistant-buyer-brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.assistant-buyer-brand strong,
+.assistant-buyer-nav a strong,
+.assistant-buyer-topbar h1,
+.assistant-buyer-insight-card h2,
+.assistant-buyer-chat-head strong,
+.assistant-buyer-summary-card strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.assistant-buyer-brand strong {
+  color: #fff;
+}
+
+.assistant-buyer-nav {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.assistant-buyer-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 0.8rem;
+  padding: 0.78rem 0.88rem;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.assistant-buyer-nav a.is-active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
+  border-color: rgba(249, 115, 22, 0.16);
+}
+
+.assistant-buyer-nav a.is-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 16%;
+  width: 2px;
+  height: 64%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffb37d 0%, #f97316 100%);
+}
+
+.assistant-buyer-nav a i {
+  color: rgba(255, 212, 178, 0.92);
+}
+
+.assistant-buyer-nav a small,
+.assistant-buyer-sidebar-note p,
+.assistant-buyer-insight-card p,
+.assistant-buyer-summary-card p,
+.assistant-buyer-chat-head small {
+  color: var(--muted);
+}
+
+.assistant-buyer-sidebar-note,
+.assistant-buyer-insight-card,
+.assistant-buyer-prompts-card,
+.assistant-buyer-chat-card,
+.assistant-buyer-summary-card {
+  padding: 1rem;
+}
+
+.assistant-buyer-sidebar-note strong {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.assistant-buyer-main {
+  min-width: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.assistant-buyer-topbar,
+.assistant-buyer-top-actions,
+.assistant-buyer-metrics,
+.assistant-buyer-chat-head,
+.assistant-buyer-composer {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.assistant-buyer-topbar {
+  justify-content: space-between;
+  align-items: end;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.assistant-buyer-workspace-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.assistant-buyer-workspace-switch a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.assistant-buyer-workspace-switch a.is-current {
+  color: #111;
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+}
+
+.assistant-buyer-kicker,
+.assistant-buyer-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(249, 115, 22, 0.1);
+  color: #ffb37d;
+}
+
+.assistant-buyer-topbar h1 {
+  margin: 0.6rem 0 0;
+  max-width: 13ch;
+  font-size: clamp(1.95rem, 3.2vw, 3.45rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.assistant-buyer-primary-btn,
+.assistant-buyer-ghost-btn,
+.assistant-buyer-prompt-btn {
+  border-radius: 16px;
+  min-height: 42px;
+  padding: 0 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.assistant-buyer-primary-btn {
+  border: 0;
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+}
+
+.assistant-buyer-ghost-btn,
+.assistant-buyer-prompt-btn {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.assistant-buyer-hero,
+.assistant-buyer-chat-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.8fr);
+  gap: 0.85rem;
+}
+
+.assistant-buyer-metrics {
+  flex-wrap: wrap;
+}
+
+.assistant-buyer-metrics div {
+  flex: 1 1 150px;
+  padding: 0.8rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.assistant-buyer-metrics span {
+  color: var(--muted);
+  display: block;
+}
+
+.assistant-buyer-prompt-btn {
+  width: 100%;
+  text-align: left;
+  margin-top: 0.7rem;
+}
+
+.assistant-buyer-chat-card,
+.assistant-buyer-side-stack {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.assistant-buyer-chat-head {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assistant-buyer-messages {
+  min-height: 320px;
+  display: grid;
+  align-content: start;
+  gap: 0.7rem;
+}
+
+.assistant-buyer-message {
+  max-width: 78%;
+  padding: 0.85rem 0.95rem;
+  border-radius: 18px;
+  line-height: 1.55;
+}
+
+.assistant-buyer-message.is-ai {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.assistant-buyer-message.is-user {
+  justify-self: end;
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.16);
+}
+
+.assistant-buyer-composer .form-control {
+  min-height: 48px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.assistant-buyer-composer .form-control::placeholder {
+  color: rgba(248, 250, 252, 0.42);
+}
+
+@media (max-width: 1200px) {
+  .assistant-buyer-layout,
+  .assistant-buyer-hero,
+  .assistant-buyer-chat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .assistant-buyer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .assistant-buyer-topbar,
+  .assistant-buyer-top-actions,
+  .assistant-buyer-composer,
+  .assistant-buyer-chat-head {
+    flex-direction: column;
+  }
+}

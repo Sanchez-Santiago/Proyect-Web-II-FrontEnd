@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="./search-buyer.css" />
+    <title>Buscar autos | DriveRoom</title>
+  </head>
+  <body>
+    <div class="search-buyer-page">
+      <div class="search-buyer-layout">
+        <aside class="search-buyer-sidebar">
+          <div class="search-buyer-brand">
+            <span>DR</span>
+            <div>
+              <strong>DriveRoom</strong>
+              <small>AI Buyer Console</small>
+            </div>
+          </div>
+
+          <nav class="search-buyer-nav">
+            <a href="../menu-buyer/index.html">
+              <i class="bi bi-house-door-fill"></i>
+              <span>
+                <strong>Inicio</strong>
+                <small>Match y decisiones</small>
+              </span>
+            </a>
+            <a class="is-active" href="../search-buyer/index.html">
+              <i class="bi bi-search"></i>
+              <span>
+                <strong>Buscar autos</strong>
+                <small>Lenguaje natural</small>
+              </span>
+            </a>
+            <a href="../assistant-buyer/index.html">
+              <i class="bi bi-stars"></i>
+              <span>
+                <strong>Asistente IA</strong>
+                <small>Analisis y sugerencias</small>
+              </span>
+            </a>
+            <a href="../favorites-buyer/index.html">
+              <i class="bi bi-heart-fill"></i>
+              <span>
+                <strong>Favoritos</strong>
+                <small>Seguimiento inteligente</small>
+              </span>
+            </a>
+            <a href="../comparator-buyer/index.html">
+              <i class="bi bi-layout-text-window-reverse"></i>
+              <span>
+                <strong>Comparador</strong>
+                <small>Pros, contras y score</small>
+              </span>
+            </a>
+            <a href="../simulator-buyer/index.html">
+              <i class="bi bi-cash-coin"></i>
+              <span>
+                <strong>Simulador</strong>
+                <small>Costo real mensual</small>
+              </span>
+            </a>
+          </nav>
+
+          <div class="search-buyer-sidebar-note">
+            <span>Busquedas activas</span>
+            <strong id="searchSidebarCount">24 resultados</strong>
+            <p id="searchSidebarMessage">Tu configuracion actual esta priorizando sedanes y SUVs 2020 en adelante.</p>
+          </div>
+        </aside>
+
+        <main class="search-buyer-main">
+          <header class="search-buyer-topbar">
+            <div>
+              <nav class="search-buyer-workspace-switch" aria-label="Cambiar menu">
+                <a class="is-current" href="../menu-buyer/index.html">Comprador</a>
+                <a href="../menu-seller/index.html">Vendedor</a>
+                <a href="../users-admin/index.html">Admin</a>
+              </nav>
+              <span class="search-buyer-kicker">Buscar autos</span>
+              <h1>Busca con filtros concretos o escribe como le hablarías a un asesor.</h1>
+            </div>
+            <div class="search-buyer-top-actions">
+              <button type="button" class="search-buyer-ghost-btn">Guardar busqueda</button>
+              <button type="button" class="search-buyer-primary-btn" id="runBuyerSearch">
+                Ejecutar busqueda
+              </button>
+            </div>
+          </header>
+
+          <section class="search-buyer-hero">
+            <article class="search-buyer-search-card">
+              <div class="search-buyer-section-head">
+                <span class="search-buyer-chip">Busqueda IA</span>
+                <div>
+                  <h2>Define que auto quieres encontrar</h2>
+                  <p>
+                    El buscador combina filtros estructurados, contexto del comprador y una lectura
+                    de oportunidad para ordenar mejor los resultados.
+                  </p>
+                </div>
+              </div>
+
+              <form id="buyerSearchForm" class="search-buyer-form" novalidate>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="buyerSearchPrompt" class="form-label">Descripcion en lenguaje natural</label>
+                    <textarea
+                      id="buyerSearchPrompt"
+                      name="buyerSearchPrompt"
+                      class="form-control"
+                      rows="4"
+                      placeholder="Ejemplo: busco un sedan o SUV 2020 en adelante, con buena seguridad, menos de 80.000 km, para ciudad y viajes, hasta 20 millones."
+                    ></textarea>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchVehicleType" class="form-label">Tipo de vehiculo</label>
+                    <select id="buyerSearchVehicleType" name="buyerSearchVehicleType" class="form-select form-select-lg">
+                      <option value="">Indistinto</option>
+                      <option value="sedan">Sedan</option>
+                      <option value="suv">SUV</option>
+                      <option value="pickup">Pickup</option>
+                      <option value="hatchback">Hatchback</option>
+                      <option value="utilitario">Utilitario</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchBudget" class="form-label">Presupuesto</label>
+                    <select id="buyerSearchBudget" name="buyerSearchBudget" class="form-select form-select-lg">
+                      <option value="">Sin tope</option>
+                      <option value="hasta-10m">Hasta 10 millones</option>
+                      <option value="10m-20m">Entre 10 y 20 millones</option>
+                      <option value="20m-35m">Entre 20 y 35 millones</option>
+                      <option value="mas-35m">Mas de 35 millones</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchProvince" class="form-label">Provincia o zona</label>
+                    <input
+                      id="buyerSearchProvince"
+                      name="buyerSearchProvince"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="Cordoba"
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchYears" class="form-label">Anios / modelo</label>
+                    <input
+                      id="buyerSearchYears"
+                      name="buyerSearchYears"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="2020 en adelante"
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchMileage" class="form-label">Kilometraje maximo</label>
+                    <input
+                      id="buyerSearchMileage"
+                      name="buyerSearchMileage"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="80.000 km"
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchBrand" class="form-label">Marcas preferidas</label>
+                    <input
+                      id="buyerSearchBrand"
+                      name="buyerSearchBrand"
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="Toyota, Honda, Volkswagen"
+                    />
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchFuel" class="form-label">Combustible</label>
+                    <select id="buyerSearchFuel" name="buyerSearchFuel" class="form-select form-select-lg">
+                      <option value="">Indistinto</option>
+                      <option value="nafta">Nafta</option>
+                      <option value="diesel">Diesel</option>
+                      <option value="hibrido">Hibrido</option>
+                      <option value="electrico">Electrico</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchTransmission" class="form-label">Transmision</label>
+                    <select id="buyerSearchTransmission" name="buyerSearchTransmission" class="form-select form-select-lg">
+                      <option value="">Indistinto</option>
+                      <option value="manual">Manual</option>
+                      <option value="automatica">Automatica</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchPriority" class="form-label">Prioridad IA</label>
+                    <select id="buyerSearchPriority" name="buyerSearchPriority" class="form-select form-select-lg">
+                      <option value="">Balanceado</option>
+                      <option value="precio">Mejor precio</option>
+                      <option value="seguridad">Seguridad</option>
+                      <option value="reventa">Reventa</option>
+                      <option value="equipamiento">Equipamiento</option>
+                      <option value="oportunidad">Oportunidad rapida</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchSort" class="form-label">Ordenar por</label>
+                    <select id="buyerSearchSort" name="buyerSearchSort" class="form-select form-select-lg">
+                      <option value="match">Mejor match IA</option>
+                      <option value="price-low">Menor precio</option>
+                      <option value="price-high">Mayor precio</option>
+                      <option value="year-new">Mas nuevos</option>
+                      <option value="km-low">Menor kilometraje</option>
+                    </select>
+                  </div>
+
+                  <div class="col-md-4">
+                    <label for="buyerSearchStatus" class="form-label">Estado de publicacion</label>
+                    <select id="buyerSearchStatus" name="buyerSearchStatus" class="form-select form-select-lg">
+                      <option value="">Cualquiera</option>
+                      <option value="verified">Vendedor verificado</option>
+                      <option value="urgent">Oportunidad urgente</option>
+                      <option value="inspection">Apto inspeccion</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="search-buyer-quick-filters">
+                  <button type="button" class="search-buyer-filter-pill" data-target="buyerSearchVehicleType" data-value="suv">
+                    SUV familiar
+                  </button>
+                  <button type="button" class="search-buyer-filter-pill" data-target="buyerSearchVehicleType" data-value="sedan">
+                    Sedan seguro
+                  </button>
+                  <button type="button" class="search-buyer-filter-pill" data-target="buyerSearchPriority" data-value="oportunidad">
+                    Oportunidad IA
+                  </button>
+                  <button type="button" class="search-buyer-filter-pill" data-target="buyerSearchStatus" data-value="inspection">
+                    Apto inspeccion
+                  </button>
+                  <button type="button" class="search-buyer-filter-pill" data-target="buyerSearchBudget" data-value="10m-20m">
+                    Entre 10 y 20M
+                  </button>
+                </div>
+
+                <div class="search-buyer-option-grid">
+                  <label class="search-buyer-option">
+                    <input id="buyerSearchFinancing" name="buyerSearchFinancing" type="checkbox" />
+                    <span>
+                      <strong>Mostrar financiacion</strong>
+                      <small>Priorizar publicaciones con alternativas de pago.</small>
+                    </span>
+                  </label>
+                  <label class="search-buyer-option">
+                    <input id="buyerSearchTradeIn" name="buyerSearchTradeIn" type="checkbox" />
+                    <span>
+                      <strong>Acepta permuta</strong>
+                      <small>Ver autos con posibilidad de tomar usado.</small>
+                    </span>
+                  </label>
+                  <label class="search-buyer-option">
+                    <input id="buyerSearchInspection" name="buyerSearchInspection" type="checkbox" checked />
+                    <span>
+                      <strong>Priorizar inspeccion</strong>
+                      <small>Favorecer publicaciones revisables y trazables.</small>
+                    </span>
+                  </label>
+                  <label class="search-buyer-option">
+                    <input id="buyerSearchAlerts" name="buyerSearchAlerts" type="checkbox" checked />
+                    <span>
+                      <strong>Guardar alerta IA</strong>
+                      <small>Activar seguimiento cuando aparezcan nuevas coincidencias.</small>
+                    </span>
+                  </label>
+                </div>
+
+                <div class="search-buyer-form-actions">
+                  <small id="buyerSearchMessage" class="search-buyer-form-message">
+                    Ajusta filtros o escribe una busqueda. La IA actualizara prioridad y resumen.
+                  </small>
+                  <div class="search-buyer-form-buttons">
+                    <button type="reset" class="search-buyer-ghost-btn">Limpiar filtros</button>
+                    <button type="submit" class="search-buyer-primary-btn">Actualizar resultados</button>
+                  </div>
+                </div>
+              </form>
+            </article>
+
+            <aside class="search-buyer-insight-card">
+              <div class="search-buyer-insight-top">
+                <span class="search-buyer-status">Resumen dinamico</span>
+                <strong id="buyerSearchStage">Busqueda balanceada</strong>
+              </div>
+
+              <div class="search-buyer-progress-copy">
+                <span>Filtros activos</span>
+                <strong id="buyerSearchFiltersCount">4</strong>
+              </div>
+
+              <dl class="search-buyer-insight-grid">
+                <div>
+                  <dt>Resultados</dt>
+                  <dd id="buyerSearchResultsCount">24</dd>
+                </div>
+                <div>
+                  <dt>Tipo</dt>
+                  <dd id="buyerSearchVehicleLabel">Indistinto</dd>
+                </div>
+                <div>
+                  <dt>Zona</dt>
+                  <dd id="buyerSearchZoneLabel">Todo el pais</dd>
+                </div>
+                <div>
+                  <dt>Orden</dt>
+                  <dd id="buyerSearchSortLabel">Mejor match IA</dd>
+                </div>
+              </dl>
+
+              <div class="search-buyer-insight-note">
+                <span>Lectura IA</span>
+                <p id="buyerSearchInsight">
+                  La configuracion actual prioriza equilibrio entre oportunidad, costo total y confiabilidad del vendedor.
+                </p>
+              </div>
+
+              <div class="search-buyer-compare-card">
+                <span class="search-buyer-chip">Comparador rapido</span>
+                <strong>2 autos listos para comparar</strong>
+                <p>Corolla XEi 2021 y Civic 2020 ya quedaron marcados como candidatos consistentes.</p>
+                <button type="button" class="search-buyer-ghost-btn">Abrir comparador</button>
+              </div>
+            </aside>
+          </section>
+
+          <section class="search-buyer-results-card">
+            <div class="search-buyer-section-head">
+              <span class="search-buyer-chip">Resultados</span>
+              <div>
+                <h2>Autos encontrados para tu perfil</h2>
+                <p>
+                  La IA mezcla compatibilidad con tu contexto, riesgo estimado, precio relativo y
+                  calidad del anuncio para ordenar la lista.
+                </p>
+              </div>
+            </div>
+
+            <div class="search-buyer-results-grid">
+              <article class="search-buyer-result-card is-featured">
+                <div class="search-buyer-result-visual">
+                  <img
+                    src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
+                    alt="Toyota Corolla XEi 2021"
+                  />
+                  <div class="search-buyer-score">
+                    <strong>96%</strong>
+                    <span>Match IA</span>
+                  </div>
+                </div>
+                <div class="search-buyer-result-body">
+                  <div class="search-buyer-result-head">
+                    <div>
+                      <span class="search-buyer-chip">Mejor match</span>
+                      <h3>Toyota Corolla XEi 2021</h3>
+                      <p>$13.200.000</p>
+                    </div>
+                    <button type="button" class="search-buyer-save-btn" data-save-btn>
+                      <i class="bi bi-heart"></i>
+                    </button>
+                  </div>
+
+                  <p class="search-buyer-result-copy">
+                    Se mantiene arriba por seguridad, confiabilidad mecanica, costo mensual razonable
+                    y mejor proyeccion de reventa.
+                  </p>
+
+                  <div class="search-buyer-result-meta">
+                    <span><i class="bi bi-speedometer2"></i> 54.000 km</span>
+                    <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+                    <span><i class="bi bi-geo-alt"></i> Cordoba capital</span>
+                    <span><i class="bi bi-shield-check"></i> Verificado</span>
+                  </div>
+
+                  <blockquote>
+                    “Tiene uno de los mejores balances entre precio real, demanda futura y bajo riesgo de arrepentimiento.”
+                  </blockquote>
+
+                  <div class="search-buyer-result-actions">
+                    <button type="button" class="search-buyer-ghost-btn">Ver ficha</button>
+                    <button type="button" class="search-buyer-primary-btn">Comparar</button>
+                  </div>
+                </div>
+              </article>
+
+              <article class="search-buyer-result-card">
+                <div class="search-buyer-result-head compact">
+                  <div>
+                    <h3>Honda Civic 2020</h3>
+                    <p>$12.500.000</p>
+                  </div>
+                  <span class="search-buyer-mini-score">92%</span>
+                </div>
+                <div class="search-buyer-result-meta">
+                  <span><i class="bi bi-speedometer2"></i> 63.000 km</span>
+                  <span><i class="bi bi-gear"></i> Automatico</span>
+                  <span><i class="bi bi-geo-alt"></i> Villa Allende</span>
+                </div>
+                <p class="search-buyer-result-copy">
+                  Muy fuerte en confort y percepcion de calidad. Queda segundo por costo total algo mayor.
+                </p>
+                <div class="search-buyer-result-actions">
+                  <button type="button" class="search-buyer-ghost-btn">Ver</button>
+                  <button type="button" class="search-buyer-primary-btn">Comparar</button>
+                </div>
+              </article>
+
+              <article class="search-buyer-result-card">
+                <div class="search-buyer-result-head compact">
+                  <div>
+                    <h3>Volkswagen Polo 2021</h3>
+                    <p>$11.900.000</p>
+                  </div>
+                  <span class="search-buyer-mini-score">89%</span>
+                </div>
+                <div class="search-buyer-result-meta">
+                  <span><i class="bi bi-speedometer2"></i> 48.000 km</span>
+                  <span><i class="bi bi-fuel-pump"></i> Nafta</span>
+                  <span><i class="bi bi-geo-alt"></i> Rio Cuarto</span>
+                </div>
+                <p class="search-buyer-result-copy">
+                  Compra racional para ciudad. Excelente si la prioridad es costo mensual y mantenimiento.
+                </p>
+                <div class="search-buyer-result-actions">
+                  <button type="button" class="search-buyer-ghost-btn">Ver</button>
+                  <button type="button" class="search-buyer-primary-btn">Guardar</button>
+                </div>
+              </article>
+
+              <article class="search-buyer-result-card">
+                <div class="search-buyer-result-head compact">
+                  <div>
+                    <h3>Chevrolet Cruze LT 2018</h3>
+                    <p>$10.800.000</p>
+                  </div>
+                  <span class="search-buyer-mini-score">86%</span>
+                </div>
+                <div class="search-buyer-result-meta">
+                  <span><i class="bi bi-speedometer2"></i> 71.000 km</span>
+                  <span><i class="bi bi-cash-stack"></i> $362k/mes</span>
+                  <span><i class="bi bi-geo-alt"></i> Cordoba sur</span>
+                </div>
+                <p class="search-buyer-result-copy">
+                  Buena oportunidad si necesitas cuidar presupuesto sin bajar demasiado en equipamiento.
+                </p>
+                <div class="search-buyer-result-actions">
+                  <button type="button" class="search-buyer-ghost-btn">Ver</button>
+                  <button type="button" class="search-buyer-primary-btn">Analizar</button>
+                </div>
+              </article>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./search-buyer.js"></script>
+  </body>
+</html>

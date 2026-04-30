@@ -1,0 +1,115 @@
+<section class="investment-advisor-view">
+  <div class="investment-advisor-shell container">
+    <div class="investment-advisor-header">
+      <button type="button" class="advisor-back" data-navigate="user/buyer/menu">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div>
+        <span class="advisor-chip">Analisis de Inversion</span>
+        <h1>IA Financial Advisor</h1>
+        <p class="advisor-subtitle">Analisis de inversion, comparacion de favoritos y simulacion de costos en un solo lugar.</p>
+      </div>
+    </div>
+
+    <div class="advisor-grid">
+      <div class="advisor-chat-panel">
+        <div class="advisor-chat-header">
+          <i class="bi bi-stars"></i>
+          <div>
+            <strong>Asistente de Inversion</strong>
+            <small id="advisorStatus">Listo para analizar tu portfolio</small>
+          </div>
+        </div>
+
+        <div id="advisorMessages" class="advisor-messages">
+          <div class="advisor-message is-ai">
+            Hola! Puedo ayudarte a analizar tus autos favoritos, comparar oportunidades y simular costos reales. Que quieres revisar primero?
+          </div>
+        </div>
+
+        <div class="advisor-prompts">
+          <button type="button" data-prompt="Analiza mis favoritos y recomienda el mejor por inversion" class="advisor-prompt-btn">Analizar favoritos</button>
+          <button type="button" data-prompt="Compara los autos de mi shortlist por costo total" class="advisor-prompt-btn">Comparar costos</button>
+          <button type="button" data-prompt="Que oportunidades detectas en el mercado actual?" class="advisor-prompt-btn">Oportunidades</button>
+        </div>
+
+        <form id="advisorForm" class="advisor-input-form">
+          <input type="text" id="advisorInput" placeholder="Pregunta sobre inversion, costos, comparacion..." autocomplete="off" />
+          <button type="submit"><i class="bi bi-send-fill"></i></button>
+        </form>
+
+        <div class="advisor-counter" id="advisorCounter">0 mensajes</div>
+      </div>
+
+      <div class="advisor-analysis-panel">
+        <div class="advisor-analysis-header">
+          <i class="bi bi-graph-up"></i>
+          <strong>Analisis y Simulacion</strong>
+        </div>
+
+        <div id="advisorSummary" class="advisor-summary">
+          <div class="summary-placeholder">
+            <i class="bi bi-lightbulb"></i>
+            <p>Selecciona un analisis o pregunta al asistente para ver recomendaciones aqui.</p>
+          </div>
+        </div>
+
+        <form id="simulatorForm" class="advisor-simulator">
+          <span class="sim-chip">Simulador de Costos</span>
+          <h3>Costo Real Mensual</h3>
+          <div class="sim-fields">
+            <div class="sim-field">
+              <label>Precio del auto</label>
+              <input type="number" id="simPrice" value="13200000" />
+            </div>
+            <div class="sim-field">
+              <label>Entrega inicial</label>
+              <input type="number" id="simDownPayment" value="4000000" />
+            </div>
+            <div class="sim-field">
+              <label>Meses</label>
+              <input type="number" id="simMonths" value="36" />
+            </div>
+            <div class="sim-field">
+              <label>Tasa mensual %</label>
+              <input type="number" id="simRate" value="3" />
+            </div>
+            <div class="sim-field">
+              <label>Seguro mensual</label>
+              <input type="number" id="simInsurance" value="85000" />
+            </div>
+            <div class="sim-field">
+              <label>Combustible</label>
+              <input type="number" id="simFuel" value="120000" />
+            </div>
+            <div class="sim-field">
+              <label>Mantenimiento</label>
+              <input type="number" id="simMaintenance" value="40000" />
+            </div>
+          </div>
+
+          <div class="sim-results">
+            <div class="sim-result">
+              <span>Cuota</span>
+              <strong id="simInstallment">$-</strong>
+            </div>
+            <div class="sim-result">
+              <span>Total mensual</span>
+              <strong id="simTotal">$-</strong>
+            </div>
+          </div>
+          <p id="simInsight" class="sim-insight"></p>
+        </form>
+
+        <div class="advisor-match-section">
+          <span class="match-chip">Matcheos IA</span>
+          <h3>Recomendaciones</h3>
+          <div id="advisorMatches" class="advisor-matches">
+            <p class="matches-placeholder">La IA generara matcheos basados en tu perfil y favoritos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

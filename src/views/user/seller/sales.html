@@ -1,0 +1,77 @@
+<section class="sales-view">
+  <div class="sales-shell container">
+    <div class="sales-header">
+      <button type="button" class="sales-back" data-navigate="user/seller/menu">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div>
+        <span class="sales-chip">Ventas</span>
+        <h1>Historial de ventas</h1>
+        <p class="sales-subtitle">Seguimiento de transacciones y pipeline de ventas.</p>
+      </div>
+    </div>
+
+    <div class="sales-stats">
+      <div class="sale-stat">
+        <span>Total ventas</span>
+        <strong>12</strong>
+      </div>
+      <div class="sale-stat is-active">
+        <span>En proceso</span>
+        <strong>3</strong>
+      </div>
+      <div class="sale-stat is-completed">
+        <span>Finalizadas</span>
+        <strong>9</strong>
+      </div>
+    </div>
+
+    <div class="sales-timeline" id="salesTimeline">
+      <article class="sale-card" data-sale-id="1">
+        <div class="sale-card-header">
+          <img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+          <div>
+            <h3>Volkswagen Amarok 2020</h3>
+            <span class="sale-status is-completed">Vendido</span>
+          </div>
+          <strong class="sale-price">$24.900.000</strong>
+        </div>
+        <div class="sale-card-meta">
+          <span><i class="bi bi-calendar-check"></i> 15 Nov 2025</span>
+          <span><i class="bi bi-person"></i> Carlos López</span>
+        </div>
+      </article>
+
+      <article class="sale-card" data-sale-id="2">
+        <div class="sale-card-header">
+          <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+          <div>
+            <h3>Peugeot 208 2022</h3>
+            <span class="sale-status is-completed">Vendido</span>
+          </div>
+          <strong class="sale-price">$16.300.000</strong>
+        </div>
+        <div class="sale-card-meta">
+          <span><i class="bi bi-calendar-check"></i> 3 Oct 2025</span>
+          <span><i class="bi bi-person"></i> Pedro Sánchez</span>
+        </div>
+      </article>
+
+      <article class="sale-card" data-sale-id="3">
+        <div class="sale-card-header">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+          <div>
+            <h3>Chevrolet Cruze LT 2018</h3>
+            <span class="sale-status is-active">En negociación</span>
+          </div>
+          <strong class="sale-price">$11.500.000</strong>
+        </div>
+        <div class="sale-card-meta">
+          <span><i class="bi bi-calendar"></i> Iniciado 2 Abr 2026</span>
+          <span><i class="bi bi-person"></i> María González</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

@@ -1,30 +1,35 @@
-<section class="chat-view">
-  <div class="chat-shell container">
-    <div class="chat-header">
-      <button type="button" class="chat-back" onclick="window.history.back()">
+<section class="seller-chat-view">
+  <div class="seller-chat-shell container">
+    <div class="seller-chat-header">
+      <button type="button" class="seller-chat-back" data-navigate="messages/seller">
         <i class="bi bi-arrow-left"></i>
         Volver
       </button>
-      <div class="chat-info">
-        <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" />
+      <div class="seller-chat-info">
+        <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" class="seller-chat-vehicle-thumb" />
         <div>
           <h2 id="chatVehicleTitle">Toyota Corolla XEi 2021</h2>
-          <span id="chatBuyerName">Juan Pérez</span>
+          <span id="chatBuyerName">Carlos López</span>
+          <span class="seller-chat-status"><i class="bi bi-circle-fill"></i> En línea</span>
         </div>
       </div>
     </div>
 
-    <div class="chat-messages" id="chatMessages">
+    <div class="seller-chat-messages" id="chatMessages">
     </div>
 
-    <form class="chat-input" id="chatForm">
-      <div class="chat-input-wrapper">
-        <input type="text" id="chatMessageInput" placeholder="Escribe tu mensaje... (Markdown soportado)" autocomplete="off" />
-        <button type="submit" class="chat-send-btn">
-          <i class="bi bi-send-fill"></i>
-        </button>
-      </div>
-      <small class="chat-markdown-hint">Usa **negritas**, *cursivas*, `código`</small>
-    </form>
+    <div class="seller-chat-input">
+      <form class="seller-chat-form" id="chatForm">
+        <div class="seller-chat-input-wrapper">
+          <button type="button" class="seller-chat-attach" title="Adjuntar">
+            <i class="bi bi-paperclip"></i>
+          </button>
+          <input type="text" id="chatMessageInput" placeholder="Escribí tu mensaje..." autocomplete="off" />
+          <button type="submit" class="seller-chat-send">
+            <i class="bi bi-send-fill"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </section>

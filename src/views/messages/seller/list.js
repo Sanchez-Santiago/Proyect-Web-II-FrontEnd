@@ -101,9 +101,9 @@ export default {
         { id: 2, vehicleId: 2, vehicleTitle: 'Honda Civic', userName: 'María González', lastMessage: '¿Tiene service al día?', timeAgo: '5h', unread: 1 }
       ],
       leads: [
-        { id: 1, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Carlos López', phone: '+54 9 351 111 2222', interest: 'Alto', source: 'WhatsApp', date: '2024-01-15' },
+        { id: 1, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Carlos López', phone: '+54 9 351 111 2222', interest: 'Alto', source: 'Web', date: '2024-01-15' },
         { id: 2, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Ana Martínez', phone: '+54 9 351 333 4444', interest: 'Medio', source: 'Chat', date: '2024-01-14' },
-        { id: 3, vehicleId: 2, vehicleTitle: 'Honda Civic', userName: 'Pedro Sánchez', phone: '+54 9 351 555 6666', interest: 'Alto', source: 'WhatsApp', date: '2024-01-13' }
+        { id: 3, vehicleId: 2, vehicleTitle: 'Honda Civic', userName: 'Pedro Sánchez', phone: '+54 9 351 555 6666', interest: 'Alto', source: 'Web', date: '2024-01-13' }
       ]
     };
   },
@@ -192,7 +192,6 @@ export default {
         e.stopPropagation();
         const phone = btn.dataset.phone;
         if (phone) {
-          window.open(`https://wa.me/${phone.replace(/\D/g, '')}`, '_blank');
         }
       });
     });

@@ -62,7 +62,8 @@ const routes = {
   
   'user/buyer/menu': { template: 'src/views/user/buyer/menu-buyer.html', script: 'src/views/user/buyer/menu-buyer.js', title: 'Menu comprador | MotorMarket' },
   'user/buyer/profile': { template: 'src/views/user/buyer/profile-buyer.html', script: 'src/views/user/buyer/profile-buyer.js', title: 'Gestionar perfil comprador | MotorMarket' },
-  'user/buyer/favorites': { template: 'src/views/user/buyer/favorites.html', script: 'src/views/user/buyer/favorites.js', title: 'Favoritos | MotorMarket' },
+  'user/buyer/favorites': { template: 'src/components/favorites-buyer/index.html', script: 'src/components/favorites-buyer/favorites-buyer.js', title: 'Favoritos | MotorMarket' },
+  'user/buyer/investment-advisor': { template: 'src/views/user/buyer/investment-advisor.html', script: 'src/views/user/buyer/investment-advisor.js', title: 'Insights IA | MotorMarket' },
   
   'messages/buyer': { template: 'src/views/messages/buyer/list.html', script: 'src/views/messages/buyer/list.js', title: 'Mensajes | MotorMarket' },
   'messages/buyer/chat': { template: 'src/views/messages/buyer/chat.html', script: 'src/views/messages/buyer/chat.js', title: 'Chat | MotorMarket' },
@@ -72,8 +73,16 @@ const routes = {
   
   'user/seller/menu': { template: 'src/views/user/seller/menu-seller.html', script: 'src/views/user/seller/menu-seller.js', title: 'Menu vendedor | MotorMarket' },
   'user/seller/profile': { template: 'src/views/user/seller/profile-seller.html', script: 'src/views/user/seller/profile-seller.js', title: 'Gestionar perfil vendedor | MotorMarket' },
+  'user/seller/publications': { template: 'src/views/user/seller/publications.html', script: 'src/views/user/seller/publications.js', title: 'Mis publicaciones | MotorMarket' },
   
   'admin/menu': { template: 'src/views/admin/menu-admin.html', script: 'src/views/admin/menu-admin.js', title: 'Menu administrador | MotorMarket' },
+  'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: null, title: 'Alertas | MotorMarket' },
+  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analityicas | MotorMarket' },
+  'admin/engine': { template: 'src/views/admin/engine-admin.html', script: null, title: 'Motor | MotorMarket' },
+
+
+  'user/seller/sales': { template: 'src/views/user/seller/sales.html', script: 'src/views/user/seller/sales.js', title: 'Ventas | MotorMarket' },
+  'user/seller/insights': { template: 'src/views/user/seller/insights.html', script: 'src/views/user/seller/insights.js', title: 'Insights IA | MotorMarket' },
 
   // Redirects legacy
   'login': { redirect: 'auth/login' },
