@@ -17,7 +17,7 @@
             <small>Estado global</small>
           </span>
         </a>
-        <a href="#admin/users" data-navigate="admin/users">
+        <a class="is-active" href="#admin/users" data-navigate="admin/users">
           <i class="bi bi-people-fill"></i>
           <span>
             <strong>Usuarios</strong>
@@ -31,7 +31,7 @@
             <small>Moderacion</small>
           </span>
         </a>
-        <a class="is-active" href="#admin/engine" data-navigate="admin/engine">
+        <a href="#admin/engine" data-navigate="admin/engine">
           <i class="bi bi-cpu-fill"></i>
           <span>
             <strong>Motor IA</strong>
@@ -61,6 +61,12 @@
           </span>
         </a>
       </nav>
+      
+      <div class="menu-admin-sidebar-note">
+        <span>Radar IA</span>
+        <strong>1.2k Usuarios</strong>
+        <p>Actividad normal detectada en las últimas 24 horas.</p>
+      </div>
     </aside>
     
     <main class="menu-admin-main">
@@ -71,20 +77,43 @@
             <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
             <a class="is-current" href="#admin/menu" data-navigate="admin/menu">Admin</a>
           </nav>
-          <span class="menu-admin-kicker">Inteligencia</span>
-          <h1>Configuración IA</h1>
+          <span class="menu-admin-kicker">Gestión</span>
+          <h1>Usuarios y Cuentas</h1>
         </div>
       </header>
 
-      <div class="menu-admin-grid-2">
-        <article class="menu-admin-panel" style="padding: 1.5rem; margin-top: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="color: var(--white); margin: 0;">Predicción de Precios</h3>
-            <span class="menu-admin-badge is-active">Running</span>
-          </div>
-          <p style="color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem;">Precisión: 98.4% | Model: MM-Turbo-V2</p>
-        </article>
-      </div>
+      <section class="menu-admin-panel">
+        <div class="menu-admin-panel-header">
+          <h3>Usuarios Recientes</h3>
+          <button type="button" class="menu-admin-ghost-btn">Exportar CSV</button>
+        </div>
+        <div class="menu-admin-table-wrap">
+          <table class="menu-admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Juan Pérez</strong><br><small>juan@example.com</small></td>
+                <td>Vendedor</td>
+                <td><span class="menu-admin-badge is-active">Activo</span></td>
+                <td><button class="menu-admin-ghost-btn">Ver</button></td>
+              </tr>
+              <tr>
+                <td><strong>María González</strong><br><small>maria@example.com</small></td>
+                <td>Comprador</td>
+                <td><span class="menu-admin-badge is-active">Activo</span></td>
+                <td><button class="menu-admin-ghost-btn">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </div>
 </div>

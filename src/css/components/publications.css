@@ -59,30 +59,41 @@
 }
 
 .publications-stats {
-  display: flex;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
   margin: 2rem 0;
-  padding: 1.5rem;
-  background: var(--panel);
-  border-radius: 16px;
-  border: 1px solid var(--line);
 }
 
 .pub-stat {
+  padding: 1.5rem;
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid var(--line);
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.4rem;
+  transition: transform 0.2s;
+}
+
+.pub-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .pub-stat span {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--muted);
+  font-weight: 700;
 }
 
 .pub-stat strong {
   font-family: "Space Grotesk", sans-serif;
-  font-size: 1.8rem;
-  color: var(--text);
+  font-size: 2.2rem;
+  color: var(--white);
+  line-height: 1;
 }
 
 .pub-stat.is-active strong {
@@ -90,7 +101,7 @@
 }
 
 .pub-stat.is-review strong {
-  color: #facc15;
+  color: #fbbf24;
 }
 
 .publications-grid {
@@ -136,13 +147,15 @@
 }
 
 .pub-status.is-active {
-  background: rgba(34, 197, 94, 0.2);
-  color: #22c55e;
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .pub-status.is-review {
-  background: rgba(250, 204, 21, 0.2);
-  color: #facc15;
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 .pub-card-body {
@@ -222,13 +235,14 @@
 }
 
 .pub-btn-edit {
-  background: var(--panel-soft);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text);
   border: 1px solid var(--line);
 }
 
 .pub-btn-edit:hover {
   background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .pub-btn-optimize {

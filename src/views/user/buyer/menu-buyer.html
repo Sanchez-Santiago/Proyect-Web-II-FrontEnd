@@ -10,10 +10,10 @@
       </div>
       
       <nav class="menu-buyer-nav">
-        <a class="is-active" href="#">
+        <a class="is-active" href="#user/buyer/menu" data-navigate="user/buyer/menu">
           <i class="bi bi-house-door-fill"></i>
           <span>
-            <strong>Inicio</strong>
+            <strong>Dashboard</strong>
             <small>Match y decisiones</small>
           </span>
         </a>
@@ -38,6 +38,21 @@
             <small>Conversaciones</small>
           </span>
         </a>
+        <a href="#user/buyer/profile" data-navigate="user/buyer/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+        <div class="menu-buyer-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
       </nav>
       
       <div class="menu-buyer-sidebar-note">
@@ -50,8 +65,10 @@
     <main class="menu-buyer-main">
       <header class="menu-buyer-topbar">
         <div>
-          <nav class="menu-buyer-workspace-switch" aria-label="Cambiar menu" style="opacity:0.5;pointer-events:none;">
+          <nav class="menu-buyer-workspace-switch" aria-label="Cambiar menu">
             <a class="is-current" href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
           </nav>
           <span class="menu-buyer-kicker">Inicio</span>
           <h1>Tu proximo auto no se busca. Se descubre con IA.</h1>

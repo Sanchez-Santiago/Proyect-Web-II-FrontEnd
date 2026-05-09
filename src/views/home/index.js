@@ -7,47 +7,56 @@ let isInspector = false;
 
 console.log('[HOME] Module loaded, state.isLoggedIn():', state.isLoggedIn());
 
+/**
+ * Helper to render stars rating
+ */
+function renderStars(rating) {
+  let stars = '';
+  for (let i = 1; i <= 5; i++) {
+    stars += i <= rating ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
+  }
+  return stars;
+}
+
+/**
+ * Helper to render condition bars
+ */
+function renderConditionBar(label, value) {
+  const percentage = (value / 5) * 100;
+  const color = percentage >= 80 ? 'var(--success)' : percentage >= 60 ? 'var(--warning)' : 'var(--error)';
+  return `
+    <div class="condition-bar">
+      <span class="condition-label">${label}</span>
+      <div class="condition-bar-track">
+        <div class="condition-bar-fill" style="width:${percentage}%;background:${color};"></div>
+      </div>
+      <span class="condition-value" style="color:${color};">${percentage}%</span>
+    </div>
+  `;
+}
+
+/**
+ * Creates a car card component
+ */
 function createCarCard(car) {
   const card = document.createElement('article');
   card.className = 'home-car-card';
-  
-function renderStars(rating) {
-    let stars = '';
-    for (let i = 1; i <= 5; i++) {
-      stars += i <= rating ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
-    }
-    return stars;
-  }
-  
-  function renderConditionBar(label, value) {
-    const percentage = (value / 5) * 100;
-    const color = percentage >= 80 ? '#22c55e' : percentage >= 60 ? '#eab308' : '#ef4444';
-    return `
-      <div class="condition-bar">
-        <span class="condition-label">${label}</span>
-        <div class="condition-bar-track">
-          <div class="condition-bar-fill" style="width:${percentage}%;background:${color};"></div>
-        </div>
-        <span class="condition-value" style="color:${color};">${percentage}%</span>
-      </div>
-    `;
-  }
-   
+
   const conditionClass = car.condition === 'Excelente' ? 'excellent' : car.condition === 'Bueno' ? 'good' : 'regular';
-  const scoreColor = car.score >= 85 ? '#22c55e' : car.score >= 70 ? '#eab308' : '#ef4444';
+  const scoreColor = car.score >= 85 ? 'var(--success)' : car.score >= 70 ? 'var(--warning)' : 'var(--error)';
   const scoreWidth = Math.max(car.score - 10, 20);
-    
+
   card.innerHTML = `
     <div class="home-car-image">
-      <img src="${car.image}" alt="${car.brand} ${car.model}" />
-      <div class="home-car-score-container" style="position:absolute;top:0.75rem;right:0.75rem;display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
-        <div style="display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.7);padding:6px 10px;border-radius:20px;backdrop-filter:blur(4px);">
-          <span style="color:${scoreColor};font-weight:800;font-size:14px;">${car.score}%</span>
-          <div style="width:40px;height:4px;background:rgba(255,255,255,0.2);border-radius:2px;overflow:hidden;">
-            <div style="width:${scoreWidth}%;height:100%;background:${scoreColor};border-radius:2px;transition:width 0.3s ease;"></div>
+      <img src="${car.image}" alt="${car.brand} ${car.model}" loading="lazy" />
+      <div class="home-car-score-badge">
+        <div class="score-pill">
+          <span class="score-number" style="color:${scoreColor}">${car.score}%</span>
+          <div class="score-bar-track">
+            <div class="score-bar-fill" style="width:${scoreWidth}%;background:${scoreColor};"></div>
           </div>
         </div>
-        <span style="background:rgba(0,0,0,0.7);padding:4px 8px;border-radius:12px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.9);backdrop-filter:blur(4px);">Match IA</span>
+        <span class="score-label">Match IA</span>
       </div>
       <button type="button" class="home-car-favorite" data-action="favorite" data-car-id="${car.id}" title="Agregar a favoritos">
         <i class="bi bi-heart"></i>
@@ -74,7 +83,7 @@ function renderStars(rating) {
       </div>
       <div class="home-car-actions">
         <button type="button" class="home-car-detail-btn" data-navigate="vehicles/detail/${car.id}">Ver detalle</button>
-        <button type="button" class="home-car-compare-btn" data-action="compare" data-car-id="${car.id}">
+        <button type="button" class="home-car-compare-btn" data-action="compare" data-car-id="${car.id}" title="Comparar">
           <i class="bi bi-arrow-left-right"></i>
         </button>
       </div>
@@ -86,8 +95,13 @@ function renderStars(rating) {
 function renderCars() {
   const grid = document.getElementById('homeCarsGrid');
   if (!grid) return;
-  
+
   grid.innerHTML = '';
+  if (cars.length === 0) {
+    grid.innerHTML = '<div class="no-results">No se encontraron autos que coincidan con tu búsqueda.</div>';
+    return;
+  }
+  
   cars.forEach(car => {
     grid.appendChild(createCarCard(car));
   });

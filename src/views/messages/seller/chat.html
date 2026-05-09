@@ -1,35 +1,125 @@
-<section class="seller-chat-view">
-  <div class="seller-chat-shell container">
-    <div class="seller-chat-header">
-      <button type="button" class="seller-chat-back" data-navigate="messages/seller">
-        <i class="bi bi-arrow-left"></i>
-        Volver
-      </button>
-      <div class="seller-chat-info">
-        <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" class="seller-chat-vehicle-thumb" />
+<div class="menu-seller-page">
+  <div class="menu-seller-layout">
+    <aside class="menu-seller-sidebar">
+      <div class="menu-seller-brand">
+        <span>MM</span>
         <div>
-          <h2 id="chatVehicleTitle">Toyota Corolla XEi 2021</h2>
-          <span id="chatBuyerName">Carlos López</span>
-          <span class="seller-chat-status"><i class="bi bi-circle-fill"></i> En línea</span>
+          <strong>MotorMarket</strong>
+          <small>AI Seller Console</small>
         </div>
       </div>
-    </div>
-
-    <div class="seller-chat-messages" id="chatMessages">
-    </div>
-
-    <div class="seller-chat-input">
-      <form class="seller-chat-form" id="chatForm">
-        <div class="seller-chat-input-wrapper">
-          <button type="button" class="seller-chat-attach" title="Adjuntar">
-            <i class="bi bi-paperclip"></i>
-          </button>
-          <input type="text" id="chatMessageInput" placeholder="Escribí tu mensaje..." autocomplete="off" />
-          <button type="submit" class="seller-chat-send">
-            <i class="bi bi-send-fill"></i>
-          </button>
+      
+      <nav class="menu-seller-nav">
+        <a href="#user/seller/menu" data-navigate="user/seller/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Estado de ventas</small>
+          </span>
+        </a>
+        <a href="#user/seller/publications" data-navigate="user/seller/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Mis publicaciones</strong>
+            <small>Gestiona tus avisos</small>
+          </span>
+        </a>
+        <a href="#vehicles/add" data-navigate="vehicles/add">
+          <i class="bi bi-plus-square-fill"></i>
+          <span>
+            <strong>Crear publicacion</strong>
+            <small>Carga asistida por IA</small>
+          </span>
+        </a>
+        <a class="is-active" href="#messages/seller" data-navigate="messages/seller">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/sales" data-navigate="user/seller/sales">
+          <i class="bi bi-cash-stack"></i>
+          <span>
+            <strong>Ventas</strong>
+            <small>Historial y cierres</small>
+          </span>
+        </a>
+        <a href="#user/seller/insights" data-navigate="user/seller/insights">
+          <i class="bi bi-stars"></i>
+          <span>
+            <strong>Insights IA</strong>
+            <small>Recomendaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/profile" data-navigate="user/seller/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+        <div class="menu-seller-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-seller-sidebar-note">
+        <span>Radar comercial</span>
+        <strong>11 leads calientes</strong>
+        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-seller-main">
+      <header class="menu-seller-topbar">
+        <div>
+          <nav class="menu-seller-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-seller-kicker">Chat</span>
+          <h1>Conversación en curso</h1>
         </div>
-      </form>
-    </div>
+      </header>
+
+      <section class="seller-chat-view">
+        <div class="seller-chat-shell">
+          <div class="seller-chat-header">
+            <button type="button" class="seller-chat-back" data-navigate="messages/seller">
+              <i class="bi bi-arrow-left"></i>
+              Volver
+            </button>
+            <div class="seller-chat-info">
+              <img id="chatVehicleImage" src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=100&q=80" alt="Auto" class="seller-chat-vehicle-thumb" />
+              <div>
+                <h2 id="chatVehicleTitle">Toyota Corolla XEi 2021</h2>
+                <span id="chatBuyerName">Carlos López</span>
+              </div>
+            </div>
+          </div>
+      
+          <div class="seller-chat-messages" id="chatMessages">
+          </div>
+      
+          <div class="seller-chat-input">
+            <form class="seller-chat-form" id="chatForm">
+              <div class="seller-chat-input-wrapper">
+                <input type="text" id="chatMessageInput" placeholder="Escribí tu mensaje..." autocomplete="off" />
+                <button type="submit" class="seller-chat-send">
+                  <i class="bi bi-send-fill"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
-</section>
+</div>

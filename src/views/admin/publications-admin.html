@@ -24,14 +24,14 @@
             <small>Fraude y actividad</small>
           </span>
         </a>
-        <a href="#admin/publications" data-navigate="admin/publications">
+        <a class="is-active" href="#admin/publications" data-navigate="admin/publications">
           <i class="bi bi-car-front-fill"></i>
           <span>
             <strong>Publicaciones</strong>
             <small>Moderacion</small>
           </span>
         </a>
-        <a class="is-active" href="#admin/engine" data-navigate="admin/engine">
+        <a href="#admin/engine" data-navigate="admin/engine">
           <i class="bi bi-cpu-fill"></i>
           <span>
             <strong>Motor IA</strong>
@@ -71,20 +71,40 @@
             <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
             <a class="is-current" href="#admin/menu" data-navigate="admin/menu">Admin</a>
           </nav>
-          <span class="menu-admin-kicker">Inteligencia</span>
-          <h1>Configuración IA</h1>
+          <span class="menu-admin-kicker">Moderación</span>
+          <h1>Publicaciones Pendientes</h1>
         </div>
       </header>
 
-      <div class="menu-admin-grid-2">
-        <article class="menu-admin-panel" style="padding: 1.5rem; margin-top: 0;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="color: var(--white); margin: 0;">Predicción de Precios</h3>
-            <span class="menu-admin-badge is-active">Running</span>
-          </div>
-          <p style="color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem;">Precisión: 98.4% | Model: MM-Turbo-V2</p>
-        </article>
-      </div>
+      <section class="menu-admin-panel">
+        <div class="menu-admin-panel-header">
+          <h3>Cola de Revisión</h3>
+          <span class="menu-admin-chip">14 Pendientes</span>
+        </div>
+        <div class="menu-admin-table-wrap">
+          <table class="menu-admin-table">
+            <thead>
+              <tr>
+                <th>Vehículo</th>
+                <th>Vendedor</th>
+                <th>Score IA</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Toyota Corolla 2021</strong><br><small>$22.500.000</small></td>
+                <td>Juan Pérez</td>
+                <td><strong class="text-orange">94%</strong></td>
+                <td>
+                  <button class="menu-admin-primary-btn">Aprobar</button>
+                  <button class="menu-admin-ghost-btn">Rechazar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
   </div>
 </div>

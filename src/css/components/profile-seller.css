@@ -338,8 +338,8 @@
 }
 
 .seller-form-card .form-select option {
-  color: #111111;
-  background: #ffffff;
+  color: var(--white);
+  background: var(--panel);
 }
 
 .seller-form-card .form-label {

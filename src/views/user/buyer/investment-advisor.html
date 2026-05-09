@@ -1,115 +1,110 @@
-<section class="investment-advisor-view">
-  <div class="investment-advisor-shell container">
-    <div class="investment-advisor-header">
-      <button type="button" class="advisor-back" data-navigate="user/buyer/menu">
-        <i class="bi bi-arrow-left"></i>
-        Volver
-      </button>
-      <div>
-        <span class="advisor-chip">Analisis de Inversion</span>
-        <h1>IA Financial Advisor</h1>
-        <p class="advisor-subtitle">Analisis de inversion, comparacion de favoritos y simulacion de costos en un solo lugar.</p>
+<div class="menu-buyer-page">
+  <div class="menu-buyer-layout">
+    <aside class="menu-buyer-sidebar">
+      <div class="menu-buyer-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Buyer Console</small>
+        </div>
       </div>
-    </div>
-
-    <div class="advisor-grid">
-      <div class="advisor-chat-panel">
-        <div class="advisor-chat-header">
+      
+      <nav class="menu-buyer-nav">
+        <a href="#user/buyer/menu" data-navigate="user/buyer/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Match y decisiones</small>
+          </span>
+        </a>
+        <a href="#user/buyer/favorites" data-navigate="user/buyer/favorites">
+          <i class="bi bi-heart-fill"></i>
+          <span>
+            <strong>Favoritos</strong>
+            <small>Seguimiento inteligente</small>
+          </span>
+        </a>
+        <a class="is-active" href="#user/buyer/investment-advisor" data-navigate="user/buyer/investment-advisor">
           <i class="bi bi-stars"></i>
-          <div>
-            <strong>Asistente de Inversion</strong>
-            <small id="advisorStatus">Listo para analizar tu portfolio</small>
-          </div>
-        </div>
-
-        <div id="advisorMessages" class="advisor-messages">
-          <div class="advisor-message is-ai">
-            Hola! Puedo ayudarte a analizar tus autos favoritos, comparar oportunidades y simular costos reales. Que quieres revisar primero?
-          </div>
-        </div>
-
-        <div class="advisor-prompts">
-          <button type="button" data-prompt="Analiza mis favoritos y recomienda el mejor por inversion" class="advisor-prompt-btn">Analizar favoritos</button>
-          <button type="button" data-prompt="Compara los autos de mi shortlist por costo total" class="advisor-prompt-btn">Comparar costos</button>
-          <button type="button" data-prompt="Que oportunidades detectas en el mercado actual?" class="advisor-prompt-btn">Oportunidades</button>
-        </div>
-
-        <form id="advisorForm" class="advisor-input-form">
-          <input type="text" id="advisorInput" placeholder="Pregunta sobre inversion, costos, comparacion..." autocomplete="off" />
-          <button type="submit"><i class="bi bi-send-fill"></i></button>
-        </form>
-
-        <div class="advisor-counter" id="advisorCounter">0 mensajes</div>
+          <span>
+            <strong>Insights IA</strong>
+            <small>Analisis, comparacion y simulacion</small>
+          </span>
+        </a>
+        <a href="#messages/buyer" data-navigate="messages/buyer">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
+          </span>
+        </a>
+        <a href="#user/buyer/profile" data-navigate="user/buyer/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+        <div class="menu-buyer-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-buyer-sidebar-note">
+        <span>Radar IA</span>
+        <strong>14 oportunidades</strong>
+        <p>Tres nuevos autos superan a tus favoritos guardados.</p>
       </div>
-
-      <div class="advisor-analysis-panel">
-        <div class="advisor-analysis-header">
-          <i class="bi bi-graph-up"></i>
-          <strong>Analisis y Simulacion</strong>
+    </aside>
+    
+    <main class="menu-buyer-main">
+      <header class="menu-buyer-topbar">
+        <div>
+          <nav class="menu-buyer-workspace-switch" aria-label="Cambiar menu">
+            <a class="is-current" href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-buyer-kicker">Inteligencia</span>
+          <h1>Investment Advisor IA</h1>
         </div>
+      </header>
 
-        <div id="advisorSummary" class="advisor-summary">
-          <div class="summary-placeholder">
-            <i class="bi bi-lightbulb"></i>
-            <p>Selecciona un analisis o pregunta al asistente para ver recomendaciones aqui.</p>
-          </div>
-        </div>
-
-        <form id="simulatorForm" class="advisor-simulator">
-          <span class="sim-chip">Simulador de Costos</span>
-          <h3>Costo Real Mensual</h3>
-          <div class="sim-fields">
-            <div class="sim-field">
-              <label>Precio del auto</label>
-              <input type="number" id="simPrice" value="13200000" />
-            </div>
-            <div class="sim-field">
-              <label>Entrega inicial</label>
-              <input type="number" id="simDownPayment" value="4000000" />
-            </div>
-            <div class="sim-field">
-              <label>Meses</label>
-              <input type="number" id="simMonths" value="36" />
-            </div>
-            <div class="sim-field">
-              <label>Tasa mensual %</label>
-              <input type="number" id="simRate" value="3" />
-            </div>
-            <div class="sim-field">
-              <label>Seguro mensual</label>
-              <input type="number" id="simInsurance" value="85000" />
-            </div>
-            <div class="sim-field">
-              <label>Combustible</label>
-              <input type="number" id="simFuel" value="120000" />
-            </div>
-            <div class="sim-field">
-              <label>Mantenimiento</label>
-              <input type="number" id="simMaintenance" value="40000" />
+      <section class="investment-view">
+        <div class="investment-shell">
+          <div class="investment-ai-hero">
+            <i class="bi bi-shield-check"></i>
+            <div>
+              <h2>Protección de Inversión Activa</h2>
+              <p>Analizamos el mercado en tiempo real para asegurar que tu capital esté seguro.</p>
             </div>
           </div>
 
-          <div class="sim-results">
-            <div class="sim-result">
-              <span>Cuota</span>
-              <strong id="simInstallment">$-</strong>
-            </div>
-            <div class="sim-result">
-              <span>Total mensual</span>
-              <strong id="simTotal">$-</strong>
-            </div>
-          </div>
-          <p id="simInsight" class="sim-insight"></p>
-        </form>
+          <div class="investment-grid">
+            <article class="investment-card-pro">
+              <div class="inv-icon"><i class="bi bi-graph-down"></i></div>
+              <div class="inv-content">
+                <h3>Análisis de Depreciación</h3>
+                <p>Tu selección de favoritos tiene una depreciación anual estimada del 8%. Es un rango seguro para inversión a mediano plazo.</p>
+              </div>
+            </article>
 
-        <div class="advisor-match-section">
-          <span class="match-chip">Matcheos IA</span>
-          <h3>Recomendaciones</h3>
-          <div id="advisorMatches" class="advisor-matches">
-            <p class="matches-placeholder">La IA generara matcheos basados en tu perfil y favoritos.</p>
+            <article class="investment-card-pro is-highlight">
+              <div class="inv-icon"><i class="bi bi-lightning-charge"></i></div>
+              <div class="inv-content">
+                <h3>Oportunidad Crítica</h3>
+                <p>Hemos detectado un Toyota Corolla 2021 con precio un 12% por debajo del mercado. El riesgo de reventa es nulo.</p>
+                <button type="button" class="inv-action-btn">Ver oportunidad</button>
+              </div>
+            </article>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
-</section>
+</div>

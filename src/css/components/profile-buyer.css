@@ -326,8 +326,8 @@
 }
 
 .buyer-form-card .form-select option {
-  color: #111111;
-  background: #ffffff;
+  color: var(--white);
+  background: var(--panel);
 }
 
 .buyer-form-card .form-label {

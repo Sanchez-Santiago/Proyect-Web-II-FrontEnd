@@ -159,6 +159,24 @@ body {
   line-height: 1.3;
 }
 
+.menu-seller-nav-divider {
+  height: 1px;
+  background: var(--line);
+  margin: 0.8rem 0;
+  opacity: 0.5;
+}
+
+.nav-back-home {
+  margin-top: auto;
+  opacity: 0.8;
+}
+
+.nav-back-home:hover {
+  opacity: 1 !important;
+  color: var(--white) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
 .menu-seller-nav a.is-active {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
   border-color: rgba(249, 115, 22, 0.16);
@@ -403,10 +421,11 @@ body {
 }
 
 .menu-seller-car-card {
-  background: #fff;
-  color: var(--dark-text);
+  background: var(--panel-soft);
+  color: var(--text);
   overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .menu-seller-car-card img {
@@ -425,14 +444,14 @@ body {
 
 .menu-seller-car-head h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #111;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--white);
 }
 
 .menu-seller-car-head p,
 .menu-seller-car-meta span {
   margin: 0.2rem 0 0;
-  color: #5b6472;
+  color: var(--muted);
 }
 
 .menu-seller-car-score {
@@ -449,7 +468,7 @@ body {
 .menu-seller-car-meta {
   flex-wrap: wrap;
   margin-top: 0.72rem;
-  color: #4b5563;
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
@@ -458,9 +477,9 @@ body {
 }
 
 .menu-seller-car-actions .menu-seller-ghost-btn {
-  color: #111;
-  background: #f8fafc;
-  border-color: rgba(15, 23, 42, 0.08);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line);
 }
 
 .menu-seller-car-actions .menu-seller-primary-btn {
@@ -510,6 +529,129 @@ body {
   padding: 0 1rem;
   min-height: 48px;
   outline: none;
+}
+
+.insights-ai-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  border-radius: 24px;
+  margin-bottom: 2rem;
+}
+
+.insights-ai-hero i {
+  font-size: 2.5rem;
+  color: var(--orange);
+  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.5));
+}
+
+.insights-ai-hero h2 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0 0 0.4rem 0;
+  color: var(--white);
+}
+
+.insights-ai-hero p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+}
+
+.insight-card-pro {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.insight-card-pro:hover {
+  border-color: var(--orange);
+  transform: translateX(4px);
+}
+
+.insight-card-pro.is-hot {
+  border-left: 4px solid #ef4444;
+}
+
+.insight-card-pro.is-ai-glow {
+  border-color: rgba(249, 115, 22, 0.4);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.1);
+}
+
+.insight-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--panel-soft);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.insight-icon i {
+  font-size: 1.4rem;
+  color: var(--orange);
+}
+
+.insight-content {
+  flex: 1;
+}
+
+.insight-content h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.1rem;
+  color: var(--white);
+  margin: 0 0 0.5rem 0;
+}
+
+.insight-content p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+
+.insight-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.insight-impact {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--orange);
+}
+
+.insight-action-btn {
+  background: var(--panel-soft);
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.insight-action-btn:hover {
+  background: var(--orange);
+  color: var(--white);
+  border-color: var(--orange);
 }
 
 @media (max-height: 900px) {

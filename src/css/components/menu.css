@@ -370,10 +370,11 @@
 }
 
 .menu-car-card {
-  background: #fff;
-  color: var(--dark-text);
+  background: var(--panel-soft);
+  color: var(--text);
   overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .menu-car-card img {
@@ -392,14 +393,14 @@
 
 .menu-car-head h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #111;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--white);
 }
 
 .menu-car-head p,
 .menu-car-meta span {
   margin: 0.2rem 0 0;
-  color: #5b6472;
+  color: var(--muted);
 }
 
 .menu-car-score {
@@ -425,9 +426,9 @@
 }
 
 .menu-car-actions .menu-ghost-btn {
-  color: #111;
-  background: #f8fafc;
-  border-color: rgba(15, 23, 42, 0.08);
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--line);
 }
 
 .menu-car-actions .menu-primary-btn {

@@ -77,8 +77,10 @@ const routes = {
   
   'admin/menu': { template: 'src/views/admin/menu-admin.html', script: 'src/views/admin/menu-admin.js', title: 'Menu administrador | MotorMarket' },
   'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: null, title: 'Alertas | MotorMarket' },
-  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analityicas | MotorMarket' },
+  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analíticas | MotorMarket' },
   'admin/engine': { template: 'src/views/admin/engine-admin.html', script: null, title: 'Motor | MotorMarket' },
+  'admin/users': { template: 'src/views/admin/users-admin.html', script: null, title: 'Gestión de Usuarios | MotorMarket' },
+  'admin/publications': { template: 'src/views/admin/publications-admin.html', script: null, title: 'Moderación de Avisos | MotorMarket' },
 
 
   'user/seller/sales': { template: 'src/views/user/seller/sales.html', script: 'src/views/user/seller/sales.js', title: 'Ventas | MotorMarket' },

@@ -403,10 +403,11 @@ body {
 }
 
 .menu-admin-car-card {
-  background: #fff;
-  color: var(--dark-text);
+  background: var(--panel-soft);
+  color: var(--text);
   overflow: hidden;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .menu-admin-car-card img {
@@ -425,8 +426,8 @@ body {
 
 .menu-admin-car-head h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
-  color: #111;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--white);
 }
 
 .menu-admin-car-head p,
@@ -510,6 +511,95 @@ body {
   padding: 0 1rem;
   min-height: 48px;
   outline: none;
+}
+
+/* Tables & Lists */
+.menu-admin-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.menu-admin-panel-header {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-admin-panel-header h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+.menu-admin-table-wrap {
+  overflow-x: auto;
+}
+
+.menu-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.menu-admin-table th {
+  padding: 1rem 1.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  font-weight: 700;
+}
+
+.menu-admin-table td {
+  padding: 1.2rem 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text);
+  border-bottom: 1px solid var(--line);
+}
+
+.menu-admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.menu-admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Badges */
+.menu-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.menu-admin-badge.is-active { background: rgba(34, 197, 94, 0.12); color: #4ade80; }
+.menu-admin-badge.is-pending { background: rgba(250, 204, 21, 0.12); color: #fde047; }
+.menu-admin-badge.is-rejected { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+
+/* Grid Layouts */
+.menu-admin-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.menu-admin-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  margin-top: 1rem;
 }
 
 @media (max-height: 900px) {
