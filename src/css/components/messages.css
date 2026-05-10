@@ -1,0 +1,634 @@
+/* ==========================================
+   MESSAGES - Professional Chat Styles
+   ========================================== */
+
+/* Messages List */
+.messages-view, .seller-messages-view {
+  padding: 2rem 0;
+}
+
+.messages-header, .seller-messages-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.messages-back, .seller-messages-back, .sales-back, .insights-back {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #475569;
+  transition: all 0.2s;
+}
+
+.messages-back:hover, .seller-messages-back:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.messages-chip, .seller-messages-chip {
+  display: inline-block;
+  background: var(--orange-soft);
+  color: var(--orange);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.messages-subtitle, .seller-messages-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.messages-list, .seller-conversations-list, .conversations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.leads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.messages-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.messages-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.messages-tab:hover {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.messages-tab.active {
+  background: var(--orange-soft);
+  color: var(--orange);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+/* Conversation Items */
+.conversation-item {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--panel);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.conversation-item:hover {
+  border-color: var(--orange);
+  background: var(--panel-soft);
+}
+
+.conversation-avatar {
+  position: relative;
+}
+
+.conversation-avatar img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.conversation-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: #22c55e;
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.conversation-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.conversation-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--white);
+}
+
+.conversation-time {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.conversation-user {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.conversation-preview {
+  font-size: 0.9rem;
+  color: #475569;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conversation-meta {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.conversation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #f1f5f9;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+.conversation-unread {
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Date Divider */
+.conversation-divider {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  padding: 0.5rem 0;
+  position: relative;
+}
+
+.conversation-divider::before,
+.conversation-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.conversation-divider::before { left: 0; }
+.conversation-divider::after { right: 0; }
+
+/* ==========================================
+   CHAT VIEW - Professional
+   ========================================== */
+
+.chat-view, .seller-chat-view {
+  padding: 0;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header, .seller-chat-header {
+  background: var(--panel);
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  border-radius: 24px 24px 0 0;
+}
+
+.chat-back, .seller-chat-back {
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.chat-back:hover, .seller-chat-back:hover {
+  background: var(--line);
+  color: var(--white);
+}
+
+.chat-vehicle-info, .seller-chat-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+}
+
+.chat-vehicle-thumb, .seller-chat-vehicle-thumb {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.chat-vehicle-info h2, .seller-chat-info h2 {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+
+.chat-vehicle-info h2 { color: #1e293b; }
+.chat-header-professional .chat-vehicle-info h2 { color: #fff; }
+
+.chat-status, .seller-chat-status {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.chat-header-professional .chat-status {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Chat Messages */
+.chat-messages, .seller-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  background: transparent;
+}
+
+.message {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 70%;
+}
+
+.message-incoming {
+  align-self: flex-start;
+}
+
+.message-outgoing {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.message-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.message-incoming .message-bubble {
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-bottom-left-radius: 4px;
+}
+
+.message-outgoing .message-bubble {
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
+}
+
+.message-time {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.message-outgoing .message-time {
+  text-align: right;
+}
+
+.message-status {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Chat Input */
+.chat-input-professional, .seller-chat-input {
+  background: var(--panel);
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 24px 24px;
+}
+
+.chat-form, .seller-chat-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input-wrapper, .seller-chat-input-wrapper {
+  display: flex;
+  flex: 1;
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 0.6rem 1.2rem;
+  gap: 0.8rem;
+}
+
+.chat-input-wrapper input, .seller-chat-input-wrapper input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.chat-attach-btn, .seller-chat-attach {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.chat-send-btn, .seller-chat-send {
+  background: linear-gradient(135deg, #ff9b54 0%, #f97316 100%);
+  color: #fff;
+  border: none;
+  padding: 0 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba(249, 115, 22, 0.2);
+  transition: all 0.2s;
+}
+
+.chat-send-btn:hover, .seller-chat-send:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(249, 115, 22, 0.3);
+}
+
+/* ==========================================
+   SALES & INSIGHTS
+   ========================================== */
+
+.sales-view, .insights-view {
+  padding: 2rem 0;
+}
+
+.sales-header, .insights-header {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sales-chip, .insights-chip {
+  display: inline-block;
+  background: #eef2ff;
+  color: #6366f1;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.sales-subtitle, .insights-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.sales-stats, .pub-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.sale-stat, .pub-stat {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.sale-stat span, .pub-stat span {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.sale-stat strong, .pub-stat strong {
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+.sale-stat.is-active, .pub-stat.is-active {
+  background: #eef2ff;
+  border-color: #6366f1;
+}
+
+.sale-stat.is-active strong, .pub-stat.is-active strong {
+  color: #6366f1;
+}
+
+.sales-timeline, .insights-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sale-card, .insight-card {
+  background: #fff;
+  padding: 1.25rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.sale-card img, .insight-card img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.sale-card-header, .insight-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sale-card-header h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #1e293b;
+}
+
+.sale-status {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.sale-status.is-completed {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.sale-status.is-active {
+  background: #eef2ff;
+  color: #6366f1;
+}
+
+.sale-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6366f1;
+}
+
+.sale-card-meta, .insight-card div:last-child {
+  font-size: 0.8rem;
+  color: #64748b;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Insight Cards */
+.insight-card {
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+}
+
+.insight-card.is-hot {
+  border-left: 4px solid #22c55e;
+}
+
+.insight-card.is-warn {
+  border-left: 4px solid #ef4444;
+}
+
+.insight-card i {
+  font-size: 1.5rem;
+  color: #6366f1;
+}
+
+.insight-card h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: #1e293b;
+}
+
+.insight-card p {
+  font-size: 0.9rem;
+  color: #475569;
+  margin: 0 0 0.75rem;
+}
+
+.insight-btn, .insight-btn-alt {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.insight-btn-alt {
+  background: #fff;
+  color: #6366f1;
+  border: 1px solid #6366f1;
+}
+
+/* Message Empty State */
+.messages-empty, .seller-messages-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #94a3b8;
+}
+
+.messages-empty i, .seller-messages-empty i {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.messages-empty h3, .seller-messages-empty h3 {
+  font-size: 1.25rem;
+  color: #475569;
+  margin: 0.5rem 0;
+}
+
+.messages-empty p, .seller-messages-empty p {
+  font-size: 0.9rem;
+  margin: 0;
+}

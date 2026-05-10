@@ -1,0 +1,119 @@
+<div class="menu-admin-page">
+  <div class="menu-admin-layout">
+    <aside class="menu-admin-sidebar">
+      <div class="menu-admin-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Admin Console</small>
+        </div>
+      </div>
+      
+      <nav class="menu-admin-nav">
+        <a href="#admin/menu" data-navigate="admin/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Estado global</small>
+          </span>
+        </a>
+        <a class="is-active" href="#admin/users" data-navigate="admin/users">
+          <i class="bi bi-people-fill"></i>
+          <span>
+            <strong>Usuarios</strong>
+            <small>Fraude y actividad</small>
+          </span>
+        </a>
+        <a href="#admin/publications" data-navigate="admin/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Publicaciones</strong>
+            <small>Moderacion</small>
+          </span>
+        </a>
+        <a href="#admin/engine" data-navigate="admin/engine">
+          <i class="bi bi-cpu-fill"></i>
+          <span>
+            <strong>Motor IA</strong>
+            <small>Precision y reglas</small>
+          </span>
+        </a>
+        <a href="#admin/analytics" data-navigate="admin/analytics">
+          <i class="bi bi-bar-chart-fill"></i>
+          <span>
+            <strong>Analíticas</strong>
+            <small>Embudo y conversion</small>
+          </span>
+        </a>
+        <a href="#admin/alerts" data-navigate="admin/alerts">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>
+            <strong>Alertas</strong>
+            <small>Criticas y anomalias</small>
+          </span>
+        </a>
+        <div class="menu-admin-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-admin-sidebar-note">
+        <span>Radar IA</span>
+        <strong>1.2k Usuarios</strong>
+        <p>Actividad normal detectada en las últimas 24 horas.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-admin-main">
+      <header class="menu-admin-topbar">
+        <div>
+          <nav class="menu-admin-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a class="is-current" href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-admin-kicker">Gestión</span>
+          <h1>Usuarios y Cuentas</h1>
+        </div>
+      </header>
+
+      <section class="menu-admin-panel">
+        <div class="menu-admin-panel-header">
+          <h3>Usuarios Recientes</h3>
+          <button type="button" class="menu-admin-ghost-btn">Exportar CSV</button>
+        </div>
+        <div class="menu-admin-table-wrap">
+          <table class="menu-admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Juan Pérez</strong><br><small>juan@example.com</small></td>
+                <td>Vendedor</td>
+                <td><span class="menu-admin-badge is-active">Activo</span></td>
+                <td><button class="menu-admin-ghost-btn">Ver</button></td>
+              </tr>
+              <tr>
+                <td><strong>María González</strong><br><small>maria@example.com</small></td>
+                <td>Comprador</td>
+                <td><span class="menu-admin-badge is-active">Activo</span></td>
+                <td><button class="menu-admin-ghost-btn">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

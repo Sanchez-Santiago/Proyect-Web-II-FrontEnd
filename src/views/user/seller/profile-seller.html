@@ -1,0 +1,186 @@
+<div class="menu-seller-page">
+  <div class="menu-seller-layout">
+    <aside class="menu-seller-sidebar">
+      <div class="menu-seller-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Seller Console</small>
+        </div>
+      </div>
+      
+      <nav class="menu-seller-nav">
+        <a href="#user/seller/menu" data-navigate="user/seller/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Estado de ventas</small>
+          </span>
+        </a>
+        <a href="#user/seller/publications" data-navigate="user/seller/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Mis publicaciones</strong>
+            <small>Gestiona tus avisos</small>
+          </span>
+        </a>
+        <a href="#vehicles/add" data-navigate="vehicles/add">
+          <i class="bi bi-plus-square-fill"></i>
+          <span>
+            <strong>Crear publicacion</strong>
+            <small>Carga asistida por IA</small>
+          </span>
+        </a>
+        <a href="#messages/seller" data-navigate="messages/seller">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/sales" data-navigate="user/seller/sales">
+          <i class="bi bi-cash-stack"></i>
+          <span>
+            <strong>Ventas</strong>
+            <small>Historial y cierres</small>
+          </span>
+        </a>
+        <a href="#user/seller/insights" data-navigate="user/seller/insights">
+          <i class="bi bi-stars"></i>
+          <span>
+            <strong>Insights IA</strong>
+            <small>Recomendaciones</small>
+          </span>
+        </a>
+        <a class="is-active" href="#user/seller/profile" data-navigate="user/seller/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+        <div class="menu-seller-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-seller-sidebar-note">
+        <span>Radar comercial</span>
+        <strong>11 leads calientes</strong>
+        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-seller-main">
+      <header class="menu-seller-topbar">
+        <div>
+          <nav class="menu-seller-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-seller-kicker">Configuración</span>
+          <h1>Gestionar perfil vendedor</h1>
+        </div>
+      </header>
+
+      <section class="profile-seller-view">
+        <div class="profile-seller-shell">
+          <form id="sellerProfileForm" class="seller-profile-form">
+            <article class="seller-form-card form-card">
+              <div class="seller-section-head section-head">
+                <span class="seller-section-step section-step">Datos de tu cuenta</span>
+                <div>
+                  <h2>Informacion basica y reputacion</h2>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="sellerName" class="form-label">Nombre o Razon Social</label>
+                  <input id="sellerName" name="sellerName" type="text" class="form-control form-control-lg" placeholder="Juan Perez Autos" required />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="sellerPhone" class="form-label">Telefono de contacto</label>
+                  <input id="sellerPhone" name="sellerPhone" type="tel" class="form-control form-control-lg" placeholder="+54 9 351 1234567" required />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="sellerType" class="form-label">Tipo de vendedor</label>
+                  <select id="sellerType" name="sellerType" class="form-select form-select-lg" required>
+                    <option value="particular">Particular</option>
+                    <option value="concesionaria">Concesionaria / Profesional</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="sellerAddress" class="form-label">Ubicacion principal</label>
+                  <input id="sellerAddress" name="sellerAddress" type="text" class="form-control form-control-lg" placeholder="Cordoba, Argentina" required />
+                </div>
+
+                <div class="col-12">
+                  <label for="sellerBio" class="form-label">Bio o descripcion</label>
+                  <textarea id="sellerBio" name="sellerBio" class="form-control" rows="4" placeholder="Cuentale a tus compradores sobre tu experiencia, garantia o como trabajas."></textarea>
+                </div>
+              </div>
+            </article>
+
+            <article class="seller-form-card form-card">
+              <div class="seller-section-head section-head">
+                <span class="seller-section-step section-step">Preferencias de venta</span>
+                <div>
+                  <h2>Metodos, tiempos e IA</h2>
+                </div>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="sellerResponseTime" class="form-label">Tiempo de respuesta estimado</label>
+                  <select id="sellerResponseTime" name="sellerResponseTime" class="form-select form-select-lg">
+                    <option value="minutos">Pocos minutos</option>
+                    <option value="hora">Menos de una hora</option>
+                    <option value="dia">Durante el dia</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label seller-options-label options-label">Opciones activas</label>
+                  <div class="seller-option-grid option-grid">
+                    <label class="seller-option option">
+                      <input id="sellerAcceptsTradeIn" name="sellerAcceptsTradeIn" type="checkbox" />
+                      <span>
+                        <strong>Acepto permuta</strong>
+                        <small>Aparece como opcion en tus publicaciones.</small>
+                      </span>
+                    </label>
+                    <label class="seller-option option">
+                      <input id="sellerAiChatbot" name="sellerAiChatbot" type="checkbox" checked />
+                      <span>
+                        <strong>Asistente IA</strong>
+                        <small>Permitir que la IA responda consultas basicas.</small>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <small id="sellerProfileMessage" class="seller-form-message form-message">Completa los campos principales para guardar tu perfil.</small>
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn seller-primary-btn primary-btn">Guardar perfil vendedor</button>
+                </div>
+              </div>
+            </article>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

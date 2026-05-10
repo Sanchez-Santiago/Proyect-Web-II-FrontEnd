@@ -1,0 +1,181 @@
+<div class="menu-seller-page">
+  <div class="menu-seller-layout">
+    <aside class="menu-seller-sidebar">
+      <div class="menu-seller-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Seller Console</small>
+        </div>
+      </div>
+      
+      <nav class="menu-seller-nav">
+        <a href="#user/seller/menu" data-navigate="user/seller/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Estado de ventas</small>
+          </span>
+        </a>
+        <a href="#user/seller/publications" data-navigate="user/seller/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Mis publicaciones</strong>
+            <small>Gestiona tus avisos</small>
+          </span>
+        </a>
+        <a class="is-active" href="#vehicles/add" data-navigate="vehicles/add">
+          <i class="bi bi-plus-square-fill"></i>
+          <span>
+            <strong>Crear publicacion</strong>
+            <small>Carga asistida por IA</small>
+          </span>
+        </a>
+        <a href="#messages/seller" data-navigate="messages/seller">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span>
+            <strong>Mensajes</strong>
+            <small>Conversaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/sales" data-navigate="user/seller/sales">
+          <i class="bi bi-cash-stack"></i>
+          <span>
+            <strong>Ventas</strong>
+            <small>Historial y cierres</small>
+          </span>
+        </a>
+        <a href="#user/seller/insights" data-navigate="user/seller/insights">
+          <i class="bi bi-stars"></i>
+          <span>
+            <strong>Insights IA</strong>
+            <small>Recomendaciones</small>
+          </span>
+        </a>
+        <a href="#user/seller/profile" data-navigate="user/seller/profile">
+          <i class="bi bi-person-fill"></i>
+          <span>
+            <strong>Perfil</strong>
+            <small>Configuracion</small>
+          </span>
+        </a>
+        <div class="menu-seller-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-seller-sidebar-note">
+        <span>Radar comercial</span>
+        <strong>11 leads calientes</strong>
+        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-seller-main">
+      <header class="menu-seller-topbar">
+        <div>
+          <nav class="menu-seller-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-seller-kicker">Publicar</span>
+          <h1>Crear publicación con IA</h1>
+        </div>
+      </header>
+
+      <section class="add-vehicle-view">
+        <div class="add-vehicle-shell">
+          <form id="addVehicleForm" class="add-vehicle-form" novalidate>
+            <article class="form-card">
+              <div class="section-head">
+                <span class="section-step">Datos basicos</span>
+                <h2>Marca, modelo y precio</h2>
+              </div>
+
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="vehicleBrand" class="form-label">Marca *</label>
+                  <select id="vehicleBrand" name="brand" class="form-select form-select-lg" required>
+                    <option value="">Selecciona</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Honda">Honda</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Chevrolet">Chevrolet</option>
+                    <option value="Peugeot">Peugeot</option>
+                    <option value="Nissan">Nissan</option>
+                    <option value="Renault">Renault</option>
+                    <option value="Fiat">Fiat</option>
+                    <option value="Mercedes-Benz">Mercedes-Benz</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Audi">Audi</option>
+                    <option value="Hyundai">Hyundai</option>
+                    <option value="Kia">Kia</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="vehicleModel" class="form-label">Modelo *</label>
+                  <input id="vehicleModel" name="model" type="text" class="form-control form-control-lg" placeholder="Corolla XEi" required />
+                </div>
+
+                <div class="col-md-4">
+                  <label for="vehicleYear" class="form-label">Ano *</label>
+                  <select id="vehicleYear" name="year" class="form-select form-select-lg" required>
+                    <option value="">Selecciona</option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                  </select>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="vehiclePrice" class="form-label">Precio (ARS) *</label>
+                  <input id="vehiclePrice" name="price" type="number" class="form-control form-control-lg" placeholder="14500000" required />
+                </div>
+              </div>
+            </article>
+
+            <article class="form-card">
+              <div class="section-head">
+                <span class="section-step">Fotos</span>
+                <h2>Sube fotos de tu vehiculo</h2>
+              </div>
+
+              <div class="add-vehicle-images">
+                <div class="image-upload-area" id="imageUploadArea">
+                  <i class="bi bi-cloud-arrow-up"></i>
+                  <p>Arrastra fotos aqui o</p>
+                  <label for="vehicleImages" class="btn image-upload-btn">Seleccionar archivos</label>
+                  <input type="file" id="vehicleImages" name="images" accept="image/*" multiple hidden />
+                </div>
+                <div class="image-preview-grid" id="imagePreviewGrid"></div>
+              </div>
+            </article>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" data-navigate="user/seller/menu">Cancelar</button>
+              <button type="submit" class="btn btn-primary">Publicar con IA</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,285 @@
+:root {
+  --text: #f8fafc;
+  --muted: rgba(248, 250, 252, 0.68);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  background:
+    radial-gradient(circle at top center, rgba(249, 115, 22, 0.18), transparent 22%),
+    linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+  color: var(--text);
+}
+
+.comparator-buyer-page {
+  min-height: 100svh;
+  padding: 0.85rem;
+}
+
+.comparator-buyer-layout {
+  min-height: calc(100svh - 1.7rem);
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.comparator-buyer-sidebar,
+.comparator-buyer-summary-card,
+.comparator-buyer-focus-card,
+.comparator-buyer-car,
+.comparator-buyer-table-card,
+.comparator-buyer-sidebar-note {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.comparator-buyer-sidebar {
+  padding: 0.9rem;
+  border-radius: 28px;
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.comparator-buyer-brand,
+.comparator-buyer-nav a,
+.comparator-buyer-sidebar-note,
+.comparator-buyer-summary-card,
+.comparator-buyer-focus-card,
+.comparator-buyer-car,
+.comparator-buyer-table-card {
+  border-radius: 24px;
+}
+
+.comparator-buyer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.05rem 0.1rem 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.comparator-buyer-brand span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  border: 1px solid rgba(249, 115, 22, 0.34);
+  color: #ffd4b2;
+  font-weight: 800;
+}
+
+.comparator-buyer-brand strong,
+.comparator-buyer-nav a strong,
+.comparator-buyer-topbar h1,
+.comparator-buyer-summary-card h2,
+.comparator-buyer-car h3 {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.comparator-buyer-nav {
+  display: grid;
+  gap: 0.32rem;
+}
+
+.comparator-buyer-nav a {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 0.8rem;
+  padding: 0.78rem 0.88rem;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.018);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.comparator-buyer-nav a.is-active {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.065) 0%, rgba(249, 115, 22, 0.045) 100%);
+  border-color: rgba(249, 115, 22, 0.16);
+}
+
+.comparator-buyer-nav a.is-active::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 16%;
+  width: 2px;
+  height: 64%;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffb37d 0%, #f97316 100%);
+}
+
+.comparator-buyer-nav a i {
+  color: rgba(255, 212, 178, 0.92);
+}
+
+.comparator-buyer-nav a small,
+.comparator-buyer-sidebar-note p,
+.comparator-buyer-summary-card p,
+.comparator-buyer-car li {
+  color: var(--muted);
+}
+
+.comparator-buyer-sidebar-note,
+.comparator-buyer-summary-card,
+.comparator-buyer-focus-card,
+.comparator-buyer-car,
+.comparator-buyer-table-card {
+  padding: 1rem;
+}
+
+.comparator-buyer-main {
+  min-width: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.comparator-buyer-topbar,
+.comparator-buyer-top-actions {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.comparator-buyer-topbar {
+  justify-content: space-between;
+  align-items: end;
+  padding: 0.2rem 0.15rem 0;
+}
+
+.comparator-buyer-workspace-switch {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comparator-buyer-workspace-switch a {
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  color: rgba(248, 250, 252, 0.72);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.comparator-buyer-workspace-switch a.is-current {
+  color: #111;
+  background: linear-gradient(135deg, #ffb37d 0%, #f97316 100%);
+}
+
+.comparator-buyer-kicker,
+.comparator-buyer-chip,
+.comparator-buyer-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.72rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.comparator-buyer-kicker,
+.comparator-buyer-chip,
+.comparator-buyer-badge {
+  background: rgba(249, 115, 22, 0.1);
+  color: #ffb37d;
+}
+
+.comparator-buyer-topbar h1 {
+  margin: 0.6rem 0 0;
+  max-width: 13ch;
+  font-size: clamp(1.95rem, 3.2vw, 3.45rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+}
+
+.comparator-buyer-ghost-btn {
+  border-radius: 16px;
+  min-height: 42px;
+  padding: 0 0.95rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.comparator-buyer-hero,
+.comparator-buyer-cars {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.8fr);
+  gap: 0.85rem;
+}
+
+.comparator-buyer-cars {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.comparator-buyer-select {
+  min-height: 58px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.comparator-buyer-car.is-best {
+  border-color: rgba(249, 115, 22, 0.26);
+}
+
+.comparator-buyer-car p {
+  margin: 0.25rem 0 0;
+  color: #ffb37d;
+  font-weight: 700;
+}
+
+.comparator-buyer-car ul {
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.comparator-buyer-car strong {
+  display: inline-flex;
+  margin-top: 1rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.comparator-buyer-table {
+  color: #f8fafc;
+  margin: 0;
+}
+
+.comparator-buyer-table th,
+.comparator-buyer-table td {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.08);
+  padding: 0.9rem;
+}
+
+@media (max-width: 1200px) {
+  .comparator-buyer-layout,
+  .comparator-buyer-hero,
+  .comparator-buyer-cars {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 767px) {
+  .comparator-buyer-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .comparator-buyer-topbar {
+    flex-direction: column;
+  }
+}

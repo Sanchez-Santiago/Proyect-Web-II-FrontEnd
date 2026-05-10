@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+@import './components/base.css';
+@import './components/home.css';
+@import './components/car-detail.css';
+@import './components/login.css';
+@import './components/login-modal.css';
+@import './components/role.css';
+@import './components/menu.css';
+@import './components/profile.css';
+@import './components/messages.css';
+@import './components/investment-advisor.css';
+
+/* Componentes en src/css/components/ */
+@import './components/role-access.css';
+@import './components/assistant-buyer.css';
+@import './components/comparator-buyer.css';
+@import './components/favorites-buyer.css';
+@import './components/menu-admin.css';
+@import './components/menu-buyer.css';
+@import './components/menu-seller.css';
+@import './components/profile-buyer.css';
+@import './components/profile-seller.css';
+@import './components/search-buyer.css';
+@import './components/simulator-buyer.css';
+
+/* Nuevos componentes */
+@import './components/publications.css';
+@import './components/sales.css';
+@import './components/admin-workspace.css';
+@import './components/notification-panel.css';
