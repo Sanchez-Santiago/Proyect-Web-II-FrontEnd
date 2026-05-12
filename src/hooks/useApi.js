@@ -1,5 +1,15 @@
-const API_BASE_URL = '/api';
-const INSPECTOR_MODE = true;
+const DEFAULT_API_BASE_URL = 'http://localhost:3000';
+
+function readRuntimeConfig(key) {
+  const windowValue = typeof window !== 'undefined' && window.MotorMarketConfig
+    ? window.MotorMarketConfig[key]
+    : undefined;
+  if (windowValue !== undefined) return windowValue;
+  return localStorage.getItem(`motormarket_${key}`);
+}
+
+const API_BASE_URL = readRuntimeConfig('apiBaseUrl') || DEFAULT_API_BASE_URL;
+const INSPECTOR_MODE = readRuntimeConfig('inspectorMode') === 'true';
 
 function getAuthHeaders() {
   const sessionRaw = localStorage.getItem('motormarket_session');

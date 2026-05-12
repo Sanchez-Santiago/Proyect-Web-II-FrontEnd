@@ -9,7 +9,15 @@
 import state from './state.js';
 import { getInspectorData, findOrCreateConversation } from '../data/inspector-data.js';
 
-const INSPECTOR_MODE = true;
+function readRuntimeConfig(key) {
+  const windowValue = typeof window !== 'undefined' && window.MotorMarketConfig
+    ? window.MotorMarketConfig[key]
+    : undefined;
+  if (windowValue !== undefined) return windowValue;
+  return localStorage.getItem(`motormarket_${key}`);
+}
+
+const INSPECTOR_MODE = readRuntimeConfig('inspectorMode') === 'true';
 const INSPECTOR_KEY = 'motormarket_inspector_session';
 
 console.log('[INSPECTOR] Mode:', INSPECTOR_MODE);
@@ -50,8 +58,8 @@ window.toggleInspectorRole = toggleInspectorRole;
 window.findOrCreateConversation = findOrCreateConversation;
 
 const routes = {
-  '': { template: 'src/views/home/index.html', script: 'src/views/home/index.js', title: 'MotorMarket | Autos usados con IA' },
-  'home': { template: 'src/views/home/index.html', script: 'src/views/home/index.js', title: 'MotorMarket | Autos usados con IA' },
+  '': { redirect: 'auth/login' },
+  'home': { redirect: 'auth/login' },
   
   'auth/login': { template: 'src/views/auth/login.html', script: 'src/views/auth/login.js', title: 'Login | MotorMarket' },
   'auth/register': { template: 'src/views/auth/register.html', script: 'src/views/auth/register.js', title: 'Registro | MotorMarket' },
@@ -193,6 +201,10 @@ function setupNavigation() {
   document.querySelectorAll('[data-navigate]').forEach(el => {
     el.addEventListener('click', e => {
       e.preventDefault();
+      if (el.dataset.logout === 'true') {
+        state.clearSession();
+        localStorage.removeItem(INSPECTOR_KEY);
+      }
       const view = el.dataset.navigate?.split('?')[0];
       if (view) navigateTo(view);
     });

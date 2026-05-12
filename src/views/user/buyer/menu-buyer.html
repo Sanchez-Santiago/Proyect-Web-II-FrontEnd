@@ -13,8 +13,8 @@
         <a class="is-active" href="#user/buyer/menu" data-navigate="user/buyer/menu">
           <i class="bi bi-house-door-fill"></i>
           <span>
-            <strong>Dashboard</strong>
-            <small>Match y decisiones</small>
+            <strong>Inicio</strong>
+            <small>Recomendaciones</small>
           </span>
         </a>
         <a href="#user/buyer/favorites" data-navigate="user/buyer/favorites">
@@ -46,11 +46,11 @@
           </span>
         </a>
         <div class="menu-buyer-nav-divider"></div>
-        <a class="nav-back-home" href="#home" data-navigate="home">
+        <a class="nav-back-home" href="#auth/login" data-navigate="auth/login" data-logout="true">
           <i class="bi bi-box-arrow-left"></i>
           <span>
-            <strong>Volver al Home</strong>
-            <small>Salir de la consola</small>
+            <strong>Cerrar sesion</strong>
+            <small>Volver al login</small>
           </span>
         </a>
       </nav>
@@ -70,123 +70,23 @@
             <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
             <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
           </nav>
-          <span class="menu-buyer-kicker">Inicio</span>
-          <h1>Tu proximo auto no se busca. Se descubre con IA.</h1>
-        </div>
-        <div class="menu-buyer-top-actions">
-          <button type="button" class="menu-buyer-ghost-btn">Comparar autos</button>
-          <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
+          <span class="menu-buyer-kicker">Autos en venta</span>
+          <h1>Explora publicaciones disponibles</h1>
         </div>
       </header>
       
-      <section class="menu-buyer-hero">
-        <article class="menu-buyer-hero-card">
-          <div class="menu-buyer-hero-copy">
-            <span class="menu-buyer-chip">Auto destacado</span>
-            <h2>Toyota Corolla XEi 2021</h2>
-            <p>Mejor equilibrio entre seguridad, valor real, consumo y reventa frente a los ultimos autos que viste.</p>
-            <div class="menu-buyer-hero-actions">
-              <button type="button" class="menu-buyer-primary-btn">Ver analisis IA</button>
-              <button type="button" class="menu-buyer-ghost-btn">Comparar</button>
-            </div>
-          </div>
-          
-          <div class="menu-buyer-hero-visual">
-            <img
-              src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80"
-              alt="Toyota Corolla destacado"
-            />
-            <div class="menu-buyer-score">
-              <strong>96%</strong>
-              <span>Match IA</span>
-            </div>
-          </div>
-        </article>
-        
-        <aside class="menu-buyer-ai-panel">
-          <span class="menu-buyer-chip">Copiloto IA</span>
-          <h3>Esto te diria ahora</h3>
-          <blockquote>
-            "Este Corolla es mejor que el hatchback que viste ayer porque baja tu gasto mensual y mejora la reventa a 24 meses."
-          </blockquote>
-          <div class="menu-buyer-ai-metrics">
-            <div>
-              <span>Riesgo mecanico</span>
-              <strong>Bajo</strong>
-            </div>
-            <div>
-              <span>Costo mensual</span>
-              <strong>$451k</strong>
-            </div>
-          </div>
-        </aside>
+      <section class="menu-buyer-market-head">
+        <div>
+          <span>Publicaciones activas</span>
+          <strong id="buyerMarketCount">0 autos</strong>
+        </div>
+        <div>
+          <span>Orden sugerido</span>
+          <strong>Mejores oportunidades primero</strong>
+        </div>
       </section>
       
-      <section class="menu-buyer-car-grid">
-        <article class="menu-buyer-car-card">
-          <img
-            src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?auto=format&fit=crop&w=1200&q=80"
-            alt="Honda Civic"
-          />
-          <div class="menu-buyer-car-body">
-            <div class="menu-buyer-car-head">
-              <div>
-                <h3>Honda Civic 2020</h3>
-                <p>$12.500.000</p>
-              </div>
-              <span class="menu-buyer-car-score">92%</span>
-            </div>
-            <div class="menu-buyer-car-meta">
-              <span><i class="bi bi-speedometer2"></i> 63.000 km</span>
-              <span><i class="bi bi-cash-stack"></i> $418k/mes</span>
-            </div>
-            <div class="menu-buyer-car-actions">
-              <button type="button" class="menu-buyer-ghost-btn">Ver</button>
-              <button type="button" class="menu-buyer-primary-btn">Comparar</button>
-            </div>
-          </div>
-        </article>
-        
-        <article class="menu-buyer-car-card">
-          <img
-            src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&q=80"
-            alt="Volkswagen Polo"
-          />
-          <div class="menu-buyer-car-body">
-            <div class="menu-buyer-car-head">
-              <div>
-                <h3>Volkswagen Polo 2021</h3>
-                <p>$11.900.000</p>
-              </div>
-              <span class="menu-buyer-car-score">89%</span>
-            </div>
-            <div class="menu-buyer-car-meta">
-              <span><i class="bi bi-speedometer2"></i> 48.000 km</span>
-              <span><i class="bi bi-cash-stack"></i> $396k/mes</span>
-            </div>
-            <div class="menu-buyer-car-actions">
-              <button type="button" class="menu-buyer-ghost-btn">Ver</button>
-              <button type="button" class="menu-buyer-primary-btn">Comparar</button>
-            </div>
-          </div>
-        </article>
-        
-        <article class="menu-buyer-chat-card">
-          <div class="menu-buyer-chat-head">
-            <span class="menu-buyer-chip">Asistente IA</span>
-            <strong>Consulta rapida</strong>
-          </div>
-          <div class="menu-buyer-chat-bubble is-ai">
-            Este Corolla se vende rapido. Si te interesa, prioriza analisis y contacto hoy.
-          </div>
-          <div class="menu-buyer-chat-bubble is-user">
-            Comparame este con el Civic.
-          </div>
-          <div class="menu-buyer-chat-input">
-            <input type="text" value="¿Me conviene este auto?" readonly />
-            <button type="button"><i class="bi bi-arrow-up-right"></i></button>
-          </div>
-        </article>
+      <section id="buyerMarketList" class="menu-buyer-market-list" aria-label="Autos en venta">
       </section>
     </main>
   </div>

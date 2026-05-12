@@ -1,13 +1,13 @@
 <section class="register-view">
   <div class="register-shell container">
     <div class="row g-4 align-items-center">
-      <div class="col-lg-6">
+      <div class="col-lg-5">
         <div class="register-copy">
           <h1>Crear tu cuenta es gratis y te da acceso completo al mercado de autos usados.</h1>
         </div>
       </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-7">
         <article class="login-card">
           <div class="login-card-top">
             <span class="login-chip">Registro</span>
@@ -18,101 +18,86 @@
           <p class="login-card-text">Completa tus datos para empezar a buscar o vender.</p>
 
           <form id="registerForm" class="login-form" novalidate>
-            <label for="registerName" class="form-label">Nombre completo</label>
-            <div class="input-wrap">
-              <i class="bi bi-person-fill"></i>
-              <input
-                id="registerName"
-                name="name"
-                type="text"
-                class="form-control form-control-lg"
-                placeholder="Juan Pérez"
-                autocomplete="name"
-                required
-              />
-            </div>
+            <div class="register-form-grid">
+              <div class="register-field">
+                <label for="registerName" class="form-label">Nombre completo</label>
+                <div class="input-wrap">
+                  <i class="bi bi-person-fill"></i>
+                  <input id="registerName" name="full_name" type="text" class="form-control form-control-lg" placeholder="Juan Perez" autocomplete="name" required />
+                </div>
+              </div>
 
-            <label for="registerEmail" class="form-label">Correo electrónico</label>
-            <div class="input-wrap">
-              <i class="bi bi-envelope-fill"></i>
-              <input
-                id="registerEmail"
-                name="email"
-                type="email"
-                class="form-control form-control-lg"
-                placeholder="nombre@correo.com"
-                autocomplete="email"
-                required
-              />
-            </div>
+              <div class="register-field">
+                <label for="registerBirthDate" class="form-label">Fecha de nacimiento</label>
+                <div class="input-wrap">
+                  <i class="bi bi-calendar-event-fill"></i>
+                  <input id="registerBirthDate" name="birth_date" type="date" class="form-control form-control-lg" autocomplete="bday" required />
+                </div>
+              </div>
 
-            <label for="registerPassword" class="form-label">Contraseña</label>
-            <div class="input-wrap">
-              <i class="bi bi-lock-fill"></i>
-              <input
-                id="registerPassword"
-                name="password"
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Mínimo 6 caracteres"
-                autocomplete="new-password"
-                required
-              />
-            </div>
+              <div class="register-field">
+                <label for="registerEmail" class="form-label">Correo electronico</label>
+                <div class="input-wrap">
+                  <i class="bi bi-envelope-fill"></i>
+                  <input id="registerEmail" name="email" type="email" class="form-control form-control-lg" placeholder="nombre@correo.com" autocomplete="email" required />
+                </div>
+              </div>
 
-            <label for="registerConfirmPassword" class="form-label">Confirmar contraseña</label>
-            <div class="input-wrap">
-              <i class="bi bi-lock-fill"></i>
-              <input
-                id="registerConfirmPassword"
-                name="confirmPassword"
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Repite tu contraseña"
-                autocomplete="new-password"
-                required
-              />
-            </div>
+              <div class="register-field">
+                <label for="registerPhone" class="form-label">Telefono principal</label>
+                <div class="input-wrap">
+                  <i class="bi bi-telephone-fill"></i>
+                  <input id="registerPhone" name="phone" type="tel" class="form-control form-control-lg" placeholder="+54 9 351 1234567" autocomplete="tel" required />
+                </div>
+              </div>
 
-            <label for="registerRole" class="form-label">¿Qué quieres hacer?</label>
-            <div class="input-wrap">
-              <i class="bi bi-person-badge-fill"></i>
-              <select
-                id="registerRole"
-                name="role"
-                class="form-select form-select-lg"
-                required
-              >
-                <option value="SELLER" selected>Vender autos</option>
-              </select>
-            </div>
+              <div class="register-field">
+                <label for="registerAlternatePhone" class="form-label">Telefono alternativo</label>
+                <div class="input-wrap">
+                  <i class="bi bi-telephone-plus-fill"></i>
+                  <input id="registerAlternatePhone" name="alternate_phone" type="tel" class="form-control form-control-lg" placeholder="Opcional" autocomplete="tel" />
+                </div>
+              </div>
 
-            <label for="registerProvince" class="form-label">Provincia</label>
-            <div class="input-wrap">
-              <i class="bi bi-geo-alt-fill"></i>
-              <input
-                id="registerProvince"
-                name="province"
-                type="text"
-                class="form-control form-control-lg"
-                placeholder="Córdoba"
-                autocomplete="address-level1"
-                required
-              />
-            </div>
+              <div class="register-field">
+                <label for="registerPassword" class="form-label">Contrasena</label>
+                <div class="input-wrap">
+                  <i class="bi bi-lock-fill"></i>
+                  <input id="registerPassword" name="password" type="password" class="form-control form-control-lg" placeholder="Minimo 8, con mayuscula y numero" autocomplete="new-password" required />
+                </div>
+              </div>
 
-            <label for="registerCity" class="form-label">Ciudad</label>
-            <div class="input-wrap">
-              <i class="bi bi-geo-fill"></i>
-              <input
-                id="registerCity"
-                name="city"
-                type="text"
-                class="form-control form-control-lg"
-                placeholder="Córdoba"
-                autocomplete="address-level2"
-                required
-              />
+              <div class="register-field">
+                <label for="registerConfirmPassword" class="form-label">Confirmar contrasena</label>
+                <div class="input-wrap">
+                  <i class="bi bi-lock-fill"></i>
+                  <input id="registerConfirmPassword" name="confirmPassword" type="password" class="form-control form-control-lg" placeholder="Repite tu contrasena" autocomplete="new-password" required />
+                </div>
+              </div>
+
+              <div class="register-field">
+                <label for="registerProvince" class="form-label">Provincia</label>
+                <div class="input-wrap">
+                  <i class="bi bi-geo-alt-fill"></i>
+                  <input id="registerProvince" name="province" type="text" class="form-control form-control-lg" placeholder="Cordoba" autocomplete="address-level1" required />
+                </div>
+              </div>
+
+              <div class="register-field">
+                <label for="registerCity" class="form-label">Ciudad</label>
+                <div class="input-wrap">
+                  <i class="bi bi-geo-fill"></i>
+                  <input id="registerCity" name="city" type="text" class="form-control form-control-lg" placeholder="Cordoba" autocomplete="address-level2" required />
+                </div>
+              </div>
+
+              <div class="register-field register-field-wide">
+                <label for="registerAddress" class="form-label">Direccion</label>
+                <div class="input-wrap">
+                  <i class="bi bi-house-door-fill"></i>
+                  <input id="registerAddress" name="address" type="text" class="form-control form-control-lg" placeholder="Calle, numero y referencia" autocomplete="street-address" required />
+                </div>
+              </div>
             </div>
 
             <small id="registerMessage" class="login-message">Completa todos los campos para crear tu cuenta.</small>
@@ -120,7 +105,7 @@
             <button type="submit" class="btn login-submit w-100">Crear cuenta</button>
 
             <p class="login-footer">
-              Ya tenés cuenta? <a href="#">Iniciar sesión</a>
+              Ya tenés cuenta? <a href="#auth/login" data-navigate="auth/login">Iniciar sesión</a>
             </p>
           </form>
         </article>

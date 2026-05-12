@@ -519,6 +519,154 @@ body {
   font-size: 0.9rem;
 }
 
+.menu-buyer-market-head {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.menu-buyer-market-head > div {
+  padding: 1rem 1.05rem;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.95) 0%, rgba(11, 11, 11, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.menu-buyer-market-head span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.menu-buyer-market-head strong {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--white);
+  font-size: 1.05rem;
+}
+
+.menu-buyer-market-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.menu-buyer-market-card {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 236px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.96) 0%, rgba(11, 11, 11, 0.99) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.2);
+}
+
+.menu-buyer-market-image {
+  display: block;
+  min-height: 236px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.menu-buyer-market-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.menu-buyer-market-info {
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  padding: 1.05rem 1.15rem;
+}
+
+.menu-buyer-market-title-row,
+.menu-buyer-market-footer,
+.menu-buyer-market-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.menu-buyer-market-title-row,
+.menu-buyer-market-footer {
+  justify-content: space-between;
+  align-items: start;
+}
+
+.menu-buyer-market-title-row h2 {
+  margin: 0;
+  color: var(--white);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.18rem, 2vw, 1.55rem);
+  line-height: 1.08;
+}
+
+.menu-buyer-market-title-row p,
+.menu-buyer-market-description {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+}
+
+.menu-buyer-market-price {
+  color: #ffffff;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  line-height: 1;
+}
+
+.menu-buyer-market-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.menu-buyer-market-specs span,
+.menu-buyer-market-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 34px;
+  padding: 0.38rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(248, 250, 252, 0.78);
+  font-size: 0.82rem;
+}
+
+.menu-buyer-market-specs i {
+  color: #ffb37d;
+}
+
+.menu-buyer-market-description {
+  max-width: 78ch;
+  line-height: 1.55;
+}
+
+.menu-buyer-market-score {
+  color: #ffb37d;
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.16);
+  font-weight: 800;
+}
+
+.menu-buyer-market-actions {
+  justify-content: end;
+  flex-wrap: wrap;
+}
+
+.menu-buyer-fav-btn {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  color: #ffb37d;
+  background: rgba(255, 255, 255, 0.04);
+}
+
 .investment-ai-hero {
   display: flex;
   align-items: center;
@@ -627,7 +775,8 @@ body {
   .menu-buyer-layout,
   .menu-buyer-swipe-lower,
   .menu-buyer-swipe-hero,
-  .menu-buyer-feed-intro {
+  .menu-buyer-feed-intro,
+  .menu-buyer-market-card {
     grid-template-columns: 1fr;
   }
 
@@ -644,6 +793,10 @@ body {
     height: auto;
     min-height: auto;
   }
+
+  .menu-buyer-market-image {
+    min-height: 260px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -654,6 +807,57 @@ body {
   .menu-buyer-layout {
     min-height: calc(100svh - 1.4rem);
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .menu-buyer-sidebar {
+    padding: 0.7rem;
+    border-radius: 22px;
+    gap: 0.65rem;
+  }
+
+  .menu-buyer-brand {
+    padding-bottom: 0.55rem;
+    margin-bottom: 0;
+  }
+
+  .menu-buyer-nav {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    padding-bottom: 0.15rem;
+    scrollbar-width: none;
+  }
+
+  .menu-buyer-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menu-buyer-nav a {
+    min-width: 92px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.35rem;
+    padding: 0.62rem 0.55rem;
+    text-align: center;
+  }
+
+  .menu-buyer-nav a i {
+    margin-top: 0;
+  }
+
+  .menu-buyer-nav a strong {
+    font-size: 0.78rem;
+  }
+
+  .menu-buyer-nav a small,
+  .menu-buyer-sidebar-note,
+  .menu-buyer-nav-divider {
+    display: none;
+  }
+
+  .nav-back-home {
+    min-width: 112px;
   }
 
   .menu-buyer-topbar,
@@ -668,6 +872,88 @@ body {
     width: 100%;
     justify-content: space-between;
     flex-wrap: wrap;
+  }
+
+  .menu-buyer-market-head {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-buyer-market-card {
+    grid-template-columns: 132px minmax(0, 1fr);
+    min-height: 188px;
+    border-radius: 18px;
+  }
+
+  .menu-buyer-market-image {
+    height: 100%;
+    min-height: auto;
+  }
+
+  .menu-buyer-market-info {
+    gap: 0.45rem;
+    padding: 0.72rem;
+  }
+
+  .menu-buyer-market-title-row {
+    flex-direction: row;
+    gap: 0.45rem;
+  }
+
+  .menu-buyer-market-title-row h2 {
+    font-size: 1rem;
+  }
+
+  .menu-buyer-market-title-row p {
+    font-size: 0.78rem;
+  }
+
+  .menu-buyer-market-price {
+    font-size: 1.32rem;
+  }
+
+  .menu-buyer-market-description {
+    display: none;
+  }
+
+  .menu-buyer-market-specs {
+    gap: 0.32rem;
+  }
+
+  .menu-buyer-market-specs span,
+  .menu-buyer-market-score {
+    min-height: 28px;
+    padding: 0.3rem 0.45rem;
+    font-size: 0.72rem;
+  }
+
+  .menu-buyer-market-specs span:nth-child(n + 3) {
+    display: none;
+  }
+
+  .menu-buyer-market-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .menu-buyer-market-actions {
+    width: 100%;
+    justify-content: stretch;
+    gap: 0.42rem;
+  }
+
+  .menu-buyer-market-actions .menu-buyer-ghost-btn,
+  .menu-buyer-market-actions .menu-buyer-primary-btn {
+    min-height: 38px;
+    flex: 1 1 92px;
+    padding: 0 0.55rem;
+    border-radius: 12px;
+    font-size: 0.78rem;
+  }
+
+  .menu-buyer-fav-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 12px;
   }
 
   .menu-buyer-swipe-visual {

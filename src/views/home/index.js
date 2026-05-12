@@ -35,49 +35,25 @@ function renderConditionBar(label, value) {
   `;
 }
 
-/**
- * Creates a car card component
- */
 function createCarCard(car) {
   const card = document.createElement('article');
-  card.className = 'home-car-card';
+  card.className = 'admin-space-card';
 
   const conditionClass = car.condition === 'Excelente' ? 'excellent' : car.condition === 'Bueno' ? 'good' : 'regular';
-  const scoreColor = car.score >= 85 ? 'var(--success)' : car.score >= 70 ? 'var(--warning)' : 'var(--error)';
-  const scoreWidth = Math.max(car.score - 10, 20);
 
   card.innerHTML = `
-    <div class="home-car-image">
-      <img src="${car.image}" alt="${car.brand} ${car.model}" loading="lazy" />
-      <div class="home-car-score-badge">
-        <div class="score-pill">
-          <span class="score-number" style="color:${scoreColor}">${car.score}%</span>
-          <div class="score-bar-track">
-            <div class="score-bar-fill" style="width:${scoreWidth}%;background:${scoreColor};"></div>
-          </div>
-        </div>
-        <span class="score-label">Match IA</span>
-      </div>
-      <button type="button" class="home-car-favorite" data-action="favorite" data-car-id="${car.id}" title="Agregar a favoritos">
-        <i class="bi bi-heart"></i>
-      </button>
-    </div>
-    <div class="home-car-body">
-      <div class="home-car-header">
-        <div>
-          <h3>${car.brand} ${car.model}</h3>
-          <p class="home-car-price">${car.priceFormatted}</p>
-        </div>
-        <span class="home-car-condition ${conditionClass}">${car.condition}</span>
-      </div>
-      <div class="home-car-meta">
-        <span><i class="bi bi-calendar"></i> ${car.year}</span>
-        <span><i class="bi bi-speedometer2"></i> ${car.mileageFormatted}</span>
-        <span><i class="bi bi-geo-alt"></i> ${car.location}</span>
-      </div>
-      <div class="home-car-condition-details">
-        ${renderConditionBar('Motor', car.dashboardCondition || 4)}
-        ${renderConditionBar('Interior', car.interiorCondition)}
+    <img src="${car.image}" alt="${car.brand} ${car.model}" loading="lazy" />
+    <span class="admin-space-badge">${car.condition}</span>
+    <h3>${car.brand} ${car.model}</h3>
+    <p>${car.priceFormatted} - ${car.year} - ${car.location}</p>
+  `;
+
+  card.addEventListener('click', () => {
+    navigateTo(`vehicles/detail?id=${car.id}`);
+  });
+
+  return card;
+}
         ${renderConditionBar('Pintura', car.paintCondition)}
         ${renderConditionBar('Neumáticos', car.tiresCondition)}
       </div>

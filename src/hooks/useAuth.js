@@ -1,4 +1,5 @@
-import { useApi, ApiError } from './useApi.js';
+import { useApi } from './useApi.js';
+import state from '../js/state.js';
 
 const STORAGE_KEY = 'motormarket_session';
 
@@ -12,11 +13,34 @@ function getSession() {
 }
 
 function saveSession(sessionData) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+  state.saveSession(sessionData);
 }
 
 function clearSession() {
-  localStorage.removeItem(STORAGE_KEY);
+  state.clearSession();
+}
+
+function readApiData(response) {
+  return response?.data ?? response;
+}
+
+function normalizeRole(role) {
+  return typeof role === 'string' ? role.toLowerCase() : role;
+}
+
+function createSession(authResponse) {
+  const data = readApiData(authResponse);
+  const user = data?.user || {};
+  const role = normalizeRole(user.role || data?.role);
+
+  return {
+    ...user,
+    ...data,
+    user,
+    role,
+    roles: role ? [role] : [],
+    token: data?.token
+  };
 }
 
 export function useAuth() {
@@ -28,10 +52,11 @@ export function useAuth() {
     async login(email, password) {
       try {
         const response = await api.post('/login', { email, password });
-        if (response?.token) {
-          saveSession(response);
+        const session = createSession(response);
+        if (session.token) {
+          saveSession(session);
         }
-        return response;
+        return readApiData(response);
       } catch (err) {
         throw err;
       }
@@ -40,10 +65,11 @@ export function useAuth() {
     async register(userData) {
       try {
         const response = await api.post('/register', userData);
-        if (response?.token) {
-          saveSession(response);
+        const session = createSession(response);
+        if (session.token) {
+          saveSession(session);
         }
-        return response;
+        return readApiData(response);
       } catch (err) {
         throw err;
       }

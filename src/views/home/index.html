@@ -1,98 +1,104 @@
-<div class="home-page">
-  <header class="home-header">
-    <div class="home-header-content">
-      <div class="home-brand">
-        <span class="brand-logo">MM</span>
-        <strong>MotorMarket</strong>
-      </div>
-      <nav class="home-nav">
-        <a href="#home" class="home-nav-link is-active" data-navigate="home">Inicio</a>
-        <a href="#user/seller/menu" class="home-nav-link" data-navigate="user/seller/menu">Vender</a>
-      </nav>
-      <div class="home-auth">
-        <button type="button" class="home-auth-btn" data-navigate="auth/login">Iniciar sesión</button>
-        <button type="button" class="home-auth-btn-primary" data-navigate="auth/register">Crear cuenta</button>
-      </div>
-    </div>
-  </header>
-
-  <section class="home-hero">
-    <div class="home-hero-content">
-      <h1>Encontrá el auto usado perfecto con ayuda de inteligencia artificial</h1>
-      <p>Explora cientos de opciones, compara precios y recibí alertas de las mejores oportunidades.</p>
-      
-      <div class="home-search">
-        <div class="home-search-bar">
-          <i class="bi bi-search"></i>
-          <input type="text" id="homeSearchInput" placeholder="Buscar por marca, modelo, año..." />
-        </div>
-        <div class="home-search-filters">
-          <select id="homeFilterBrand" class="home-filter-select">
-            <option value="">Marca</option>
-            <option value="toyota">Toyota</option>
-            <option value="honda">Honda</option>
-            <option value="volkswagen">Volkswagen</option>
-            <option value="ford">Ford</option>
-            <option value="chevrolet">Chevrolet</option>
-            <option value="peugeot">Peugeot</option>
-          </select>
-          <select id="homeFilterPrice" class="home-filter-select">
-            <option value="">Precio</option>
-            <option value="hasta-10m">Hasta 10M</option>
-            <option value="10m-20m">10M - 20M</option>
-            <option value="20m-35m">20M - 35M</option>
-            <option value="mas-35m">Más de 35M</option>
-          </select>
-          <select id="homeFilterYear" class="home-filter-select">
-            <option value="">Año</option>
-            <option value="2024">2024</option>
-            <option value="2023">2023</option>
-            <option value="2022">2022</option>
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-          </select>
-          <button type="button" id="homeSearchBtn" class="home-search-btn">Buscar</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-featured">
-    <div class="home-section-header">
-      <div>
-        <span class="home-section-tag">Destacados</span>
-        <h2>Autos recomendados para vos</h2>
-      </div>
-    </div>
-    <div id="homeCarsGrid" class="home-cars-grid"></div>
-  </section>
-
-  <section class="home-cta">
-    <div class="home-cta-content">
-      <div class="home-cta-text">
-        <h2>¿Querés vender tu auto?</h2>
-        <p>Publicá en MotorMarket y dejá que la IA te ayude a encontrar el mejor comprador, al mejor precio.</p>
-        <button type="button" class="home-cta-btn" data-navigate="vehicles/add">Publicar mi auto</button>
-      </div>
-      <div class="home-cta-visual">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Vende tu auto" />
-      </div>
-    </div>
-  </section>
-
-  <footer class="home-footer">
-    <div class="home-footer-content">
-      <div class="home-footer-brand">
+<div class="admin-space-page">
+  <div class="admin-space-layout">
+    <aside class="admin-space-sidebar">
+      <div class="admin-space-brand">
         <span>MM</span>
-        <strong>MotorMarket</strong>
-        <p>La plataforma de autos usados con inteligencia artificial.</p>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>Plataforma IA</small>
+        </div>
       </div>
-      <div class="home-footer-links">
-        <a href="#">Acerca de</a>
-        <a href="#">Términos</a>
-        <a href="#">Privacidad</a>
-        <a href="#">Contacto</a>
-      </div>
-    </div>
-  </footer>
+      <nav class="admin-space-nav">
+        <a href="#home" class="is-active">
+          <i class="bi bi-house-fill"></i>
+          <span>
+            <strong>Inicio</strong>
+            <small>Landing page</small>
+          </span>
+        </a>
+        <a href="#search">
+          <i class="bi bi-search"></i>
+          <span>
+            <strong>Buscar</strong>
+            <small>Autos disponibles</small>
+          </span>
+        </a>
+        <a href="#about">
+          <i class="bi bi-info-circle-fill"></i>
+          <span>
+            <strong>Acerca de</strong>
+            <small>Nuestra plataforma</small>
+          </span>
+        </a>
+      </nav>
+    </aside>
+    <main class="admin-space-main">
+      <header class="admin-space-topbar">
+        <div>
+          <nav class="admin-space-workspace-switch">
+            <a href="#buyer">Comprador</a>
+            <a href="#seller">Vendedor</a>
+          </nav>
+          <span class="admin-space-kicker">Bienvenido</span>
+          <h1>Encuentra el auto perfecto con ayuda de inteligencia artificial</h1>
+        </div>
+        <div class="home-auth">
+          <button type="button" class="home-auth-btn" data-navigate="auth/login">Iniciar sesión</button>
+          <button type="button" class="home-auth-btn-primary" data-navigate="auth/register">Crear cuenta</button>
+        </div>
+      </header>
+      <section class="admin-space-grid-2">
+        <article class="admin-space-card">
+          <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1200&q=80" alt="SUV auditada" />
+          <span class="admin-space-badge">Destacado</span>
+          <h3>Auto SUV Premium</h3>
+          <p>Excelente condición, precio competitivo, recomendado por IA.</p>
+        </article>
+        <article class="admin-space-card">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80" alt="Auto en revisión" />
+          <span class="admin-space-badge">Nuevo</span>
+          <h3>Sedan Familiar</h3>
+          <p>Auto confiable para toda la familia, bajo kilometraje.</p>
+        </article>
+      </section>
+      <section class="admin-space-panel">
+        <div class="admin-space-table-wrap">
+          <table class="admin-space-table">
+            <thead>
+              <tr>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Precio</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Toyota</td>
+                <td>Corolla</td>
+                <td>2020</td>
+                <td>$15,000</td>
+                <td>Excelente</td>
+              </tr>
+              <tr>
+                <td>Honda</td>
+                <td>Civic</td>
+                <td>2019</td>
+                <td>$14,500</td>
+                <td>Bueno</td>
+              </tr>
+              <tr>
+                <td>Ford</td>
+                <td>Focus</td>
+                <td>2021</td>
+                <td>$16,200</td>
+                <td>Nuevo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
 </div>

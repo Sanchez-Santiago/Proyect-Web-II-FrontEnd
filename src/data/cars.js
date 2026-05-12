@@ -129,7 +129,7 @@ export const CARS_DATA = [
     mileage: 45000,
     mileageFormatted: '45.000 km',
     transmission: 'Manual',
-    fuel: 'Diiesel',
+    fuel: 'Diesel',
     color: 'Blanco',
     location: 'Córdoba',
     image: 'https://images.unsplash.com/photo-1601362840469-51e4d8d58785?auto=format&fit=crop&w=800&q=80',
