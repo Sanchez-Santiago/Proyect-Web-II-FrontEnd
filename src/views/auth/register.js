@@ -1,6 +1,6 @@
 import { useAuth } from '../../hooks/useAuth.js';
-import { navigateTo } from '../../js/router.js';
-import state from '../../js/state.js';
+import { navigateTo } from '../../core/router.js';
+import state from '../../core/state.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 
@@ -52,8 +52,23 @@ export default {
         return false;
       }
 
-      if (!password || password.length < 6) {
-        setMessage('La contrasena debe tener al menos 6 caracteres.', 'error');
+      if (!password || password.length < 8) {
+        setMessage('La contrasena debe tener al menos 8 caracteres.', 'error');
+        passwordInput?.focus();
+        return false;
+      }
+      if (!/[A-Z]/.test(password)) {
+        setMessage('La contrasena debe tener al menos una mayuscula.', 'error');
+        passwordInput?.focus();
+        return false;
+      }
+      if (!/[a-z]/.test(password)) {
+        setMessage('La contrasena debe tener al menos una minuscula.', 'error');
+        passwordInput?.focus();
+        return false;
+      }
+      if (!/[0-9]/.test(password)) {
+        setMessage('La contrasena debe tener al menos un numero.', 'error');
         passwordInput?.focus();
         return false;
       }
@@ -109,10 +124,9 @@ export default {
           city
         });
 
-        if (response?.token) {
-          state.saveSession(response);
-          setMessage('Cuenta creada. Redirigiendo...', 'success');
-          navigateTo(ROLE_SELECTION_URL);
+        if (response?.user) {
+          setMessage('Cuenta creada. Redirigiendo al login...', 'success');
+          setTimeout(() => navigateTo('auth/login'), 1500);
         } else {
           setMessage(response?.message || 'Error al crear cuenta.', 'error');
         }

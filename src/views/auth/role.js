@@ -1,5 +1,5 @@
-import { navigateTo } from '../../js/router.js';
-import state from '../../js/state.js';
+import { navigateTo } from '../../core/router.js';
+import state from '../../core/state.js';
 
 export default {
   init() {

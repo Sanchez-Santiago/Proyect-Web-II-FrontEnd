@@ -1,4 +1,4 @@
-import { navigateTo } from '../../../js/router.js';
+import { navigateTo } from '../../../core/router.js';
 
 export default {
   init() {

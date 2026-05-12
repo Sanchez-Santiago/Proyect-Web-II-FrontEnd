@@ -6,19 +6,24 @@
  * sin necesidad de un backend real
  */
 
+import CONFIG from '../config.js';
 import state from './state.js';
-import { getInspectorData, findOrCreateConversation } from '../data/inspector-data.js';
+import { useAuth } from '../hooks/useAuth.js';
 
-const INSPECTOR_MODE = true;
+const INSPECTOR_MODE = CONFIG.INSPECTOR_MODE;
+
+let getInspectorData, findOrCreateConversation;
 const INSPECTOR_KEY = 'motormarket_inspector_session';
 
-console.log('[INSPECTOR] Mode:', INSPECTOR_MODE);
+if (INSPECTOR_MODE) {
+  const inspector = await import('../data/inspector-data.js');
+  getInspectorData = inspector.getInspectorData;
+  findOrCreateConversation = inspector.findOrCreateConversation;
+  console.log('[INSPECTOR] Mode:', INSPECTOR_MODE);
+}
 
-/**
- * Inicializa la sesión del modo inspector
- * Recupera el rol guardado en localStorage o usa 'buyer' por defecto
- */
 function initInspectorSession() {
+  if (!INSPECTOR_MODE) return;
   console.log('[INSPECTOR] initInspectorSession called');
   const saved = localStorage.getItem(INSPECTOR_KEY);
   const data = getInspectorData();
@@ -36,6 +41,7 @@ function initInspectorSession() {
 }
 
 function toggleInspectorRole() {
+  if (!INSPECTOR_MODE) return;
   const data = getInspectorData();
   const newRole = data.session.role === 'buyer' ? 'seller' : 'buyer';
   data.session.role = newRole;
@@ -45,9 +51,11 @@ function toggleInspectorRole() {
   window.location.reload();
 }
 
-window.getInspectorData = getInspectorData;
-window.toggleInspectorRole = toggleInspectorRole;
-window.findOrCreateConversation = findOrCreateConversation;
+if (INSPECTOR_MODE) {
+  window.getInspectorData = getInspectorData;
+  window.toggleInspectorRole = toggleInspectorRole;
+  window.findOrCreateConversation = findOrCreateConversation;
+}
 
 const routes = {
   '': { template: 'src/views/home/index.html', script: 'src/views/home/index.js', title: 'MotorMarket | Autos usados con IA' },
@@ -80,7 +88,7 @@ const routes = {
   'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analíticas | MotorMarket' },
   'admin/engine': { template: 'src/views/admin/engine-admin.html', script: null, title: 'Motor | MotorMarket' },
   'admin/users': { template: 'src/views/admin/users-admin.html', script: null, title: 'Gestión de Usuarios | MotorMarket' },
-  'admin/publications': { template: 'src/views/admin/publications-admin.html', script: null, title: 'Moderación de Avisos | MotorMarket' },
+  'admin/publications': { template: 'src/views/admin/publications-admin.html', script: 'src/views/admin/publications-admin.js', title: 'Moderación de Avisos | MotorMarket' },
 
 
   'user/seller/sales': { template: 'src/views/user/seller/sales.html', script: 'src/views/user/seller/sales.js', title: 'Ventas | MotorMarket' },
@@ -125,7 +133,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/buyer/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatVehicleId = parts[2];
+      window.chatId = parts[2];
     }
     return 'messages/buyer/chat';
   }
@@ -133,7 +141,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/seller/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatVehicleId = parts[2];
+      window.chatId = parts[2];
     }
     return 'messages/seller/chat';
   }
@@ -211,13 +219,22 @@ window.navigateTo = navigateTo;
 
 export { navigateTo, handleRouteChange };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   if (INSPECTOR_MODE) {
     initInspectorSession();
-    state.init();
     console.log('[INSPECTOR] State initialized, isLoggedIn:', state.isLoggedIn());
   }
-  
+  state.init();
+
+  if (!INSPECTOR_MODE && state.isLoggedIn()) {
+    try {
+      const auth = useAuth();
+      await auth.me();
+    } catch (err) {
+      console.warn('Sesión expirada o inválida:', err.message);
+    }
+  }
+
   if (!window.location.hash) {
     window.location.hash = 'home';
   }

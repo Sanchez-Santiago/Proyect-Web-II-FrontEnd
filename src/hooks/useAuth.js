@@ -19,6 +19,18 @@ function clearSession() {
   localStorage.removeItem(STORAGE_KEY);
 }
 
+function normalizeUser(user, token, refreshToken) {
+  return {
+    id: user.id,
+    name: user.name || user.fullName,
+    email: user.email,
+    role: (user.role || '').toLowerCase(),
+    isAdmin: (user.role || '').toLowerCase() === 'admin',
+    token: token || null,
+    refreshToken: refreshToken || null
+  };
+}
+
 export function useAuth() {
   const api = useApi('/auth');
 
@@ -26,34 +38,30 @@ export function useAuth() {
     getSession,
 
     async login(email, password) {
-      try {
-        const response = await api.post('/login', { email, password });
-        if (response?.token) {
-          saveSession(response);
-        }
-        return response;
-      } catch (err) {
-        throw err;
+      const response = await api.post('/login', { email, password });
+      const token = response.accessToken || response.token;
+      const refreshToken = response.refreshToken || null;
+      if (token && response.user) {
+        const session = normalizeUser(response.user, token, refreshToken);
+        saveSession(session);
+        return session;
       }
+      throw new ApiError(0, response.message || 'Error al iniciar sesión');
     },
 
     async register(userData) {
-      try {
-        const response = await api.post('/register', userData);
-        if (response?.token) {
-          saveSession(response);
-        }
+      const response = await api.post('/register', userData);
+      if (response.user) {
         return response;
-      } catch (err) {
-        throw err;
       }
+      throw new ApiError(0, response.message || 'Error al registrar');
     },
 
     async logout() {
       try {
         await api.post('/logout');
       } catch (err) {
-        console.warn('Logout服务端 falló:', err.message);
+        console.warn('Logout falló:', err.message);
       } finally {
         clearSession();
       }
@@ -62,7 +70,14 @@ export function useAuth() {
     async me() {
       try {
         const response = await api.get('/me');
-        return response;
+        const user = response.user;
+        if (user) {
+          const session = normalizeUser(user);
+          saveSession(session);
+          return session;
+        }
+        clearSession();
+        return null;
       } catch (err) {
         clearSession();
         throw err;

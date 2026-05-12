@@ -10,8 +10,8 @@ export function useUpload() {
       return api.upload('/image', formData);
     },
 
-    async imageFromUrl(url) {
-      return api.post('/image', { url });
+    async imageFromUrl(imageUrl) {
+      return api.post('/image', { imageUrl });
     }
   };
 }

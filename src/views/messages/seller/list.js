@@ -1,33 +1,55 @@
-import { useMessages } from '../../../hooks/useMessages.js';
-import { navigateTo } from '../../../js/router.js';
-import state from '../../../js/state.js';
+import { useChats } from '../../../hooks/useChats.js';
+import { navigateTo } from '../../../core/router.js';
+import state from '../../../core/state.js';
 
-function isInspectorMode() {
-  return typeof window.getInspectorData === 'function';
-}
-
-function formatTimeAgo(ts) {
-  const diff = Date.now() - ts;
+function formatTimeAgo(dateString) {
+  if (!dateString) return '';
+  const diff = Date.now() - new Date(dateString).getTime();
   if (diff < 3600000) return Math.floor(diff / 3600000) + 'h';
   if (diff < 86400000) return Math.floor(diff / 86400000) + 'd';
   return Math.floor(diff / 86400000) + 'd';
 }
 
+function normalizeChat(chat, userId) {
+  const vehicle = chat.publication?.vehicle || {};
+  const lastMsg = chat.messages?.[0];
+  const buyer = lastMsg?.user;
+  const vehicleImage = vehicle.images?.[0]?.imageUrl || 'https://placehold.co/100x100';
+  const vehicleTitle = chat.publication?.title || `${vehicle.brand || ''} ${vehicle.model || ''} ${vehicle.year || ''}`.trim() || 'Vehículo';
+
+  return {
+    id: chat.id,
+    publicationId: chat.publication?.id,
+    vehicleTitle,
+    vehicleImage,
+    userName: buyer?.fullName || 'Comprador',
+    lastMessage: lastMsg?.message || '',
+    timeAgo: formatTimeAgo(lastMsg?.createdAt),
+    unread: 0,
+    isNavigate: `messages/seller/chat/${chat.id}`
+  };
+}
+
+function isInspectorMode() {
+  return typeof window.getInspectorData === 'function';
+}
+
 function getInspectorConversations() {
   const inspectorData = window.getInspectorData();
-  const conversationsList = inspectorData.conversations || [];
-  
-  return conversationsList.map(conv => {
-    const vehicle = conv.vehicle;
+  const list = inspectorData.conversations || [];
+
+  return list.map(conv => {
+    const vehicle = conv.vehicle || {};
     return {
       id: conv.id,
       vehicleId: conv.vehicleId,
-      vehicleTitle: vehicle ? `${vehicle.brand} ${vehicle.model} ${vehicle.year}` : `Vehículo ${conv.vehicleId}`,
+      vehicleTitle: `${vehicle.brand || ''} ${vehicle.model || ''} ${vehicle.year || ''}`.trim() || `Vehículo ${conv.vehicleId}`,
       vehicleImage: vehicle?.image || 'https://placehold.co/100x100',
       userName: conv.seller?.name || 'Vendedor',
       lastMessage: conv.lastMessage,
       timeAgo: formatTimeAgo(conv.lastMessageTime),
-      unread: conv.unread ? 1 : 0
+      unread: conv.unread ? 1 : 0,
+      isNavigate: conv.id ? `messages/seller/chat/${conv.id}` : '#'
     };
   });
 }
@@ -37,7 +59,7 @@ export default {
     const conversationsList = document.getElementById('conversationsList');
     const leadsList = document.getElementById('leadsList');
     const empty = document.getElementById('messagesEmpty');
-    const tabs = document.querySelectorAll('.seller-tab');
+    const tabs = document.querySelectorAll('.messages-tab');
 
     if (!conversationsList) return;
 
@@ -49,17 +71,20 @@ export default {
     this.setupTabs(tabs, conversationsList, leadsList, empty);
 
     if (isInspectorMode()) {
-      const conversations = getInspectorConversations.call(this);
+      const conversations = getInspectorConversations();
       this.renderConversations(conversations, conversationsList);
       this.renderLeads(conversations, leadsList);
       return;
     }
 
-    const messages = useMessages();
+    const chats = useChats();
 
     try {
-      const conversations = await messages.getConversations();
-      
+      const response = await chats.getAll();
+      const rawChats = response.chats || [];
+      const userId = state.getSession()?.id;
+      const conversations = rawChats.map(chat => normalizeChat(chat, userId));
+
       if (!conversations || conversations.length === 0) {
         conversationsList.hidden = true;
         leadsList.hidden = true;
@@ -97,13 +122,13 @@ export default {
   getDemoData() {
     return {
       conversations: [
-        { id: 1, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Juan Pérez', lastMessage: 'Me interesa el auto', timeAgo: '2h', unread: 2 },
-        { id: 2, vehicleId: 2, vehicleTitle: 'Honda Civic', userName: 'María González', lastMessage: '¿Tiene service al día?', timeAgo: '5h', unread: 1 }
+        { id: 'demo-1', vehicleTitle: 'Toyota Corolla XEi', userName: 'Juan Pérez', lastMessage: 'Me interesa el auto', timeAgo: '2h', unread: 2, isNavigate: 'messages/seller/chat/demo-1' },
+        { id: 'demo-2', vehicleTitle: 'Honda Civic', userName: 'María González', lastMessage: '¿Tiene service al día?', timeAgo: '5h', unread: 1, isNavigate: 'messages/seller/chat/demo-2' }
       ],
       leads: [
-        { id: 1, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Carlos López', phone: '+54 9 351 111 2222', interest: 'Alto', source: 'Web', date: '2024-01-15' },
-        { id: 2, vehicleId: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Ana Martínez', phone: '+54 9 351 333 4444', interest: 'Medio', source: 'Chat', date: '2024-01-14' },
-        { id: 3, vehicleId: 2, vehicleTitle: 'Honda Civic', userName: 'Pedro Sánchez', phone: '+54 9 351 555 6666', interest: 'Alto', source: 'Web', date: '2024-01-13' }
+        { id: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Carlos López', phone: '+54 9 351 111 2222', interest: 'Alto', source: 'Web', date: '2024-01-15' },
+        { id: 2, vehicleTitle: 'Toyota Corolla XEi', userName: 'Ana Martínez', phone: '+54 9 351 333 4444', interest: 'Medio', source: 'Chat', date: '2024-01-14' },
+        { id: 3, vehicleTitle: 'Honda Civic', userName: 'Pedro Sánchez', phone: '+54 9 351 555 6666', interest: 'Alto', source: 'Web', date: '2024-01-13' }
       ]
     };
   },
@@ -117,11 +142,11 @@ export default {
     convs.forEach(conv => {
       const item = document.createElement('article');
       item.className = 'conversation-item';
-      item.dataset.navigate = `user/seller/messages/chat/${conv.vehicleId}`;
-      
+      item.dataset.navigate = conv.isNavigate || `messages/seller/chat/${conv.id}`;
+
       item.innerHTML = `
         <div class="conversation-avatar">
-          <img src="https://placehold.co/100x100" alt="Auto" />
+          <img src="${conv.vehicleImage || 'https://placehold.co/100x100'}" alt="Auto" />
         </div>
         <div class="conversation-content">
           <div class="conversation-header">
@@ -155,7 +180,7 @@ export default {
     leads.forEach(lead => {
       const item = document.createElement('article');
       item.className = 'lead-item';
-      
+
       item.innerHTML = `
         <div class="lead-info">
           <h3>${lead.userName}</h3>
@@ -192,6 +217,7 @@ export default {
         e.stopPropagation();
         const phone = btn.dataset.phone;
         if (phone) {
+          window.open(`https://wa.me/${phone.replace(/[^0-9]/g, '')}`, '_blank');
         }
       });
     });

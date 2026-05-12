@@ -8,16 +8,16 @@ export function useFavorites() {
       return api.get();
     },
 
-    async add(vehicleId) {
-      return api.post('', { vehicleId });
+    async add(publicationId) {
+      return api.post('', { publicationId });
     },
 
-    async remove(vehicleId) {
-      return api.del(`/${vehicleId}`);
+    async remove(publicationId) {
+      return api.del(`/${publicationId}`);
     },
 
-    async check(vehicleId) {
-      return api.get(`/check/${vehicleId}`);
+    async check(publicationId) {
+      return api.get(`/check/${publicationId}`);
     }
   };
 }

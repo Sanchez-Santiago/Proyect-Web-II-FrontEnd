@@ -4,8 +4,9 @@
   "description": "Plataforma SPA de compra y venta de autos usados con asistencia de IA",
   "private": true,
   "scripts": {
-    "start": "http-server -p 8000",
-    "dev": "http-server -p 8000 -c-1"
+    "config": "bash scripts/generate-config.sh",
+    "start": "npm run config && http-server -p 8000",
+    "dev": "npm run config && http-server -p 8000 -c-1"
   },
   "keywords": [
     "automotive",

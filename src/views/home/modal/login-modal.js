@@ -1,24 +1,15 @@
-import state from '../../js/state.js';
+import state from '../../core/state.js';
+import { useAuth } from '../../hooks/useAuth.js';
 
 let modalElement = null;
 let isInitialized = false;
-
-function resolveUserRole(email) {
-  const normalizedEmail = email.toLowerCase();
-  if (normalizedEmail === 'admin@motormarket.com' || normalizedEmail.includes('admin')) {
-    return 'admin';
-  }
-  return 'user';
-}
 
 function setMessage(text, type) {
   const message = document.getElementById('loginModalMessage');
   if (!message) return;
   message.textContent = text;
   message.classList.remove('error', 'success');
-  if (type) {
-    message.classList.add(type);
-  }
+  if (type) message.classList.add(type);
 }
 
 function closeModal() {
@@ -33,14 +24,13 @@ function closeModal() {
 
 function openModal(options = {}) {
   if (!modalElement) return;
-  
   modalElement.hidden = false;
-  
+
   const title = document.getElementById('loginModalTitle');
   const subtitle = document.getElementById('loginModalSubtitle');
   const footerText = document.getElementById('loginModalFooterText');
   const footerLink = document.getElementById('loginModalFooterLink');
-  
+
   if (options.showRegister) {
     title.textContent = 'Crear cuenta';
     subtitle.textContent = 'Ingresa tu email para registrarte';
@@ -52,71 +42,71 @@ function openModal(options = {}) {
     footerText.textContent = '¿No tenés cuenta?';
     footerLink.textContent = 'Crear cuenta';
   }
-  
+
   const emailInput = document.getElementById('loginModalEmail');
-  if (emailInput) {
-    emailInput.focus();
-  }
+  if (emailInput) emailInput.focus();
 }
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
   event.preventDefault();
-  
+
   const emailInput = document.getElementById('loginModalEmail');
+  const passwordInput = document.getElementById('loginModalPassword');
   const email = emailInput?.value.trim() || '';
+  const password = passwordInput?.value || '';
   const emailIsValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  
+
   if (!email) {
     setMessage('Ingresa tu correo para continuar.', 'error');
     emailInput?.focus();
     return;
   }
-  
   if (!emailIsValid) {
     setMessage('El formato del email no es válido.', 'error');
     emailInput?.focus();
     return;
   }
-  
-  const role = resolveUserRole(email);
-  const sessionUser = {
-    email,
-    role,
-    isAdmin: role === 'admin',
-  };
-  
-  state.saveSession(sessionUser);
-  setMessage('¡Bienvenido! Redirigiendo...', 'success');
-  
-  setTimeout(() => {
-    closeModal();
-    state.executePendingAction();
-    
-    const options = state.getLoginModalOptions();
-    if (options.showRegister) {
-      window.location.hash = 'role';
+  if (!password) {
+    setMessage('Ingresa tu contraseña.', 'error');
+    passwordInput?.focus();
+    return;
+  }
+
+  setMessage('Iniciando sesión...', 'success');
+
+  try {
+    const auth = useAuth();
+    const session = await auth.login(email, password);
+
+    if (session?.token) {
+      state.saveSession(session);
+      setMessage('¡Bienvenido! Redirigiendo...', 'success');
+
+      setTimeout(() => {
+        closeModal();
+        state.executePendingAction();
+        window.location.hash = 'auth/role';
+      }, 600);
+    } else {
+      setMessage(session?.message || 'Error al iniciar sesión.', 'error');
     }
-  }, 600);
+  } catch (err) {
+    setMessage(err.message || 'Error de conexión.', 'error');
+  }
 }
 
 function setupEventListeners() {
   if (isInitialized) return;
-  
+
   const closeBtn = document.getElementById('closeLoginModal');
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeModal);
-  }
-  
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
   const overlay = document.querySelector('.login-modal-overlay');
-  if (overlay) {
-    overlay.addEventListener('click', closeModal);
-  }
-  
+  if (overlay) overlay.addEventListener('click', closeModal);
+
   const form = document.getElementById('loginModalForm');
-  if (form) {
-    form.addEventListener('submit', handleSubmit);
-  }
-  
+  if (form) form.addEventListener('submit', handleSubmit);
+
   const footerLink = document.getElementById('loginModalFooterLink');
   if (footerLink) {
     footerLink.addEventListener('click', (e) => {
@@ -125,13 +115,13 @@ function setupEventListeners() {
       openModal({ showRegister: !options.showRegister });
     });
   }
-  
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modalElement && !modalElement.hidden) {
       closeModal();
     }
   });
-  
+
   isInitialized = true;
 }
 
@@ -139,7 +129,7 @@ export default {
   init() {
     const app = document.getElementById('app');
     if (!app) return;
-    
+
     const modalHtml = document.getElementById('loginModal');
     if (!modalHtml) {
       fetch('./src/views/login-modal.html')
@@ -156,19 +146,18 @@ export default {
       this.watchState();
     }
   },
-  
+
   watchState() {
     state.subscribe((view, session) => {
       const modal = document.getElementById('loginModal');
       if (!modal) return;
-      
       const options = state.getLoginModalOptions();
       if (options.showRegister || state.pendingAction) {
         openModal(options);
       }
     });
   },
-  
+
   open(options) {
     if (!modalElement) {
       setTimeout(() => this.open(options), 100);
@@ -176,7 +165,7 @@ export default {
     }
     openModal(options);
   },
-  
+
   close() {
     closeModal();
   }

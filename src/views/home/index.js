@@ -1,29 +1,31 @@
-import { navigateTo } from '../../js/router.js';
-import state from '../../js/state.js';
-import { getCars, getCarById } from '../../data/cars.js';
+import { navigateTo } from '../../core/router.js';
+import state from '../../core/state.js';
+import { useApi } from '../../hooks/useApi.js';
 
-let cars = [];
-let isInspector = false;
+let publications = [];
 
-console.log('[HOME] Module loaded, state.isLoggedIn():', state.isLoggedIn());
-
-/**
- * Helper to render stars rating
- */
-function renderStars(rating) {
-  let stars = '';
-  for (let i = 1; i <= 5; i++) {
-    stars += i <= rating ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
-  }
-  return stars;
+function formatPrice(price, currency) {
+  const symbol = currency === 'USD' ? 'USD' : '$';
+  return symbol + ' ' + price.toLocaleString('es-AR');
 }
 
-/**
- * Helper to render condition bars
- */
+function formatMileage(mileage) {
+  if (!mileage) return '—';
+  return mileage.toLocaleString('es-AR') + ' km';
+}
+
+function translateEnum(value, type) {
+  const maps = {
+    transmission: { AUTOMATIC: 'Automática', MANUAL: 'Manual', SEMI_AUTOMATIC: 'Semi-Automática', CVT: 'CVT', OTHER: 'Otro' },
+    fuel: { GASOLINE: 'Nafta', DIESEL: 'Diésel', ELECTRIC: 'Eléctrico', HYBRID: 'Híbrido', LPG: 'GNC', CNG: 'GNC', OTHER: 'Otro' },
+    condition: { ACTIVE: 'Activo', PENDING: 'Pendiente', SOLD: 'Vendido', CANCELLED: 'Cancelado', EXPIRED: 'Expirado' }
+  };
+  return maps[type]?.[value] || value;
+}
+
 function renderConditionBar(label, value) {
-  const percentage = (value / 5) * 100;
-  const color = percentage >= 80 ? 'var(--success)' : percentage >= 60 ? 'var(--warning)' : 'var(--error)';
+  const percentage = Math.min((value / 5) * 100, 100);
+  const color = percentage >= 80 ? 'var(--success, #22c55e)' : percentage >= 60 ? 'var(--warning, #eab308)' : 'var(--error, #ef4444)';
   return `
     <div class="condition-bar">
       <span class="condition-label">${label}</span>
@@ -35,15 +37,55 @@ function renderConditionBar(label, value) {
   `;
 }
 
-/**
- * Creates a car card component
- */
+function normalizePublication(pub) {
+  const v = pub.vehicle;
+  const firstImage = v?.images?.[0]?.imageUrl || '';
+  const allImages = v?.images?.map(i => i.imageUrl) || [];
+  const analytics = v?.analytics;
+  const score = analytics?.overallScore || 0;
+
+  return {
+    id: pub.id,
+    vehicleId: v?.id,
+    brand: v?.brand || '',
+    model: v?.model || '',
+    year: v?.year || '',
+    price: pub.price,
+    priceFormatted: formatPrice(pub.price, pub.currency),
+    mileage: v?.mileage || 0,
+    mileageFormatted: formatMileage(v?.mileage),
+    transmission: translateEnum(v?.transmission, 'transmission'),
+    fuel: translateEnum(v?.fuelType, 'fuel'),
+    color: v?.color || '',
+    location: [pub.province, pub.city].filter(Boolean).join(', '),
+    image: firstImage,
+    images: allImages,
+    score: score,
+    condition: score >= 80 ? 'Excelente' : score >= 60 ? 'Bueno' : 'Regular',
+    interiorCondition: analytics?.interiorCondition || 0,
+    paintCondition: analytics?.paintCondition || 0,
+    tiresCondition: analytics?.tiresCondition || 0,
+    dashboardCondition: analytics?.engineCondition || 0,
+    description: pub.description || '',
+    seller: {
+      name: pub.seller?.fullName || 'Vendedor',
+      type: 'particular',
+      verified: false,
+      phone: pub.seller?.phone || ''
+    },
+    status: pub.status,
+    currency: pub.currency,
+    province: pub.province,
+    city: pub.city
+  };
+}
+
 function createCarCard(car) {
   const card = document.createElement('article');
   card.className = 'home-car-card';
 
   const conditionClass = car.condition === 'Excelente' ? 'excellent' : car.condition === 'Bueno' ? 'good' : 'regular';
-  const scoreColor = car.score >= 85 ? 'var(--success)' : car.score >= 70 ? 'var(--warning)' : 'var(--error)';
+  const scoreColor = car.score >= 85 ? 'var(--success, #22c55e)' : car.score >= 70 ? 'var(--warning, #eab308)' : 'var(--error, #ef4444)';
   const scoreWidth = Math.max(car.score - 10, 20);
 
   card.innerHTML = `
@@ -97,72 +139,88 @@ function renderCars() {
   if (!grid) return;
 
   grid.innerHTML = '';
-  if (cars.length === 0) {
+  if (publications.length === 0) {
     grid.innerHTML = '<div class="no-results">No se encontraron autos que coincidan con tu búsqueda.</div>';
     return;
   }
-  
-  cars.forEach(car => {
+
+  publications.forEach(car => {
     grid.appendChild(createCarCard(car));
   });
 }
 
-function filterCars() {
+function buildFilters() {
   const searchInput = document.getElementById('homeSearchInput');
   const filterBrand = document.getElementById('homeFilterBrand');
   const filterPrice = document.getElementById('homeFilterPrice');
   const filterYear = document.getElementById('homeFilterYear');
-  
+
+  const filters = { status: 'ACTIVE' };
+
   const search = searchInput?.value.toLowerCase() || '';
-  const brand = filterBrand?.value.toLowerCase() || '';
-  const price = filterPrice?.value || '';
-  const year = filterYear?.value || '';
-  
-  let filtered = [...getCars()];
-  
   if (search) {
-    filtered = filtered.filter(car => 
-      car.brand.toLowerCase().includes(search) || 
-      car.model.toLowerCase().includes(search) ||
-      car.year.toString().includes(search)
-    );
+    filters.search = search;
   }
-  
-  if (brand) {
-    filtered = filtered.filter(car => car.brand.toLowerCase() === brand);
-  }
-  
-  if (price) {
-    if (price === 'hasta-10m') {
-      filtered = filtered.filter(car => car.price < 10000000);
-    } else if (price === '10m-20m') {
-      filtered = filtered.filter(car => car.price >= 10000000 && car.price < 20000000);
-    } else if (price === '20m-35m') {
-      filtered = filtered.filter(car => car.price >= 20000000 && car.price < 35000000);
-    } else if (price === 'mas-35m') {
-      filtered = filtered.filter(car => car.price >= 35000000);
+
+  const brand = filterBrand?.value;
+  if (brand) filters.brand = brand;
+
+  const price = filterPrice?.value;
+  if (price === 'hasta-10m') filters.priceMax = 10000000;
+  else if (price === '10m-20m') { filters.priceMin = 10000000; filters.priceMax = 20000000; }
+  else if (price === '20m-35m') { filters.priceMin = 20000000; filters.priceMax = 35000000; }
+  else if (price === 'mas-35m') filters.priceMin = 35000000;
+
+  const year = filterYear?.value;
+  if (year) filters.year = parseInt(year);
+
+  return filters;
+}
+
+async function fetchPublications() {
+  const api = useApi('/publications');
+  const filters = buildFilters();
+
+  try {
+    const response = await api.get('/filters', filters);
+    const items = response?.publications || [];
+    publications = items.map(normalizePublication);
+
+    if (filters.search) {
+      const q = filters.search.toLowerCase();
+      publications = publications.filter(car =>
+        car.brand.toLowerCase().includes(q) ||
+        car.model.toLowerCase().includes(q) ||
+        car.year.toString().includes(q)
+      );
+    }
+
+    renderCars();
+  } catch (err) {
+    console.error('Error fetching publications:', err);
+    const grid = document.getElementById('homeCarsGrid');
+    if (grid) {
+      grid.innerHTML = '<div class="no-results">Error al cargar los vehículos. Verifica la conexión con el servidor.</div>';
     }
   }
-  
-  if (year) {
-    filtered = filtered.filter(car => car.year.toString() === year);
-  }
-  
-  cars = filtered;
-  renderCars();
+}
+
+function filterCars() {
+  fetchPublications();
 }
 
 function clearFilters() {
-  cars = getCars();
-  renderCars();
+  ['homeSearchInput', 'homeFilterBrand', 'homeFilterPrice', 'homeFilterYear'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  fetchPublications();
 }
 
 function setupActions() {
   document.querySelectorAll('[data-action="favorite"]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const carId = btn.dataset.carId;
-      
       if (state.isLoggedIn()) {
         btn.classList.toggle('is-active');
         const icon = btn.querySelector('i');
@@ -195,7 +253,7 @@ function setupActions() {
       }
     });
   });
-  
+
   document.getElementById('homeSearchBtn')?.addEventListener('click', filterCars);
   document.getElementById('homeSearchInput')?.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') filterCars();
@@ -205,143 +263,34 @@ function setupActions() {
   document.getElementById('homeFilterYear')?.addEventListener('change', filterCars);
 }
 
+function updateAuthUI() {
+  const container = document.querySelector('.home-auth');
+  if (!container) return;
+
+  if (state.isLoggedIn()) {
+    const s = state.getSession();
+    container.innerHTML = `
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="color:#f97316;font-size:12px;font-weight:600;">${s?.name || ''}</span>
+        <button type="button" class="home-auth-btn" data-navigate="${s?.role === 'seller' ? 'user/seller/menu' : s?.role === 'admin' ? 'admin/menu' : 'user/buyer/menu'}">Mi cuenta</button>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <button type="button" class="home-auth-btn" data-navigate="auth/login">Iniciar sesión</button>
+      <button type="button" class="home-auth-btn-primary" data-navigate="auth/register">Crear cuenta</button>
+    `;
+  }
+}
+
 export default {
   init() {
-    isInspector = typeof window.getInspectorData === 'function' || state.isLoggedIn();
-    console.log('[HOME] init called, isInspector:', isInspector);
-    
-    if (isInspector) {
-      console.log('[HOME] Rendering inspector UI');
-      const authContainer = document.querySelector('.home-auth');
-      const inspectorData = typeof window.getInspectorData === 'function' ? window.getInspectorData() : { session: state.getSession(), notifications: [] };
-      console.log('[HOME] inspectorData:', inspectorData?.session?.name);
-      const unreadCount = inspectorData?.notifications?.filter(n => !n.read).length || 0;
-      console.log('[HOME] unreadCount:', unreadCount);
-      
-      if (authContainer) {
-        const userName = inspectorData?.session?.name || 'Inspector User';
-        const favoritesCount = inspectorData?.favorites?.length || 0;
-        authContainer.innerHTML = `
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="position:relative;display:flex;align-items:center;cursor:pointer;" onclick="window.toggleInspectorNotifications(event)" title="Notificaciones">
-              <i class="bi bi-bell" style="font-size:18px;color:#6b7280;"></i>
-              ${unreadCount > 0 ? `
-                <span style="position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:9px;font-weight:bold;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 4px;">${unreadCount}</span>
-              ` : ''}
-            </div>
-            <div style="position:relative;display:flex;align-items:center;cursor:pointer;" onclick="window.navigateTo('user/buyer/favorites')" title="Favoritos">
-              <i class="bi bi-heart" style="font-size:18px;color:#6b7280;"></i>
-              ${favoritesCount > 0 ? `
-                <span style="position:absolute;top:-6px;right:-6px;background:#f97316;color:#fff;font-size:9px;font-weight:bold;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 4px;">${favoritesCount}</span>
-              ` : ''}
-            </div>
-            <span style="color:#f97316;font-size:12px;font-weight:600;">${userName}</span>
-            <button type="button" class="home-auth-btn" data-navigate="user/buyer/menu">Mi cuenta</button>
-          </div>
-        `;
-      }
-      
-      window.toggleInspectorNotifications = function(e) {
-        e.stopPropagation();
-        
-        const existing = document.getElementById('inspector-notifications-panel');
-        if (existing) {
-          existing.remove();
-          return;
-        }
-        
-        const inspectorData = typeof window.getInspectorData === 'function' ? window.getInspectorData() : null;
-        if (!inspectorData) return;
-        
-        const notifications = inspectorData.notifications || [];
-        const messages = inspectorData.messages || [];
-        
-        let html = '<div class="notification-panel">';
-        html += '<div class="notification-header">';
-        html += '<h4>Notificaciones</h4>';
-        html += '<button type="button" onclick="document.getElementById(\'inspector-notifications-panel\').remove()" class="notification-close"><i class="bi bi-x-lg"></i></button>';
-        html += '</div>';
-        html += '<div class="notification-list">';
-        
-        if (notifications.length === 0) {
-          html += '<div class="notification-empty">Sin notificaciones</div>';
-        } else {
-          notifications.forEach(n => {
-            const icon = n.type === 'favorite' ? 'bi-heart-fill' : n.type === 'message' ? 'bi-chat-dots-fill' : 'bi-person-fill';
-            const color = n.type === 'favorite' ? '#22c55e' : n.type === 'message' ? '#3b82f6' : '#eab308';
-            const title = n.type === 'favorite' ? 'Nuevo favorito' : n.type === 'message' ? 'Nuevo mensaje' : 'Lead nuevo';
-            const timeAgo = formatTimeAgo(n.timestamp);
-            
-            let clickAction = '';
-            let cursorStyle = 'cursor:default;';
-            
-            if (n.type === 'message' || n.type === 'lead') {
-              const msg = messages.find(m => m.id === n.messageId);
-              const vehicleId = msg?.vehicleId || n.vehicleId || 1;
-              clickAction = `onclick="window.navigateTo('messages/buyer/chat/${vehicleId}')"`;
-              cursorStyle = 'cursor:pointer;';
-            }
-            
-            html += `
-              <div class="notification-item" style="border-left-color:${color};${cursorStyle}" ${clickAction}>
-                <div class="notification-icon" style="color:${color};"><i class="bi ${icon}"></i></div>
-                <div class="notification-content">
-                  <div class="notification-title">${title}</div>
-                  <div class="notification-message">${n.message}</div>
-                  <div class="notification-time">${timeAgo}</div>
-                </div>
-              </div>
-            `;
-          });
-        }
-        
-        html += '</div></div>';
-        
-        // Styles are now in src/css/components/notification-panel.css
-        
-        const panel = document.createElement('div');
-        panel.id = 'inspector-notifications-panel';
-        panel.innerHTML = html;
-        document.body.appendChild(panel);
-        
-        setTimeout(() => {
-          document.addEventListener('click', function closePanel(e) {
-            const panel = document.getElementById('inspector-notifications-panel');
-            const bell = e.target.closest('[onclick*="toggleInspectorNotifications"]');
-            if (panel && !panel.contains(e.target) && !bell) {
-              panel.remove();
-              document.removeEventListener('click', closePanel);
-            }
-          });
-        }, 100);
-      };
-      
-      function formatTimeAgo(timestamp) {
-        if (!timestamp) return '';
-        const diff = Date.now() - timestamp;
-        if (diff < 60000) return 'Ahora';
-        if (diff < 3600000) return Math.floor(diff / 60000) + 'm';
-        if (diff < 86400000) return Math.floor(diff / 3600000) + 'h';
-        return Math.floor(diff / 86400000) + 'd';
-      }
-      
-      window.navigateTo = function(hash) {
-        const panel = document.getElementById('inspector-notifications-panel');
-        if (panel) panel.remove();
-        window.location.hash = '#' + hash;
-      };
-    }
-    
-    cars = getCars();
-    renderCars();
+    updateAuthUI();
+    fetchPublications();
     setupActions();
   },
-  
-  getCars() {
-    return cars;
-  },
-  
-  getCarById(id) {
-    return getCarById(id);
+
+  getPublications() {
+    return publications;
   }
 };

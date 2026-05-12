@@ -1,4 +1,4 @@
-import { navigateTo } from '../../../js/router.js';
+import { navigateTo } from '../../../core/router.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 const isInspectorRoleSwitch = typeof window.toggleInspectorRole === 'function';
