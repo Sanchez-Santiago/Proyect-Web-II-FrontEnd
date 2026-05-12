@@ -1,6 +1,7 @@
-import { useMessages } from '../../../hooks/useMessages.js';
+import { useChats } from '../../../hooks/useChats.js';
 import { navigateTo } from '../../../js/router.js';
 import state from '../../../js/state.js';
+import { normalizePublication, unwrapApiData } from '../../../js/publicationMapper.js';
 
 function isInspectorMode() {
   return typeof window.getInspectorData === 'function';
@@ -37,7 +38,7 @@ export default {
     const conversationsList = document.getElementById('conversationsList');
     const leadsList = document.getElementById('leadsList');
     const empty = document.getElementById('messagesEmpty');
-    const tabs = document.querySelectorAll('.seller-tab');
+    const tabs = document.querySelectorAll('.messages-tab, .seller-tab');
 
     if (!conversationsList) return;
 
@@ -55,10 +56,24 @@ export default {
       return;
     }
 
-    const messages = useMessages();
+    const messages = useChats();
 
     try {
-      const conversations = await messages.getConversations();
+      const response = await messages.getAll();
+      const conversations = (unwrapApiData(response, 'chats') || []).map(chat => {
+        const car = normalizePublication(chat.publication || {});
+        const last = chat.messages?.[0];
+        return {
+          id: chat.id,
+          vehicleId: chat.publicationId,
+          vehicleTitle: car.title,
+          vehicleImage: car.image,
+          userName: last?.user?.fullName || 'Comprador',
+          lastMessage: last?.message || 'Sin mensajes todavia',
+          timeAgo: last?.createdAt ? new Date(last.createdAt).toLocaleDateString('es-AR') : '',
+          unread: 0
+        };
+      });
       
       if (!conversations || conversations.length === 0) {
         conversationsList.hidden = true;
@@ -117,11 +132,11 @@ export default {
     convs.forEach(conv => {
       const item = document.createElement('article');
       item.className = 'conversation-item';
-      item.dataset.navigate = `user/seller/messages/chat/${conv.vehicleId}`;
+      item.dataset.navigate = `messages/seller/chat/${conv.id}`;
       
       item.innerHTML = `
         <div class="conversation-avatar">
-          <img src="https://placehold.co/100x100" alt="Auto" />
+          <img src="${conv.vehicleImage || 'https://placehold.co/100x100'}" alt="Auto" />
         </div>
         <div class="conversation-content">
           <div class="conversation-header">

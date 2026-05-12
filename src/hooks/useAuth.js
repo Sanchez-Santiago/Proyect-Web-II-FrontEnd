@@ -32,6 +32,7 @@ function createSession(authResponse) {
   const data = readApiData(authResponse);
   const user = data?.user || {};
   const role = normalizeRole(user.role || data?.role);
+  const token = data?.accessToken || data?.token;
 
   return {
     ...user,
@@ -39,7 +40,9 @@ function createSession(authResponse) {
     user,
     role,
     roles: role ? [role] : [],
-    token: data?.token
+    token,
+    accessToken: token,
+    refreshToken: data?.refreshToken
   };
 }
 
@@ -88,11 +91,23 @@ export function useAuth() {
     async me() {
       try {
         const response = await api.get('/me');
-        return response;
+        const data = readApiData(response);
+        const user = data?.user || data;
+        const current = getSession();
+        if (current && user) {
+          const role = normalizeRole(user.role || current.role);
+          saveSession({ ...current, ...user, user, role, roles: role ? [role] : [] });
+        }
+        return data;
       } catch (err) {
         clearSession();
         throw err;
       }
+    },
+
+    async changePassword(currentPassword, newPassword) {
+      const response = await api.post('/change-password', { currentPassword, newPassword });
+      return readApiData(response);
     },
 
     isAuthenticated() {

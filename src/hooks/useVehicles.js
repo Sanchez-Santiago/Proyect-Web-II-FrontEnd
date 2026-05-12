@@ -26,6 +26,22 @@ export function useVehicles() {
 
     async delete(id) {
       return api.del(`/${id}`);
+    },
+
+    async addImage(id, imageData) {
+      return api.post(`/${id}/images`, imageData);
+    },
+
+    async addImagesBulk(id, images) {
+      return api.post(`/${id}/images/bulk`, { images });
+    },
+
+    async getImages(id) {
+      return api.get(`/${id}/images`);
+    },
+
+    async deleteImage(id, imageId) {
+      return api.del(`/${id}/images/${imageId}`);
     }
   };
 }

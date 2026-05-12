@@ -8,16 +8,10 @@
 
 import state from './state.js';
 import { getInspectorData, findOrCreateConversation } from '../data/inspector-data.js';
+import CONFIG from '../config.js';
+import { useAuth } from '../hooks/useAuth.js';
 
-function readRuntimeConfig(key) {
-  const windowValue = typeof window !== 'undefined' && window.MotorMarketConfig
-    ? window.MotorMarketConfig[key]
-    : undefined;
-  if (windowValue !== undefined) return windowValue;
-  return localStorage.getItem(`motormarket_${key}`);
-}
-
-const INSPECTOR_MODE = readRuntimeConfig('inspectorMode') === 'true';
+const INSPECTOR_MODE = CONFIG.INSPECTOR_MODE;
 const INSPECTOR_KEY = 'motormarket_inspector_session';
 
 console.log('[INSPECTOR] Mode:', INSPECTOR_MODE);
@@ -84,11 +78,11 @@ const routes = {
   'user/seller/publications': { template: 'src/views/user/seller/publications.html', script: 'src/views/user/seller/publications.js', title: 'Mis publicaciones | MotorMarket' },
   
   'admin/menu': { template: 'src/views/admin/menu-admin.html', script: 'src/views/admin/menu-admin.js', title: 'Menu administrador | MotorMarket' },
-  'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: null, title: 'Alertas | MotorMarket' },
-  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analíticas | MotorMarket' },
-  'admin/engine': { template: 'src/views/admin/engine-admin.html', script: null, title: 'Motor | MotorMarket' },
-  'admin/users': { template: 'src/views/admin/users-admin.html', script: null, title: 'Gestión de Usuarios | MotorMarket' },
-  'admin/publications': { template: 'src/views/admin/publications-admin.html', script: null, title: 'Moderación de Avisos | MotorMarket' },
+  'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: 'src/views/admin/alerts-admin.js', title: 'Alertas | MotorMarket' },
+  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: 'src/views/admin/analytics-admin.js', title: 'Analíticas | MotorMarket' },
+  'admin/engine': { template: 'src/views/admin/engine-admin.html', script: 'src/views/admin/engine-admin.js', title: 'Motor | MotorMarket' },
+  'admin/users': { template: 'src/views/admin/users-admin.html', script: 'src/views/admin/users-admin.js', title: 'Gestión de Usuarios | MotorMarket' },
+  'admin/publications': { template: 'src/views/admin/publications-admin.html', script: 'src/views/admin/publications-admin.js', title: 'Moderación de Avisos | MotorMarket' },
 
 
   'user/seller/sales': { template: 'src/views/user/seller/sales.html', script: 'src/views/user/seller/sales.js', title: 'Ventas | MotorMarket' },
@@ -133,7 +127,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/buyer/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatVehicleId = parts[2];
+      window.chatId = parts[2];
     }
     return 'messages/buyer/chat';
   }
@@ -141,7 +135,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/seller/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatVehicleId = parts[2];
+      window.chatId = parts[2];
     }
     return 'messages/seller/chat';
   }
@@ -224,10 +218,18 @@ window.navigateTo = navigateTo;
 export { navigateTo, handleRouteChange };
 
 document.addEventListener('DOMContentLoaded', () => {
+  state.init();
+
   if (INSPECTOR_MODE) {
     initInspectorSession();
     state.init();
     console.log('[INSPECTOR] State initialized, isLoggedIn:', state.isLoggedIn());
+  } else if (state.isLoggedIn()) {
+    useAuth().me().catch(() => {
+      if (!window.location.hash.startsWith('#auth/')) {
+        navigateTo('auth/login');
+      }
+    });
   }
   
   if (!window.location.hash) {

@@ -1,323 +1,139 @@
 import { navigateTo } from '../../js/router.js';
 import state from '../../js/state.js';
-import { getCars, getCarById } from '../../data/cars.js';
+import { usePublications } from '../../hooks/usePublications.js';
+import { useNotifications } from '../../hooks/useNotifications.js';
+import { getPublicationArray, normalizePublication } from '../../js/publicationMapper.js';
 
-let cars = [];
-let isInspector = false;
-
-console.log('[HOME] Module loaded, state.isLoggedIn():', state.isLoggedIn());
-
-/**
- * Helper to render stars rating
- */
-function renderStars(rating) {
-  let stars = '';
-  for (let i = 1; i <= 5; i++) {
-    stars += i <= rating ? '<i class="bi bi-star-fill"></i>' : '<i class="bi bi-star"></i>';
-  }
-  return stars;
-}
-
-/**
- * Helper to render condition bars
- */
-function renderConditionBar(label, value) {
-  const percentage = (value / 5) * 100;
-  const color = percentage >= 80 ? 'var(--success)' : percentage >= 60 ? 'var(--warning)' : 'var(--error)';
+function renderCard(publication) {
+  const car = normalizePublication(publication);
   return `
-    <div class="condition-bar">
-      <span class="condition-label">${label}</span>
-      <div class="condition-bar-track">
-        <div class="condition-bar-fill" style="width:${percentage}%;background:${color};"></div>
-      </div>
-      <span class="condition-value" style="color:${color};">${percentage}%</span>
-    </div>
+    <article class="admin-space-card" data-publication-id="${car.id}">
+      <img src="${car.image}" alt="${car.title}" />
+      <span class="admin-space-badge">${car.condition}</span>
+      <h3>${car.title}</h3>
+      <p>${car.priceFormatted} - ${car.year} - ${car.location}</p>
+    </article>
   `;
 }
 
-function createCarCard(car) {
-  const card = document.createElement('article');
-  card.className = 'admin-space-card';
-
-  const conditionClass = car.condition === 'Excelente' ? 'excellent' : car.condition === 'Bueno' ? 'good' : 'regular';
-
-  card.innerHTML = `
-    <img src="${car.image}" alt="${car.brand} ${car.model}" loading="lazy" />
-    <span class="admin-space-badge">${car.condition}</span>
-    <h3>${car.brand} ${car.model}</h3>
-    <p>${car.priceFormatted} - ${car.year} - ${car.location}</p>
+function renderRow(publication) {
+  const car = normalizePublication(publication);
+  return `
+    <tr data-publication-id="${car.id}">
+      <td>${car.brand}</td>
+      <td>${car.model}</td>
+      <td>${car.year}</td>
+      <td>${car.priceFormatted}</td>
+      <td>${car.condition}</td>
+    </tr>
   `;
-
-  card.addEventListener('click', () => {
-    navigateTo(`vehicles/detail?id=${car.id}`);
-  });
-
-  return card;
-}
-        ${renderConditionBar('Pintura', car.paintCondition)}
-        ${renderConditionBar('Neumáticos', car.tiresCondition)}
-      </div>
-      <div class="home-car-actions">
-        <button type="button" class="home-car-detail-btn" data-navigate="vehicles/detail/${car.id}">Ver detalle</button>
-        <button type="button" class="home-car-compare-btn" data-action="compare" data-car-id="${car.id}" title="Comparar">
-          <i class="bi bi-arrow-left-right"></i>
-        </button>
-      </div>
-    </div>
-  `;
-  return card;
 }
 
-function renderCars() {
-  const grid = document.getElementById('homeCarsGrid');
-  if (!grid) return;
-
-  grid.innerHTML = '';
-  if (cars.length === 0) {
-    grid.innerHTML = '<div class="no-results">No se encontraron autos que coincidan con tu búsqueda.</div>';
-    return;
-  }
-  
-  cars.forEach(car => {
-    grid.appendChild(createCarCard(car));
-  });
-}
-
-function filterCars() {
-  const searchInput = document.getElementById('homeSearchInput');
-  const filterBrand = document.getElementById('homeFilterBrand');
-  const filterPrice = document.getElementById('homeFilterPrice');
-  const filterYear = document.getElementById('homeFilterYear');
-  
-  const search = searchInput?.value.toLowerCase() || '';
-  const brand = filterBrand?.value.toLowerCase() || '';
-  const price = filterPrice?.value || '';
-  const year = filterYear?.value || '';
-  
-  let filtered = [...getCars()];
-  
-  if (search) {
-    filtered = filtered.filter(car => 
-      car.brand.toLowerCase().includes(search) || 
-      car.model.toLowerCase().includes(search) ||
-      car.year.toString().includes(search)
-    );
-  }
-  
-  if (brand) {
-    filtered = filtered.filter(car => car.brand.toLowerCase() === brand);
-  }
-  
-  if (price) {
-    if (price === 'hasta-10m') {
-      filtered = filtered.filter(car => car.price < 10000000);
-    } else if (price === '10m-20m') {
-      filtered = filtered.filter(car => car.price >= 10000000 && car.price < 20000000);
-    } else if (price === '20m-35m') {
-      filtered = filtered.filter(car => car.price >= 20000000 && car.price < 35000000);
-    } else if (price === 'mas-35m') {
-      filtered = filtered.filter(car => car.price >= 35000000);
-    }
-  }
-  
-  if (year) {
-    filtered = filtered.filter(car => car.year.toString() === year);
-  }
-  
-  cars = filtered;
-  renderCars();
-}
-
-function clearFilters() {
-  cars = getCars();
-  renderCars();
-}
-
-function setupActions() {
-  document.querySelectorAll('[data-action="favorite"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const carId = btn.dataset.carId;
-      
-      if (state.isLoggedIn()) {
-        btn.classList.toggle('is-active');
-        const icon = btn.querySelector('i');
-        if (btn.classList.contains('is-active')) {
-          icon.classList.remove('bi-heart');
-          icon.classList.add('bi-heart-fill');
-        } else {
-          icon.classList.remove('bi-heart-fill');
-          icon.classList.add('bi-heart');
-        }
-      } else {
-        state.requireAuth(() => {
-          btn.classList.add('is-active');
-          btn.querySelector('i').classList.remove('bi-heart');
-          btn.querySelector('i').classList.add('bi-heart-fill');
-        });
-      }
+function setupNavigation() {
+  document.querySelectorAll('[data-navigate]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      navigateTo(el.getAttribute('data-navigate'));
     });
   });
+}
 
-  document.querySelectorAll('[data-action="compare"]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (state.isLoggedIn()) {
-        alert('Función de comparar en desarrollo');
-      } else {
-        state.requireAuth(() => {
-          alert('Función de comparar en desarrollo');
-        });
-      }
-    });
-  });
-  
-  document.getElementById('homeSearchBtn')?.addEventListener('click', filterCars);
-  document.getElementById('homeSearchInput')?.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') filterCars();
-  });
-  document.getElementById('homeFilterBrand')?.addEventListener('change', filterCars);
-  document.getElementById('homeFilterPrice')?.addEventListener('change', filterCars);
-  document.getElementById('homeFilterYear')?.addEventListener('change', filterCars);
+function openNotifications(notifications) {
+  document.getElementById('notifications-panel')?.remove();
+  const panel = document.createElement('div');
+  panel.id = 'notifications-panel';
+  panel.className = 'notification-panel';
+  panel.innerHTML = `
+    <div class="notification-header">
+      <h4>Notificaciones</h4>
+      <button type="button" class="notification-close" data-close-notifications><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="notification-list">
+      ${notifications.length ? notifications.map(n => `
+        <div class="notification-item" data-notification-id="${n.id}">
+          <div class="notification-icon"><i class="bi bi-bell-fill"></i></div>
+          <div class="notification-content">
+            <div class="notification-title">${n.title || n.type || 'Notificacion'}</div>
+            <div class="notification-message">${n.message || ''}</div>
+            <div class="notification-time">${n.createdAt ? new Date(n.createdAt).toLocaleString('es-AR') : ''}</div>
+          </div>
+        </div>
+      `).join('') : '<div class="notification-empty">Sin notificaciones</div>'}
+    </div>
+  `;
+  document.body.appendChild(panel);
+  panel.querySelector('[data-close-notifications]')?.addEventListener('click', () => panel.remove());
 }
 
 export default {
-  init() {
-    isInspector = typeof window.getInspectorData === 'function' || state.isLoggedIn();
-    console.log('[HOME] init called, isInspector:', isInspector);
-    
-    if (isInspector) {
-      console.log('[HOME] Rendering inspector UI');
-      const authContainer = document.querySelector('.home-auth');
-      const inspectorData = typeof window.getInspectorData === 'function' ? window.getInspectorData() : { session: state.getSession(), notifications: [] };
-      console.log('[HOME] inspectorData:', inspectorData?.session?.name);
-      const unreadCount = inspectorData?.notifications?.filter(n => !n.read).length || 0;
-      console.log('[HOME] unreadCount:', unreadCount);
-      
-      if (authContainer) {
-        const userName = inspectorData?.session?.name || 'Inspector User';
-        const favoritesCount = inspectorData?.favorites?.length || 0;
-        authContainer.innerHTML = `
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="position:relative;display:flex;align-items:center;cursor:pointer;" onclick="window.toggleInspectorNotifications(event)" title="Notificaciones">
-              <i class="bi bi-bell" style="font-size:18px;color:#6b7280;"></i>
-              ${unreadCount > 0 ? `
-                <span style="position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:9px;font-weight:bold;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 4px;">${unreadCount}</span>
-              ` : ''}
-            </div>
-            <div style="position:relative;display:flex;align-items:center;cursor:pointer;" onclick="window.navigateTo('user/buyer/favorites')" title="Favoritos">
-              <i class="bi bi-heart" style="font-size:18px;color:#6b7280;"></i>
-              ${favoritesCount > 0 ? `
-                <span style="position:absolute;top:-6px;right:-6px;background:#f97316;color:#fff;font-size:9px;font-weight:bold;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0 4px;">${favoritesCount}</span>
-              ` : ''}
-            </div>
-            <span style="color:#f97316;font-size:12px;font-weight:600;">${userName}</span>
-            <button type="button" class="home-auth-btn" data-navigate="user/buyer/menu">Mi cuenta</button>
-          </div>
-        `;
-      }
-      
-      window.toggleInspectorNotifications = function(e) {
-        e.stopPropagation();
-        
-        const existing = document.getElementById('inspector-notifications-panel');
-        if (existing) {
-          existing.remove();
-          return;
-        }
-        
-        const inspectorData = typeof window.getInspectorData === 'function' ? window.getInspectorData() : null;
-        if (!inspectorData) return;
-        
-        const notifications = inspectorData.notifications || [];
-        const messages = inspectorData.messages || [];
-        
-        let html = '<div class="notification-panel">';
-        html += '<div class="notification-header">';
-        html += '<h4>Notificaciones</h4>';
-        html += '<button type="button" onclick="document.getElementById(\'inspector-notifications-panel\').remove()" class="notification-close"><i class="bi bi-x-lg"></i></button>';
-        html += '</div>';
-        html += '<div class="notification-list">';
-        
-        if (notifications.length === 0) {
-          html += '<div class="notification-empty">Sin notificaciones</div>';
-        } else {
-          notifications.forEach(n => {
-            const icon = n.type === 'favorite' ? 'bi-heart-fill' : n.type === 'message' ? 'bi-chat-dots-fill' : 'bi-person-fill';
-            const color = n.type === 'favorite' ? '#22c55e' : n.type === 'message' ? '#3b82f6' : '#eab308';
-            const title = n.type === 'favorite' ? 'Nuevo favorito' : n.type === 'message' ? 'Nuevo mensaje' : 'Lead nuevo';
-            const timeAgo = formatTimeAgo(n.timestamp);
-            
-            let clickAction = '';
-            let cursorStyle = 'cursor:default;';
-            
-            if (n.type === 'message' || n.type === 'lead') {
-              const msg = messages.find(m => m.id === n.messageId);
-              const vehicleId = msg?.vehicleId || n.vehicleId || 1;
-              clickAction = `onclick="window.navigateTo('messages/buyer/chat/${vehicleId}')"`;
-              cursorStyle = 'cursor:pointer;';
-            }
-            
-            html += `
-              <div class="notification-item" style="border-left-color:${color};${cursorStyle}" ${clickAction}>
-                <div class="notification-icon" style="color:${color};"><i class="bi ${icon}"></i></div>
-                <div class="notification-content">
-                  <div class="notification-title">${title}</div>
-                  <div class="notification-message">${n.message}</div>
-                  <div class="notification-time">${timeAgo}</div>
-                </div>
-              </div>
-            `;
-          });
-        }
-        
-        html += '</div></div>';
-        
-        // Styles are now in src/css/components/notification-panel.css
-        
-        const panel = document.createElement('div');
-        panel.id = 'inspector-notifications-panel';
-        panel.innerHTML = html;
-        document.body.appendChild(panel);
-        
-        setTimeout(() => {
-          document.addEventListener('click', function closePanel(e) {
-            const panel = document.getElementById('inspector-notifications-panel');
-            const bell = e.target.closest('[onclick*="toggleInspectorNotifications"]');
-            if (panel && !panel.contains(e.target) && !bell) {
-              panel.remove();
-              document.removeEventListener('click', closePanel);
-            }
-          });
-        }, 100);
-      };
-      
-      function formatTimeAgo(timestamp) {
-        if (!timestamp) return '';
-        const diff = Date.now() - timestamp;
-        if (diff < 60000) return 'Ahora';
-        if (diff < 3600000) return Math.floor(diff / 60000) + 'm';
-        if (diff < 86400000) return Math.floor(diff / 3600000) + 'h';
-        return Math.floor(diff / 86400000) + 'd';
-      }
-      
-      window.navigateTo = function(hash) {
-        const panel = document.getElementById('inspector-notifications-panel');
-        if (panel) panel.remove();
-        window.location.hash = '#' + hash;
-      };
+  async init() {
+    setupNavigation();
+    await this.renderAuth();
+    await this.renderPublications();
+  },
+
+  async renderAuth() {
+    const authContainer = document.querySelector('.home-auth');
+    if (!authContainer) return;
+
+    if (!state.isLoggedIn()) {
+      authContainer.innerHTML = `
+        <button type="button" class="home-auth-btn" data-navigate="auth/login">Iniciar sesion</button>
+        <button type="button" class="home-auth-btn-primary" data-navigate="auth/register">Crear cuenta</button>
+      `;
+      setupNavigation();
+      return;
     }
-    
-    cars = getCars();
-    renderCars();
-    setupActions();
+
+    let notifications = [];
+    try {
+      const response = await useNotifications().getAll({ isRead: false });
+      notifications = response?.data?.notifications || response?.notifications || [];
+    } catch {
+      notifications = [];
+    }
+
+    const session = state.getSession();
+    authContainer.innerHTML = `
+      <div style="display:flex;align-items:center;gap:16px;">
+        <button type="button" class="home-auth-btn" data-notifications>
+          <i class="bi bi-bell"></i> ${notifications.length}
+        </button>
+        <button type="button" class="home-auth-btn" data-navigate="user/buyer/favorites">
+          <i class="bi bi-heart"></i>
+        </button>
+        <span style="color:#f97316;font-size:12px;font-weight:600;">${session?.name || session?.fullName || session?.email}</span>
+        <button type="button" class="home-auth-btn-primary" data-navigate="user/buyer/menu">Mi cuenta</button>
+      </div>
+    `;
+    authContainer.querySelector('[data-notifications]')?.addEventListener('click', () => openNotifications(notifications));
+    setupNavigation();
   },
-  
-  getCars() {
-    return cars;
-  },
-  
-  getCarById(id) {
-    return getCarById(id);
+
+  async renderPublications() {
+    const cardGrid = document.querySelector('.admin-space-grid-2');
+    const tbody = document.querySelector('.admin-space-table tbody');
+    if (cardGrid) cardGrid.innerHTML = '<article class="admin-space-card">Cargando publicaciones...</article>';
+    if (tbody) tbody.innerHTML = '<tr><td colspan="5">Cargando publicaciones...</td></tr>';
+
+    try {
+      const response = await usePublications().getAll({ status: 'ACTIVE' });
+      const publications = getPublicationArray(response);
+      const visible = publications.slice(0, 6);
+
+      if (cardGrid) {
+        cardGrid.innerHTML = visible.slice(0, 2).map(renderCard).join('') || '<article class="admin-space-card">No hay publicaciones activas.</article>';
+      }
+      if (tbody) {
+        tbody.innerHTML = visible.map(renderRow).join('') || '<tr><td colspan="5">No hay publicaciones activas.</td></tr>';
+      }
+
+      document.querySelectorAll('[data-publication-id]').forEach(el => {
+        el.addEventListener('click', () => navigateTo(`vehicles/detail/${el.dataset.publicationId}`));
+      });
+    } catch (err) {
+      if (cardGrid) cardGrid.innerHTML = `<article class="admin-space-card">No se pudieron cargar publicaciones: ${err.message}</article>`;
+      if (tbody) tbody.innerHTML = `<tr><td colspan="5">No se pudieron cargar publicaciones: ${err.message}</td></tr>`;
+    }
   }
 };

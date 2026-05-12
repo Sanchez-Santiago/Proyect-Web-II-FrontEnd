@@ -1,7 +1,8 @@
-import { useMessages } from '../../../hooks/useMessages.js';
+import { useChats } from '../../../hooks/useChats.js';
 import { navigateTo } from '../../../js/router.js';
 import state from '../../../js/state.js';
 import { getCarById } from '../../../data/cars.js';
+import { normalizePublication, unwrapApiData } from '../../../js/publicationMapper.js';
 
 let conversations = [];
 
@@ -56,9 +57,24 @@ export default {
     if (isInspectorMode()) {
       conversations = getInspectorConversations();
     } else {
-      const messages = useMessages();
+      const messages = useChats();
       try {
-        conversations = await messages.getConversations();
+        const response = await messages.getAll();
+        conversations = (unwrapApiData(response, 'chats') || []).map(chat => {
+          const car = normalizePublication(chat.publication || {});
+          const last = chat.messages?.[0];
+          return {
+            id: chat.id,
+            vehicleId: chat.publicationId,
+            vehicleTitle: car.title,
+            vehicleImage: car.image,
+            userName: car.seller?.name || 'Vendedor',
+            lastMessage: last?.message || 'Sin mensajes todavia',
+            timeAgo: last?.createdAt ? new Date(last.createdAt).toLocaleDateString('es-AR') : '',
+            unread: 0,
+            isNavigate: `messages/buyer/chat/${chat.id}`
+          };
+        });
       } catch (err) {
         console.log('Mostrando conversaciones demo:', err.message);
         conversations = this.getDemoConversations();
@@ -113,7 +129,7 @@ unread: 3,
     convs.forEach(conv => {
       const item = document.createElement('article');
       item.className = 'conversation-item';
-      item.dataset.navigate = conv.isNavigate || `messages/buyer/chat/${conv.vehicleId}`;
+      item.dataset.navigate = conv.isNavigate || `messages/buyer/chat/${conv.id}`;
       
       item.innerHTML = `
         <div class="conversation-avatar">

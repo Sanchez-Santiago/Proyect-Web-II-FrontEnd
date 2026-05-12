@@ -146,8 +146,9 @@ export default {
           address
         });
 
-        setMessage('Cuenta creada. Redirigiendo...', 'success');
-        navigateTo('auth/role');
+        setMessage('Cuenta creada. Iniciando sesion...', 'success');
+        await auth.login(email, password);
+        navigateTo('user/buyer/menu');
       } catch (error) {
         setMessage(getErrorMessage(error), 'error');
       } finally {

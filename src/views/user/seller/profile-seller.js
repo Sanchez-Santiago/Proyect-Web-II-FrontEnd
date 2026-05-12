@@ -1,116 +1,80 @@
 import { navigateTo } from '../../../js/router.js';
+import { useAuth } from '../../../hooks/useAuth.js';
+import { unwrapApiData } from '../../../js/publicationMapper.js';
+
+function setValue(id, value) {
+  const el = document.getElementById(id);
+  if (el && value !== undefined && value !== null) el.value = value;
+}
+
+function appendPasswordFields(form) {
+  if (document.getElementById('sellerCurrentPassword')) return;
+  form.insertAdjacentHTML('beforeend', `
+    <article class="seller-form-card form-card">
+      <div class="seller-section-head section-head">
+        <span class="seller-section-step section-step">Seguridad</span>
+        <div><h2>Cambiar contraseña</h2></div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="sellerCurrentPassword" class="form-label">Contraseña actual</label>
+          <input id="sellerCurrentPassword" type="password" class="form-control form-control-lg" autocomplete="current-password" />
+        </div>
+        <div class="col-md-6">
+          <label for="sellerNewPassword" class="form-label">Nueva contraseña</label>
+          <input id="sellerNewPassword" type="password" class="form-control form-control-lg" autocomplete="new-password" />
+        </div>
+      </div>
+    </article>
+  `);
+}
 
 export default {
-  init() {
-    this.setupForm();
+  async init() {
+    this.auth = useAuth();
     this.setupNavigation();
+    await this.setupForm();
   },
 
   setupNavigation() {
     document.querySelectorAll('[data-navigate]').forEach(link => {
-      link.addEventListener('click', (e) => {
+      link.addEventListener('click', e => {
         e.preventDefault();
-        const view = link.getAttribute('data-navigate');
-        navigateTo(view);
+        navigateTo(link.getAttribute('data-navigate'));
       });
     });
   },
 
-  setupForm() {
+  async setupForm() {
     const form = document.getElementById('sellerProfileForm');
     const message = document.getElementById('sellerProfileMessage');
-    const stage = document.getElementById('sellerProfileStage');
-    const completionText = document.getElementById('sellerCompletionText');
-    const completionBar = document.getElementById('sellerCompletionBar');
-
     if (!form) return;
+    appendPasswordFields(form);
 
-    const fields = [
-      'sellerName', 'sellerDisplayName', 'sellerAccountType', 'sellerVerified',
-      'sellerResponseWindow', 'sellerEmail', 'sellerPhone', 'sellerWhatsapp',
-      'sellerProvince', 'sellerCity', 'sellerContactChannel', 'sellerBusinessHours',
-      'sellerAttentionDays', 'sellerSpecialty', 'sellerYearsRange', 'sellerBrands',
-      'sellerTargetClient', 'sellerPriceRange', 'sellerAiTone', 'sellerPresentation',
-      'sellerFaq'
-    ];
-
-    function updateProgress() {
-      const filled = fields.filter(id => {
-        const el = document.getElementById(id);
-        return el && el.value.trim() !== '';
-      }).length;
-      
-      const percent = Math.round((filled / fields.length) * 100);
-      completionText.textContent = percent + '%';
-      completionBar.style.width = percent + '%';
-
-      if (percent >= 80) {
-        stage.textContent = 'Completo';
-      } else if (percent >= 40) {
-        stage.textContent = 'En progreso';
-      } else {
-        stage.textContent = 'Incompleto';
-      }
+    try {
+      const profile = unwrapApiData(await this.auth.me(), 'user');
+      setValue('sellerName', profile?.fullName || profile?.name);
+      setValue('sellerPhone', profile?.phone);
+      setValue('sellerAddress', [profile?.city, profile?.province].filter(Boolean).join(', '));
+    } catch (err) {
+      if (message) message.textContent = err.message || 'No se pudo cargar el perfil';
     }
 
-    function updateLabels() {
-      const accountType = document.getElementById('sellerAccountType');
-      const channel = document.getElementById('sellerContactChannel');
-      const province = document.getElementById('sellerProvince');
-      const aiReplies = document.getElementById('sellerAiReplies');
-
-      const accountLabels = {
-        'particular': 'Particular',
-        'agencia': 'Agencia',
-        'intermediario': 'Intermediario'
-      };
-
-      const channelLabels = {
-        'chat': 'Chat',
-        'whatsapp': 'WhatsApp',
-        'llamada': 'Llamada',
-        'email': 'Email'
-      };
-
-      document.getElementById('sellerAccountLabel').textContent = 
-        accountType?.value ? (accountLabels[accountType.value] || accountType.value) : 'Particular';
-      document.getElementById('sellerChannelLabel').textContent = 
-        channel?.value ? (channelLabels[channel.value] || channel.value) : 'Sin definir';
-      document.getElementById('sellerLocationLabel').textContent = 
-        province?.value ? province.value : 'Sin definir';
-      document.getElementById('sellerAiLabel').textContent = 
-        aiReplies?.checked ? 'Si' : 'No';
-    }
-
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('input', () => {
-          updateProgress();
-          updateLabels();
-        });
-        el.addEventListener('change', () => {
-          updateProgress();
-          updateLabels();
-        });
-      }
-    });
-
-    const aiReplies = document.getElementById('sellerAiReplies');
-    if (aiReplies) {
-      aiReplies.addEventListener('change', updateLabels);
-    }
-
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      if (message) {
-        message.textContent = 'Perfil guardado exitosamente!';
-        message.classList.remove('error');
-        message.classList.add('success');
-      }
-      setTimeout(() => navigateTo('menu-seller'), 1000);
-    });
+      if (message) message.textContent = 'Guardando...';
 
-    updateProgress();
+      try {
+        const currentPassword = document.getElementById('sellerCurrentPassword')?.value;
+        const newPassword = document.getElementById('sellerNewPassword')?.value;
+        if (currentPassword || newPassword) {
+          if (!currentPassword || !newPassword) throw new Error('Completa ambas contraseñas');
+          await this.auth.changePassword(currentPassword, newPassword);
+        }
+        if (message) message.textContent = 'Perfil guardado correctamente';
+      } catch (err) {
+        if (message) message.textContent = err.message || 'No se pudo guardar el perfil';
+      }
+    });
   }
 };

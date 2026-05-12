@@ -1,26 +1,25 @@
-const DEFAULT_API_BASE_URL = 'http://localhost:3000';
+import CONFIG from '../config.js';
 
-function readRuntimeConfig(key) {
-  const windowValue = typeof window !== 'undefined' && window.MotorMarketConfig
-    ? window.MotorMarketConfig[key]
-    : undefined;
-  if (windowValue !== undefined) return windowValue;
-  return localStorage.getItem(`motormarket_${key}`);
+const API_BASE_URL = CONFIG.API_BASE_URL;
+const INSPECTOR_MODE = CONFIG.INSPECTOR_MODE;
+const STORAGE_KEY = 'motormarket_session';
+
+function getSession() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
 }
 
-const API_BASE_URL = readRuntimeConfig('apiBaseUrl') || DEFAULT_API_BASE_URL;
-const INSPECTOR_MODE = readRuntimeConfig('inspectorMode') === 'true';
+function saveSession(session) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+}
 
 function getAuthHeaders() {
-  const sessionRaw = localStorage.getItem('motormarket_session');
-  if (!sessionRaw) return {};
-
-  try {
-    const session = JSON.parse(sessionRaw);
-    return session.token ? { Authorization: `Bearer ${session.token}` } : {};
-  } catch {
-    return {};
-  }
+  const session = getSession();
+  return session?.token ? { Authorization: `Bearer ${session.token}` } : {};
 }
 
 function createApiState() {
@@ -51,7 +50,32 @@ function createMockState(data) {
   return state;
 }
 
-async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
+async function refreshAccessToken() {
+  const session = getSession();
+  if (!session?.refreshToken) return null;
+
+  const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-refresh-token': session.refreshToken
+    }
+  });
+
+  if (!response.ok) return null;
+
+  const data = await response.json();
+  const updated = {
+    ...session,
+    token: data.accessToken || data.token || session.token,
+    accessToken: data.accessToken || session.accessToken,
+    refreshToken: data.refreshToken || session.refreshToken
+  };
+  saveSession(updated);
+  return updated.token;
+}
+
+async function request(method, endpoint, body = null, baseUrl = API_BASE_URL, retryOnUnauthorized = true) {
   const state = createApiState();
   state.setLoading(true);
   state.setError(null);
@@ -78,7 +102,15 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
       ? `${baseUrl}${endpoint}?${new URLSearchParams(body)}`
       : `${baseUrl}${endpoint}`;
 
-    const response = await fetch(url, options);
+    let response = await fetch(url, options);
+
+    if (response.status === 401 && retryOnUnauthorized) {
+      const token = await refreshAccessToken();
+      if (token) {
+        options.headers.Authorization = `Bearer ${token}`;
+        response = await fetch(url, options);
+      }
+    }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -119,7 +151,7 @@ async function handleInspectorRequest(method, endpoint, body, state) {
       handleAuthMock(method, endpoint, body, data, state);
     } else if (endpoint.startsWith('/vehicles')) {
       handleVehiclesMock(method, endpoint, body, data, state);
-    } else if (endpoint.startsWith('/conversations')) {
+    } else if (endpoint.startsWith('/conversations') || endpoint.startsWith('/chats')) {
       handleConversationsMock(method, endpoint, body, data, state);
     } else if (endpoint.startsWith('/favorites')) {
       handleFavoritesMock(method, endpoint, body, data, state);
@@ -202,12 +234,12 @@ function handleFavoritesMock(method, endpoint, body, data, state) {
   if (method === 'GET') {
     state.setData(data.favorites);
   } else if (method === 'POST') {
-    if (!data.favorites.includes(body.vehicleId)) {
-      data.favorites.push(body.vehicleId);
+    if (!data.favorites.includes(body.publicationId)) {
+      data.favorites.push(body.publicationId);
     }
     state.setData(data.favorites);
   } else if (method === 'DELETE') {
-    const idx = data.favorites.indexOf(body.vehicleId);
+    const idx = data.favorites.indexOf(body.publicationId);
     if (idx !== -1) {
       data.favorites.splice(idx, 1);
     }
@@ -278,4 +310,5 @@ export function useApi(baseEndpoint = '') {
 }
 
 export { ApiError };
+export { getSession, saveSession };
 export default useApi;

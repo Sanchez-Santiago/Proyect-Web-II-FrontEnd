@@ -130,27 +130,37 @@
   top: 50%;
   left: 18px;
   transform: translateY(-50%);
-  color: rgba(248, 250, 252, 0.54);
+  color: rgba(71, 85, 105, 0.74);
 }
 
 .input-wrap input {
   min-height: 62px;
   padding-left: 3rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--white);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  background: #f8fafc;
+  color: #0f172a;
+  caret-color: #ea580c;
   transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 
 .input-wrap input::placeholder {
-  color: rgba(248, 250, 252, 0.38);
+  color: #64748b;
 }
 
 .input-wrap input:focus {
   border-color: rgba(249, 115, 22, 0.36);
   box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.input-wrap input:-webkit-autofill,
+.input-wrap input:-webkit-autofill:hover,
+.input-wrap input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0f172a;
+  box-shadow: 0 0 0 1000px #f8fafc inset;
+  caret-color: #ea580c;
 }
 
 .login-message {

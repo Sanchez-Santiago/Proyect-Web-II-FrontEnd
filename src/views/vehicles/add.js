@@ -1,7 +1,9 @@
 import { useVehicles } from '../../hooks/useVehicles.js';
 import { useUpload } from '../../hooks/useUpload.js';
+import { usePublications } from '../../hooks/usePublications.js';
 import { navigateTo } from '../../js/router.js';
 import state from '../../js/state.js';
+import { unwrapApiData } from '../../js/publicationMapper.js';
 
 export default {
   init() {
@@ -15,6 +17,7 @@ export default {
 
     const vehicles = useVehicles();
     const upload = useUpload();
+    const publications = usePublications();
     let selectedFiles = [];
 
     function setMessage(text, type) {
@@ -105,7 +108,7 @@ export default {
         return false;
       }
 
-      if (!vehicleType) {
+      if (form.vehicleType && !vehicleType) {
         setMessage('Selecciona el tipo de vehiculo.', 'error');
         form.vehicleType?.focus();
         return false;
@@ -117,19 +120,19 @@ export default {
         return false;
       }
 
-      if (!province) {
+      if (form.province && !province) {
         setMessage('Ingresa la provincia.', 'error');
         form.province?.focus();
         return false;
       }
 
-      if (!city) {
+      if (form.city && !city) {
         setMessage('Ingresa la ciudad.', 'error');
         form.city?.focus();
         return false;
       }
 
-      if (!description) {
+      if (form.description && !description) {
         setMessage('Ingresa una descripcion.', 'error');
         form.description?.focus();
         return false;
@@ -143,32 +146,59 @@ export default {
         brand: form.brand.value,
         model: form.model.value.trim(),
         year: parseInt(form.year.value),
-        vehicleType: form.vehicleType.value,
+        vehicleType: form.vehicleType?.value || 'SEDAN',
         price: parseFloat(form.price.value),
-        mileage: form.mileage?.value ? parseInt(form.mileage.value) : null,
-        fuelType: form.fuelType?.value || null,
-        transmission: form.transmission?.value || null,
-        color: form.color?.value || null,
-        province: form.province.value.trim(),
-        city: form.city.value.trim(),
-        description: form.description.value.trim(),
-        lastServiceDate: form.lastServiceDate?.value || null,
-        lastOilChange: form.lastOilChange?.value || null,
-        accidents: form.accidents?.value.trim() || null
+        mileage: form.mileage?.value ? parseInt(form.mileage.value) : undefined,
+        fuelType: form.fuelType?.value || 'GASOLINE',
+        transmission: form.transmission?.value || 'MANUAL',
+        color: form.color?.value || undefined,
+        accidents: form.accidents?.value.trim() || undefined
       };
+    }
+
+    function buildPublicationData(vehicleId) {
+      return {
+        vehicleId,
+        title: `${form.brand.value} ${form.model.value.trim()} ${form.year.value}`,
+        description: form.description?.value?.trim() || 'Publicacion cargada desde MotorMarket.',
+        price: parseFloat(form.price.value),
+        currency: form.currency?.value || 'ARS',
+        province: form.province?.value?.trim() || 'Cordoba',
+        city: form.city?.value?.trim() || 'Cordoba'
+      };
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
 
     async function uploadImages(vehicleId) {
       const uploadedUrls = [];
+      const failedFiles = [];
       for (const file of selectedFiles) {
         try {
-          const result = await upload.image(file);
+          const dataUrl = await fileToDataUrl(file);
+          const result = unwrapApiData(await upload.imageFromUrl(dataUrl));
           if (result?.url) {
-            uploadedUrls.push(result.url);
+            uploadedUrls.push({ url: result.url, title: file.name });
+          } else {
+            failedFiles.push(file.name);
           }
         } catch (err) {
           console.warn('Error uploading image:', err.message);
+          failedFiles.push(file.name);
         }
+      }
+      if (failedFiles.length > 0) {
+        throw new Error(`No se pudieron subir estas fotos: ${failedFiles.join(', ')}`);
+      }
+      if (uploadedUrls.length > 0) {
+        await vehicles.addImagesBulk(vehicleId, uploadedUrls);
       }
       return uploadedUrls;
     }
@@ -188,10 +218,11 @@ export default {
 
       try {
         const vehicleData = buildFormData();
-        const vehicle = await vehicles.create(vehicleData);
+        const vehicleResponse = await vehicles.create(vehicleData);
+        const vehicle = unwrapApiData(vehicleResponse, 'vehicle');
 
         if (!vehicle?.id) {
-          setMessage(vehicle?.message || 'Error al publicar vehiculo.', 'error');
+          setMessage('Error al crear vehiculo.', 'error');
           return;
         }
 
@@ -200,19 +231,19 @@ export default {
           await uploadImages(vehicle.id);
         }
 
-        setMessage('Vehiculo publicado con exito!', 'success');
+        setMessage('Creando publicacion...', 'success');
+        const publicationResponse = await publications.create(buildPublicationData(vehicle.id));
+        const publication = unwrapApiData(publicationResponse, 'publication');
+
+        setMessage('Publicacion creada con exito!', 'success');
 
         setTimeout(() => {
-          navigateTo('user/seller/menu');
+          navigateTo(publication?.id ? `vehicles/detail/${publication.id}` : 'user/seller/publications');
         }, 1500);
 
       } catch (err) {
         console.error('Error:', err);
-        setMessage('Vehiculo publicado localmente (sin conexion al servidor).', 'success');
-        
-        setTimeout(() => {
-          navigateTo('user/seller/menu');
-        }, 1500);
+        setMessage(err.message || 'No se pudo publicar el vehiculo.', 'error');
       }
     });
 

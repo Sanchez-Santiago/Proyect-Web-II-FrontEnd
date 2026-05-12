@@ -1,7 +1,10 @@
-import { useMessages } from '../../../hooks/useMessages.js';
+import { useChats } from '../../../hooks/useChats.js';
 import { navigateTo } from '../../../js/router.js';
 import state from '../../../js/state.js';
 import { getCarById } from '../../../data/cars.js';
+import { normalizePublication, unwrapApiData } from '../../../js/publicationMapper.js';
+import CONFIG from '../../../config.js';
+import { getSession } from '../../../hooks/useApi.js';
 
 const isInspector = typeof window.getInspectorData === 'function';
 
@@ -19,6 +22,8 @@ function parseMarkdown(text) {
 }
 
 export default {
+  socket: null,
+
   async init() {
     const form = document.getElementById('chatForm');
     const input = document.getElementById('chatMessageInput');
@@ -27,7 +32,7 @@ export default {
     const vehicleTitle = document.getElementById('chatVehicleTitle');
     const sellerName = document.getElementById('chatSellerName');
 
-    const vehicleId = window.chatVehicleId || 1;
+    const chatId = window.chatId || 1;
 
     state.init();
     if (!state.isLoggedIn() && !isInspector) {
@@ -35,16 +40,21 @@ export default {
       return;
     }
 
-    if (vehicleId) {
-      const car = getCarById(vehicleId);
-      if (car) {
+    if (chatId && !isInspector) {
+      try {
+        const response = await useChats().getById(chatId);
+        const chat = unwrapApiData(response, 'chat');
+        const car = normalizePublication(chat.publication || {});
         if (vehicleImage) vehicleImage.src = car.image;
-        if (vehicleTitle) vehicleTitle.textContent = `${car.brand} ${car.model} ${car.year}`;
+        if (vehicleTitle) vehicleTitle.textContent = car.title;
         if (sellerName) sellerName.textContent = car.seller?.name || 'Vendedor';
+      } catch (err) {
+        console.warn('No se pudo cargar chat:', err.message);
       }
     }
 
-    this.loadMessages(vehicleId);
+    this.loadMessages(chatId);
+    this.setupSocket(chatId, messagesContainer);
 
     if (input) {
       input.addEventListener('keydown', (e) => {
@@ -61,20 +71,42 @@ export default {
         const message = input.value.trim();
         if (!message) return;
 
-        this.sendMessage(vehicleId, message, messagesContainer);
+        this.sendMessage(chatId, message, messagesContainer);
         input.value = '';
       });
     }
   },
 
-  async loadMessages(vehicleId) {
-    const messages = useMessages();
+  setupSocket(chatId, container) {
+    const session = getSession();
+    if (!window.io || !session?.token || !chatId) return;
+
+    this.socket = window.io(CONFIG.API_BASE_URL, { auth: { token: session.token } });
+    this.socket.emit('joinChat', { chatId });
+    this.socket.on('newMessage', msg => {
+      if (msg.userId === session.id) return;
+      const incoming = {
+        message: msg.message,
+        time: new Date(msg.createdAt || Date.now()).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
+        isOutgoing: false
+      };
+      this.renderMessages([...(container.dataset.loadedMessages ? JSON.parse(container.dataset.loadedMessages) : []), incoming], container);
+    });
+  },
+
+  async loadMessages(chatId) {
+    const messages = useChats();
     const container = document.getElementById('chatMessages');
 
     try {
-      const msgs = await messages.getByVehicle(vehicleId);
-      if (msgs && msgs.length > 0) {
-        this.renderMessages(msgs, container);
+      const response = await messages.getMessages(chatId);
+      const msgs = unwrapApiData(response, 'messages') || [];
+      if (msgs.length > 0) {
+        this.renderMessages(msgs.map(msg => ({
+          message: msg.message,
+          time: new Date(msg.createdAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }),
+          isOutgoing: msg.userId === state.getSession()?.id
+        })), container);
       } else {
         this.renderDemoMessages(container);
       }
@@ -113,10 +145,11 @@ export default {
       container.appendChild(div);
     });
 
+    container.dataset.loadedMessages = JSON.stringify(msgs);
     container.scrollTop = container.scrollHeight;
   },
 
-  async sendMessage(vehicleId, text, container) {
+  async sendMessage(chatId, text, container) {
     if (!container) container = document.getElementById('chatMessages');
     if (!container) return;
 
@@ -162,8 +195,12 @@ export default {
     }
 
     try {
-      const messages = useMessages();
-      await messages.send({ vehicleId, message: text });
+      if (this.socket?.connected) {
+        this.socket.emit('sendMessage', { chatId, message: text });
+      } else {
+        const messages = useChats();
+        await messages.sendMessage(chatId, text);
+      }
     } catch (err) {
       console.warn('Mensaje guardado localmente');
     }

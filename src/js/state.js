@@ -37,14 +37,15 @@ const state = {
   },
 
   isLoggedIn() {
-    return this.session !== null && this.session.email;
+    return this.session !== null && !!this.session.token;
   },
 
   hasAdminAccess() {
     if (!this.session) return false;
-    if (this.session.isAdmin === true || this.session.role === 'admin') return true;
+    const role = typeof this.session.role === 'string' ? this.session.role.toLowerCase() : this.session.role;
+    if (this.session.isAdmin === true || role === 'admin') return true;
     if (Array.isArray(this.session.roles)) {
-      return this.session.roles.includes('admin');
+      return this.session.roles.map(r => String(r).toLowerCase()).includes('admin');
     }
     return false;
   },

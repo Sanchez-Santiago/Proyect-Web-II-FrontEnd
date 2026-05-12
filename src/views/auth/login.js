@@ -1,7 +1,5 @@
 import { navigateTo } from '../../js/router.js';
-import state from '../../js/state.js';
-
-const isInspector = typeof window.getInspectorData === 'function';
+import { useAuth } from '../../hooks/useAuth.js';
 
 export default {
   init() {
@@ -9,6 +7,8 @@ export default {
     const emailInput = document.getElementById('loginEmail');
     const passwordInput = document.getElementById('loginPassword');
     const message = document.getElementById('loginMessage');
+    const submitButton = form?.querySelector('button[type="submit"]');
+    const auth = useAuth();
 
     if (!form || !emailInput || !message) return;
 
@@ -43,27 +43,44 @@ export default {
       return true;
     }
 
-    form.addEventListener('submit', function(event) {
+    function getErrorMessage(error) {
+      const details = error?.data?.message || error?.data?.errors;
+      if (Array.isArray(details)) {
+        return details.join(' ');
+      }
+      if (typeof details === 'string') {
+        return details;
+      }
+      return error?.message || 'No se pudo iniciar sesion. Revisa los datos e intenta nuevamente.';
+    }
+
+    form.addEventListener('submit', async function(event) {
       event.preventDefault();
 
       if (!validateForm()) return;
 
       const email = emailInput.value.trim();
+      const password = passwordInput.value;
 
       setMessage('Iniciando sesion...', 'success');
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Ingresando...';
+      }
 
-      const inspectorSession = isInspector ? window.getInspectorData().session : {};
-      const session = {
-        ...inspectorSession,
-        email,
-        role: 'buyer',
-        roles: ['buyer'],
-        token: 'local-session'
-      };
-
-      state.saveSession(session);
-      setMessage('Sesion iniciada. Redirigiendo...', 'success');
-      navigateTo('user/buyer/menu');
+      try {
+        const result = await auth.login(email, password);
+        const role = String(result?.user?.role || result?.role || 'BUYER').toLowerCase();
+        setMessage('Sesion iniciada. Redirigiendo...', 'success');
+        navigateTo(role === 'admin' ? 'admin/menu' : role === 'seller' ? 'user/seller/menu' : 'user/buyer/menu');
+      } catch (error) {
+        setMessage(getErrorMessage(error), 'error');
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Ingresar';
+        }
+      }
     });
 
     document.querySelectorAll('[data-navigate]').forEach(link => {
