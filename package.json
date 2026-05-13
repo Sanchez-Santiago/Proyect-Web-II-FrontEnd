@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "config": "bash scripts/generate-config.sh",
+    "build": "npm run config",
     "start": "npm run config && http-server -p 8000",
     "dev": "npm run config && http-server -p 8000 -c-1"
   },
