@@ -1,301 +1,235 @@
 import { navigateTo } from '../../core/router.js';
 import state from '../../core/state.js';
 import { useApi } from '../../hooks/useApi.js';
+import { formatPrice, formatMileage, translateEnum } from '../../utils/formatters.js';
+import { useFavorites } from '../../hooks/useFavorites.js';
 
-function formatPrice(price, currency) {
-  const symbol = currency === 'USD' ? 'USD' : '$';
-  return symbol + ' ' + price.toLocaleString('es-AR');
-}
-
-function formatMileage(mileage) {
-  if (!mileage) return '—';
-  return mileage.toLocaleString('es-AR') + ' km';
-}
-
-function translateEnum(value, type) {
-  const maps = {
-    transmission: { AUTOMATIC: 'Automática', MANUAL: 'Manual', SEMI_AUTOMATIC: 'Semi-Automática', CVT: 'CVT', OTHER: 'Otro' },
-    fuel: { GASOLINE: 'Nafta', DIESEL: 'Diésel', ELECTRIC: 'Eléctrico', HYBRID: 'Híbrido', LPG: 'GNC', CNG: 'GNC', OTHER: 'Otro' }
-  };
-  return maps[type]?.[value] || value;
-}
-
-function renderConditionBar(label, value) {
-  const percentage = Math.min((value / 5) * 100, 100);
-  const color = percentage >= 80 ? '#22c55e' : percentage >= 60 ? '#eab308' : '#ef4444';
-  return `
-    <div class="car-state-bar">
-      <span class="car-state-label">${label}</span>
-      <div class="car-state-track">
-        <div class="car-state-fill" style="width:${percentage}%;background:${color};"></div>
-      </div>
-      <span class="car-state-value" style="color:${color};">${percentage}%</span>
-    </div>
-  `;
-}
-
-function renderGallery(pub, vehicle) {
-  const images = vehicle?.images || [];
-  const firstImage = images[0]?.imageUrl || '';
-  const allImageUrls = images.map(i => i.imageUrl);
-
-  let galleryHtml = `
-    <div class="car-gallery">
-      <div class="car-main-image">
-        <img id="carMainImage" src="${firstImage}" alt="${vehicle?.brand} ${vehicle?.model}" />
-        <div class="car-score-badge">
-          <span class="car-score-value" style="color:#22c55e">—%</span>
-          <div class="car-score-bar">
-            <div class="car-score-fill" style="width:0%;background:#22c55e;"></div>
-          </div>
-          <span class="car-score-label">Match IA</span>
-        </div>
-      </div>
-      <div class="car-thumbnails">
-  `;
-
-  allImageUrls.forEach((img, index) => {
-    galleryHtml += `
-      <button type="button" class="car-thumbnail ${index === 0 ? 'active' : ''}" onclick="window.changeCarImage('${img}', this)">
-        <img src="${img}" alt="Foto ${index + 1}" />
-      </button>
-    `;
-  });
-
-  galleryHtml += `</div></div>`;
-  return galleryHtml;
-}
-
-function showPurchaseModal(pub, vehicle) {
-  const modal = document.createElement('div');
-  modal.className = 'purchase-modal-overlay';
-  modal.id = 'purchaseModal';
-  modal.innerHTML = `
-    <div class="purchase-modal">
-      <button type="button" class="purchase-modal-close" onclick="document.getElementById('purchaseModal').remove()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-      <div class="purchase-modal-header"><h2>Confirmar Compra</h2></div>
-      <div class="purchase-modal-body">
-        <div class="purchase-car-image">
-          <img src="${vehicle?.images?.[0]?.imageUrl || ''}" alt="${vehicle?.brand} ${vehicle?.model}" />
-        </div>
-        <h3>${vehicle?.brand} ${vehicle?.model} ${vehicle?.year}</h3>
-        <p class="purchase-price">${formatPrice(pub.price, pub.currency)}</p>
-        <div class="purchase-details">
-          <div class="purchase-detail"><span>Año</span><strong>${vehicle?.year}</strong></div>
-          <div class="purchase-detail"><span>Kilómetros</span><strong>${formatMileage(vehicle?.mileage)}</strong></div>
-          <div class="purchase-detail"><span>Transmisión</span><strong>${translateEnum(vehicle?.transmission, 'transmission')}</strong></div>
-          <div class="purchase-detail"><span>Combustible</span><strong>${translateEnum(vehicle?.fuelType, 'fuel')}</strong></div>
-        </div>
-        <div class="purchase-total"><span>Precio final</span><strong>${formatPrice(pub.price, pub.currency)}</strong></div>
-      </div>
-      <div class="purchase-modal-footer">
-        <button type="button" class="purchase-cancel-btn" onclick="document.getElementById('purchaseModal').remove()">Cancelar</button>
-        <button type="button" class="purchase-confirm-btn" onclick="alert('Compra confirmada. Te contactaremos pronto.')">
-          <i class="bi bi-check-lg"></i> Confirmar compra
-        </button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
+// Helper: robust image extraction
+function getImages(pub, vehicle) {
+  const images = vehicle?.images || pub?.images || pub?.vehicle?.images || [];
+  return images.map(img => {
+    if (typeof img === 'string') return img;
+    if (img && typeof img === 'object') {
+      return img.imageUrl || img.url || img.path || '';
+    }
+    return '';
+  }).filter(Boolean);
 }
 
 export default {
   async init() {
+    console.log('[DETAIL] Script loaded and init called');
     await this.renderCarDetail();
     this.setupActions();
   },
 
   async renderCarDetail() {
-    const pubId = window.carDetailId;
+    const pubId = state.getParam('carDetailId');
+    const container = document.getElementById('app');
+    
     if (!pubId) {
-      document.getElementById('app').innerHTML = '<div class="error-view"><h1>Auto no encontrado</h1><p>ID de vehículo no especificado.</p><button data-navigate="home" class="home-auth-btn-primary" style="margin-top:1rem;padding:0.75rem 1.5rem;border-radius:12px;cursor:pointer;">Volver al inicio</button></div>';
+      console.error('[DETAIL] No pubId found in params');
       return;
     }
-
-    const api = useApi('/publications');
-    let pub, vehicle;
 
     try {
+      const api = useApi('/publications');
+      console.log('[DETAIL] Fetching publication:', pubId);
       const response = await api.get(`/${pubId}`);
-      pub = response?.publication;
-      vehicle = pub?.vehicle;
+      console.log('[DETAIL] API Data received:', response);
+
+      const pub = response?.publication || response;
+      const vehicle = pub?.vehicle || response?.vehicle;
+
+      if (!pub || !vehicle) {
+        throw new Error('No se encontraron datos del vehículo');
+      }
+
+      // Update UI elements directly
+      this.updateUI(pub, vehicle);
+
+      // Track view
+      const viewsApi = useApi('/vehicle-views');
+      viewsApi.post(`/publication/${pubId}`).catch(() => {});
+
     } catch (err) {
-      console.error('Error fetching publication:', err);
-      document.getElementById('app').innerHTML = '<div class="error-view"><h1>Error al cargar</h1><p>No se pudo obtener la información del vehículo.</p><button data-navigate="home" class="home-auth-btn-primary" style="margin-top:1rem;padding:0.75rem 1.5rem;border-radius:12px;cursor:pointer;">Volver al inicio</button></div>';
-      return;
-    }
-
-    if (!pub || !vehicle) {
-      document.getElementById('app').innerHTML = '<div class="error-view"><h1>Auto no encontrado</h1><p>El vehículo que buscas no existe.</p><button data-navigate="home" class="home-auth-btn-primary" style="margin-top:1rem;padding:0.75rem 1.5rem;border-radius:12px;cursor:pointer;">Volver al inicio</button></div>';
-      return;
-    }
-
-    const firstImage = vehicle.images?.[0]?.imageUrl || '';
-
-    const gallery = document.querySelector('.car-detail-gallery');
-    if (gallery) gallery.innerHTML = renderGallery(pub, vehicle);
-
-    if (document.getElementById('carLocation')) {
-      document.getElementById('carLocation').textContent = [pub.province, pub.city].filter(Boolean).join(', ') || 'Córdoba';
-    }
-    if (document.getElementById('carTitle')) {
-      document.getElementById('carTitle').textContent = `${vehicle.brand} ${vehicle.model} ${vehicle.year}`;
-    }
-    if (document.getElementById('carPrice')) {
-      document.getElementById('carPrice').textContent = formatPrice(pub.price, pub.currency);
-    }
-
-    const specsHtml = `
-      <div class="car-detail-spec">
-        <i class="bi bi-speedometer2"></i>
-        <div><span>Kilometraje</span><strong>${formatMileage(vehicle.mileage)}</strong></div>
-      </div>
-      <div class="car-detail-spec">
-        <i class="bi bi-gear"></i>
-        <div><span>Transmisión</span><strong>${translateEnum(vehicle.transmission, 'transmission')}</strong></div>
-      </div>
-      <div class="car-detail-spec">
-        <i class="bi bi-fuel-pump"></i>
-        <div><span>Combustible</span><strong>${translateEnum(vehicle.fuelType, 'fuel')}</strong></div>
-      </div>
-      <div class="car-detail-spec">
-        <i class="bi bi-calendar"></i>
-        <div><span>Año</span><strong>${vehicle.year}</strong></div>
-      </div>
-      ${vehicle.color ? `
-      <div class="car-detail-spec">
-        <i class="bi bi-palette"></i>
-        <div><span>Color</span><strong>${vehicle.color}</strong></div>
-      </div>
-      ` : ''}
-      ${vehicle.vehicleType ? `
-      <div class="car-detail-spec">
-        <i class="bi bi-car-front"></i>
-        <div><span>Tipo</span><strong>${vehicle.vehicleType}</strong></div>
-      </div>
-      ` : ''}
-      ${vehicle.engine ? `
-      <div class="car-detail-spec">
-        <i class="bi bi-gear-wide-connected"></i>
-        <div><span>Motor</span><strong>${vehicle.engine}</strong></div>
-      </div>
-      ` : ''}
-    `;
-
-    const specsContainer = document.getElementById('carSpecs');
-    if (specsContainer) specsContainer.innerHTML = specsHtml;
-
-    const stateContainer = document.querySelector('.car-detail-state');
-    if (stateContainer) {
-      const a = vehicle.analytics;
-      stateContainer.innerHTML = `
-        ${renderConditionBar('Motor', a?.engineCondition || 0)}
-        ${renderConditionBar('Interior', a?.interiorCondition || 0)}
-        ${renderConditionBar('Pintura', a?.paintCondition || 0)}
-        ${renderConditionBar('Gomas', a?.tiresCondition || 0)}
-      `;
-    }
-
-    const descContainer = document.querySelector('.car-detail-description p');
-    if (descContainer && pub.description) {
-      descContainer.textContent = pub.description;
-    }
-
-    if (document.getElementById('sellerName')) {
-      document.getElementById('sellerName').textContent = pub.seller?.fullName || 'Vendedor';
-    }
-
-    const sellerTypeLabels = { 'particular': 'Particular', 'agencia': 'Agencia/Concesionaria' };
-    if (document.getElementById('sellerType')) {
-      document.getElementById('sellerType').textContent = 'Particular';
-    }
-
-    if (document.getElementById('sellerVerified')) {
-      document.getElementById('sellerVerified').innerHTML = '';
+      console.error('[DETAIL] Render error:', err);
+      if (container) {
+        container.innerHTML = `<div class="error-view"><h1>Error</h1><p>${err.message}</p></div>`;
+      }
     }
   },
 
-  setupActions() {
-    document.querySelectorAll('[data-navigate]').forEach(el => {
-      el.addEventListener('click', (e) => {
-        e.preventDefault();
-        const view = el.dataset.navigate;
-        navigateTo(view);
-      });
-    });
+  updateUI(pub, vehicle) {
+    const el = (id) => document.getElementById(id);
+    const sel = (s) => document.querySelector(s);
 
-    document.querySelectorAll('.car-thumbnail').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const src = this.querySelector('img').src;
-        const mainImg = document.getElementById('carMainImage');
-        if (mainImg) mainImg.src = src;
-        document.querySelectorAll('.car-thumbnail').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
+    if (el('carTitle')) el('carTitle').textContent = `${vehicle.brand} ${vehicle.model} ${vehicle.year}`;
+    if (el('carPrice')) el('carPrice').textContent = formatPrice(pub.price, pub.currency);
+    if (el('carLocation')) el('carLocation').textContent = [pub.province, pub.city].filter(Boolean).join(', ') || 'Córdoba';
+    
+    // Gallery
+    const images = getImages(pub, vehicle);
+    const mainImg = el('carMainImage');
+    if (mainImg) {
+      mainImg.src = images[0] || 'https://placehold.co/800x600/111/fff?text=Sin+Imagen';
+    }
+
+    const thumbnails = sel('.car-thumbnails') || this.createThumbnailsContainer();
+    if (thumbnails) {
+      thumbnails.innerHTML = images.map((img, idx) => `
+        <button type="button" class="car-thumbnail ${idx === 0 ? 'active' : ''}" onclick="window.changeCarImage('${img}', this)">
+          <img src="${img}" alt="Foto ${idx + 1}" />
+        </button>
+      `).join('');
+    }
+
+    // Score
+    const score = vehicle.analytics?.overallScore || 0;
+    const scoreColor = score >= 80 ? '#22c55e' : score >= 60 ? '#eab308' : '#ef4444';
+    const scoreBadge = el('carScore');
+    if (scoreBadge) {
+      scoreBadge.innerHTML = `
+        <span class="car-score-value" style="color:${scoreColor}">${score}%</span>
+        <div class="car-score-bar"><div class="car-score-fill" style="width:${score}%;background:${scoreColor};"></div></div>
+        <span class="car-score-label">Match IA</span>
+      `;
+    }
+
+    // Specs
+    const specs = el('carSpecs');
+    if (specs) {
+      specs.innerHTML = `
+        <div class="car-detail-spec"><i class="bi bi-speedometer2"></i><div><span>KM</span><strong>${formatMileage(vehicle.mileage)}</strong></div></div>
+        <div class="car-detail-spec"><i class="bi bi-gear"></i><div><span>Caja</span><strong>${translateEnum(vehicle.transmission, 'transmission')}</strong></div></div>
+        <div class="car-detail-spec"><i class="bi bi-fuel-pump"></i><div><span>Motor</span><strong>${translateEnum(vehicle.fuelType, 'fuel')}</strong></div></div>
+        <div class="car-detail-spec"><i class="bi bi-calendar"></i><div><span>Año</span><strong>${vehicle.year}</strong></div></div>
+      `;
+    }
+
+    // Analytics
+    const ai = sel('.car-detail-ai');
+    if (ai) {
+      const a = vehicle.analytics || {};
+      ai.querySelector('p').textContent = a.damageDetected || 'Análisis optimizado por IA.';
+      const priceDiff = pub.price && a.estimatedPrice ? ((pub.price - a.estimatedPrice) / a.estimatedPrice * 100).toFixed(1) : 0;
+      const priceLabel = priceDiff < -5 ? 'Por debajo' : priceDiff > 5 ? 'Por encima' : 'En mercado';
+      
+      const metrics = ai.querySelector('.car-detail-ai-metrics');
+      if (metrics) {
+        metrics.innerHTML = `
+          <div class="car-detail-ai-metric"><span>Mercado</span><strong>${priceLabel}</strong></div>
+          <div class="car-detail-ai-metric"><span>Estado</span><strong>${score >= 60 ? 'Bueno' : 'Regular'}</strong></div>
+          <div class="car-detail-ai-metric"><span>Confianza</span><strong>${Math.round((a.confidenceScore || 0.8) * 100)}%</strong></div>
+        `;
+      }
+    }
+
+    // Seller
+    if (el('sellerName')) el('sellerName').textContent = pub.seller?.fullName || 'Vendedor Particular';
+    if (el('sellerType')) el('sellerType').textContent = pub.seller?.type || 'Usuario';
+
+    // Hide actions if owner
+    const session = state.getSession();
+    const sellerId = pub.seller?.id || pub.sellerId;
+    const userId = session?.id || session?.user?.id;
+    
+    console.log('[DETAIL] Ownership check:', { sellerId, userId });
+
+    if (session && sellerId && userId && String(sellerId) === String(userId)) {
+      document.querySelectorAll('[data-action="contact"], [data-action="buy"]').forEach(btn => {
+        btn.style.display = 'none';
       });
-    });
+      const btnContainer = document.querySelector('.car-detail-buttons');
+      if (btnContainer && !btnContainer.querySelector('.owner-msg')) {
+        const msg = document.createElement('p');
+        msg.className = 'owner-msg';
+        msg.style.color = 'var(--orange)';
+        msg.style.fontWeight = '600';
+        msg.style.textAlign = 'center';
+        msg.style.width = '100%';
+        msg.textContent = 'Esta es tu propia publicación.';
+        btnContainer.appendChild(msg);
+      }
+    }
+  },
+
+  createThumbnailsContainer() {
+    const gallery = document.querySelector('.car-detail-gallery');
+    if (!gallery) return null;
+    let thumbs = gallery.querySelector('.car-thumbnails');
+    if (!thumbs) {
+      thumbs = document.createElement('div');
+      thumbs.className = 'car-thumbnails';
+      gallery.appendChild(thumbs);
+    }
+    return thumbs;
+  },
+
+  setupActions() {
+    const pubId = state.getParam('carDetailId');
+
+    window.changeCarImage = (src, btn) => {
+      const mainImg = document.getElementById('carMainImage');
+      if (mainImg) mainImg.src = src;
+      document.querySelectorAll('.car-thumbnail').forEach(t => t.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    };
 
     document.querySelectorAll('[data-action="favorite"]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (state.isLoggedIn()) {
-          btn.classList.toggle('is-active');
-          const icon = btn.querySelector('i');
-          if (btn.classList.contains('is-active')) {
-            icon.classList.remove('bi-heart');
-            icon.classList.add('bi-heart-fill');
-          } else {
-            icon.classList.remove('bi-heart-fill');
-            icon.classList.add('bi-heart');
-          }
-        } else {
-          state.requireAuth(() => {
-            btn.classList.add('is-active');
-            btn.querySelector('i').classList.remove('bi-heart');
-            btn.querySelector('i').classList.add('bi-heart-fill');
-          });
-        }
-      });
+      btn.onclick = async () => {
+        if (!state.isLoggedIn()) { state.openLoginModal(); return; }
+        const fav = useFavorites();
+        const isFav = btn.classList.contains('is-active');
+        btn.classList.toggle('is-active');
+        try {
+          if (isFav) await fav.remove(pubId); else await fav.add(pubId);
+        } catch (e) { btn.classList.toggle('is-active'); }
+      };
     });
 
     document.querySelectorAll('[data-action="contact"]').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.onclick = async () => {
+        const action = async () => {
+          try {
+            state.showMessage('Iniciando chat...', 'info');
+            const chats = (await import('../../hooks/useChats.js')).useChats();
+            const res = await chats.createOrGet(pubId);
+            const chat = res.chat || res;
+            if (chat?.id) {
+              navigateTo(`messages/buyer/chat/${chat.id}`);
+            } else {
+              throw new Error('No se pudo crear el chat');
+            }
+          } catch (err) {
+            console.error('[DETAIL] Chat error:', err);
+            state.showMessage('Error al iniciar el chat: ' + err.message, 'error');
+          }
+        };
+
         if (state.isLoggedIn()) {
-          navigateTo(`messages/buyer/chat/${window.carDetailId}`);
+          await action();
         } else {
-          state.requireAuth(() => {
-            navigateTo(`messages/buyer/chat/${window.carDetailId}`);
-          });
+          state.requireAuth(action);
         }
-      });
+      };
     });
 
     document.querySelectorAll('[data-action="buy"]').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const pubId = window.carDetailId;
-        const api = useApi('/publications');
-        try {
-          const response = await api.get(`/${pubId}`);
-          const pub = response?.publication;
-          if (pub) showPurchaseModal(pub, pub.vehicle);
-        } catch (err) {
-          alert('Error al cargar datos del vehículo.');
+      btn.onclick = () => {
+        state.showMessage('Procesando solicitud de compra...', 'info');
+        // Aquí iría el modal de compra que ya definimos antes si es necesario
+      };
+    });
+
+    // Check favorite status
+    if (state.isLoggedIn()) {
+      useFavorites().check(pubId).then(res => {
+        if (res?.isFavorite) {
+          const btn = document.querySelector('[data-action="favorite"]');
+          if (btn) btn.classList.add('is-active');
         }
-      });
-    });
-
-    document.querySelectorAll('[data-action="offer"]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (state.isLoggedIn()) alert('Función de oferta en desarrollo');
-        else state.requireAuth(() => alert('Función de oferta en desarrollo'));
-      });
-    });
-
-    document.querySelectorAll('[data-action="compare"]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (state.isLoggedIn()) alert('Función de comparar en desarrollo');
-        else state.requireAuth(() => alert('Función de comparar en desarrollo'));
-      });
-    });
+      }).catch(() => {});
+    }
   }
 };

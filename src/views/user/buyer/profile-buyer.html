@@ -24,6 +24,13 @@
             <small>Seguimiento inteligente</small>
           </span>
         </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span>
+            <strong>Notificaciones</strong>
+            <small>Alertas y novedades</small>
+          </span>
+        </a>
         <a href="#user/buyer/investment-advisor" data-navigate="user/buyer/investment-advisor">
           <i class="bi bi-stars"></i>
           <span>
@@ -102,6 +109,36 @@
               </div>
             </article>
           </form>
+
+          <article class="buyer-form-card form-card mt-4">
+            <div class="buyer-section-head section-head">
+              <span class="buyer-section-step section-step">Seguridad</span>
+              <div>
+                <h2>Cambiar contraseña</h2>
+              </div>
+            </div>
+            <form id="buyerChangePasswordForm">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="buyerCurrentPassword" class="form-label">Contraseña actual</label>
+                  <input id="buyerCurrentPassword" type="password" class="form-control form-control-lg" placeholder="••••••••" required />
+                </div>
+                <div class="col-md-6">
+                  <label for="buyerNewPassword" class="form-label">Nueva contraseña</label>
+                  <input id="buyerNewPassword" type="password" class="form-control form-control-lg" placeholder="Mín. 8 caracteres" required />
+                </div>
+                <div class="col-12">
+                  <small class="password-requirements">Debe tener al menos 8 caracteres, una mayúscula y un número.</small>
+                </div>
+                <div class="col-12">
+                  <small id="buyerPasswordMessage" class="form-message"></small>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn buyer-primary-btn primary-btn">Cambiar contraseña</button>
+                </div>
+              </div>
+            </form>
+          </article>
         </div>
       </section>
     </main>

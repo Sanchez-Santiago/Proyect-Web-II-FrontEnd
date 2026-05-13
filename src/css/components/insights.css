@@ -1,0 +1,460 @@
+
+/* Insight Cards */
+.insight-card {
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+}
+
+.insight-card.is-hot {
+  border-left: 4px solid #22c55e;
+}
+
+.insight-card.is-warn {
+  border-left: 4px solid #ef4444;
+}
+
+.insight-card i {
+  font-size: 1.5rem;
+  color: #6366f1;
+}
+
+.insight-card h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  color: #1e293b;
+}
+
+.insight-card p {
+  font-size: 0.9rem;
+  color: #475569;
+  margin: 0 0 0.75rem;
+}
+
+.insight-btn, .insight-btn-alt {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.insight-btn-alt {
+  background: #fff;
+  color: #6366f1;
+  border: 1px solid #6366f1;
+}
+
+/* Message Empty State */
+.messages-empty, .seller-messages-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #94a3b8;
+}
+
+.messages-empty i, .seller-messages-empty i {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.messages-empty h3, .seller-messages-empty h3 {
+  font-size: 1.25rem;
+  color: #475569;
+  margin: 0.5rem 0;
+}
+
+.messages-empty p, .seller-messages-empty p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+/* Notification Panel - MotorMarket Design System */
+
+.notification-panel {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  width: 320px;
+  max-height: 450px;
+  background: var(--panel, #111111);
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 99999;
+  overflow: hidden;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+}
+
+.notification-header h4 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--white, #ffffff);
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted, rgba(248, 250, 252, 0.68));
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.notification-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white, #ffffff);
+}
+
+.notification-list {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-left: 3px solid var(--line, rgba(255, 255, 255, 0.08));
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 0 8px 8px 0;
+  margin: 8px 12px;
+  transition: all 0.2s;
+}
+
+.notification-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.notification-icon {
+  font-size: 18px;
+  color: var(--orange, #f97316);
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white, #ffffff);
+  margin-bottom: 2px;
+}
+
+.notification-message {
+  font-size: 11px;
+  color: var(--muted, rgba(248, 250, 252, 0.68));
+  margin: 2px 0;
+  line-height: 1.4;
+}
+
+.notification-time {
+  font-size: 10px;
+  color: rgba(248, 250, 252, 0.4);
+}
+
+.notification-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--muted, rgba(248, 250, 252, 0.68));
+  font-size: 13px;
+}
+/* Publications - MotorMarket Design System */
+
+.publications-view {
+  min-height: 100svh;
+  padding: 2rem 0;
+  background: linear-gradient(180deg, #040404 0%, #0b0b0b 100%);
+}
+
+.publications-shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.publications-header {
+  margin-bottom: 2rem;
+}
+
+.publications-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.publications-back:hover {
+  color: var(--orange);
+}
+
+.publications-chip {
+  display: inline-block;
+  background: var(--orange-soft);
+  color: var(--orange);
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+}
+
+.publications-header h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2rem;
+  color: var(--white);
+  margin: 0.3rem 0;
+}
+
+.publications-subtitle {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.publications-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pub-stat {
+  padding: 1.5rem;
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  transition: transform 0.2s;
+}
+
+.pub-stat:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pub-stat span {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.pub-stat strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.2rem;
+  color: var(--white);
+  line-height: 1;
+}
+
+.pub-stat.is-active strong {
+  color: var(--orange);
+}
+
+.pub-stat.is-review strong {
+  color: #fbbf24;
+}
+
+.publications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.pub-card {
+  background: var(--panel);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.pub-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.pub-card-img {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.pub-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pub-status {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.pub-status.is-active {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.pub-status.is-review {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.pub-card-body {
+  padding: 1.2rem;
+}
+
+.pub-card-body h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.2rem;
+  color: var(--white);
+  margin: 0 0 0.3rem 0;
+}
+
+.pub-price {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.5rem;
+  color: var(--orange);
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.pub-metrics {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.pub-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.pub-metrics i {
+  color: var(--orange);
+  font-size: 0.9rem;
+}
+
+.pub-ai-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem;
+  background: var(--panel-soft);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.pub-ai-score span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.pub-ai-score strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.3rem;
+  color: var(--orange);
+}
+
+.pub-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.pub-btn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.pub-btn-edit {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.pub-btn-edit:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.pub-btn-optimize {
+  background: var(--orange);
+  color: var(--white);
+}
+
+.pub-btn-optimize:hover {
+  background: #ea580c;
+}
+
+.publications-ai-insight {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1.5rem;
+  background: var(--panel);
+  border-radius: 16px;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  margin-top: 2rem;
+}
+
+.publications-ai-insight i {
+  font-size: 1.8rem;
+  color: var(--orange);
+  margin-top: 0.2rem;
+}
+
+.publications-ai-insight strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+
+.publications-ai-insight p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+  line-height: 1.5;
+}

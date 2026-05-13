@@ -1,21 +1,21 @@
 import { useChats } from '../../../hooks/useChats.js';
 import { navigateTo } from '../../../core/router.js';
 import state from '../../../core/state.js';
-
-function formatTimeAgo(dateString) {
-  if (!dateString) return '';
-  const diff = Date.now() - new Date(dateString).getTime();
-  if (diff < 3600000) return Math.floor(diff / 3600000) + 'h';
-  if (diff < 86400000) return Math.floor(diff / 86400000) + 'd';
-  return Math.floor(diff / 86400000) + 'd';
-}
+import { formatTimeAgo } from '../../../utils/formatters.js';
 
 function normalizeChat(chat, userId) {
   const vehicle = chat.publication?.vehicle || {};
   const lastMsg = chat.messages?.[0];
   const buyer = lastMsg?.user;
-  const vehicleImage = vehicle.images?.[0]?.imageUrl || 'https://placehold.co/100x100';
-  const vehicleTitle = chat.publication?.title || `${vehicle.brand || ''} ${vehicle.model || ''} ${vehicle.year || ''}`.trim() || 'Vehículo';
+  
+  // Robust image extraction
+  const images = vehicle.images || chat.publication?.images || [];
+  const vehicleImage = images.map(img => {
+    if (typeof img === 'string') return img;
+    return img?.imageUrl || img?.url || img?.path || '';
+  }).find(Boolean) || 'https://placehold.co/100x100';
+
+  const vehicleTitle = chat.publication?.title || `${vehicle.brand || ''} ${vehicle.model || ''} ${vehicle.year || ''}`.trim() || 'Vehiculo';
 
   return {
     id: chat.id,
@@ -28,30 +28,6 @@ function normalizeChat(chat, userId) {
     unread: 0,
     isNavigate: `messages/seller/chat/${chat.id}`
   };
-}
-
-function isInspectorMode() {
-  return typeof window.getInspectorData === 'function';
-}
-
-function getInspectorConversations() {
-  const inspectorData = window.getInspectorData();
-  const list = inspectorData.conversations || [];
-
-  return list.map(conv => {
-    const vehicle = conv.vehicle || {};
-    return {
-      id: conv.id,
-      vehicleId: conv.vehicleId,
-      vehicleTitle: `${vehicle.brand || ''} ${vehicle.model || ''} ${vehicle.year || ''}`.trim() || `Vehículo ${conv.vehicleId}`,
-      vehicleImage: vehicle?.image || 'https://placehold.co/100x100',
-      userName: conv.seller?.name || 'Vendedor',
-      lastMessage: conv.lastMessage,
-      timeAgo: formatTimeAgo(conv.lastMessageTime),
-      unread: conv.unread ? 1 : 0,
-      isNavigate: conv.id ? `messages/seller/chat/${conv.id}` : '#'
-    };
-  });
 }
 
 export default {
@@ -70,13 +46,6 @@ export default {
 
     this.setupTabs(tabs, conversationsList, leadsList, empty);
 
-    if (isInspectorMode()) {
-      const conversations = getInspectorConversations();
-      this.renderConversations(conversations, conversationsList);
-      this.renderLeads(conversations, leadsList);
-      return;
-    }
-
     const chats = useChats();
 
     try {
@@ -88,17 +57,23 @@ export default {
       if (!conversations || conversations.length === 0) {
         conversationsList.hidden = true;
         leadsList.hidden = true;
-        if (empty) empty.hidden = false;
+        if (empty) {
+          empty.hidden = false;
+          empty.textContent = 'No tienes conversaciones aun.';
+        }
         return;
       }
 
       this.renderConversations(conversations, conversationsList);
       this.renderLeads(conversations, leadsList);
     } catch (err) {
-      console.log('Mostrando datos demo:', err.message);
-      const demoData = this.getDemoData();
-      this.renderConversations(demoData.conversations, conversationsList);
-      this.renderLeads(demoData.leads, leadsList);
+      console.warn('[CHAT LIST] Error loading conversations:', err.message);
+      conversationsList.hidden = true;
+      leadsList.hidden = true;
+      if (empty) {
+        empty.hidden = false;
+        empty.textContent = 'No se pudieron cargar las conversaciones. Verifica tu conexion.';
+      }
     }
   },
 
@@ -119,25 +94,14 @@ export default {
     });
   },
 
-  getDemoData() {
-    return {
-      conversations: [
-        { id: 'demo-1', vehicleTitle: 'Toyota Corolla XEi', userName: 'Juan Pérez', lastMessage: 'Me interesa el auto', timeAgo: '2h', unread: 2, isNavigate: 'messages/seller/chat/demo-1' },
-        { id: 'demo-2', vehicleTitle: 'Honda Civic', userName: 'María González', lastMessage: '¿Tiene service al día?', timeAgo: '5h', unread: 1, isNavigate: 'messages/seller/chat/demo-2' }
-      ],
-      leads: [
-        { id: 1, vehicleTitle: 'Toyota Corolla XEi', userName: 'Carlos López', phone: '+54 9 351 111 2222', interest: 'Alto', source: 'Web', date: '2024-01-15' },
-        { id: 2, vehicleTitle: 'Toyota Corolla XEi', userName: 'Ana Martínez', phone: '+54 9 351 333 4444', interest: 'Medio', source: 'Chat', date: '2024-01-14' },
-        { id: 3, vehicleTitle: 'Honda Civic', userName: 'Pedro Sánchez', phone: '+54 9 351 555 6666', interest: 'Alto', source: 'Web', date: '2024-01-13' }
-      ]
-    };
-  },
-
   renderConversations(convs, container) {
     if (!container) return;
 
     container.innerHTML = '';
     container.hidden = false;
+
+    const empty = document.getElementById('messagesEmpty');
+    if (empty) empty.hidden = true;
 
     convs.forEach(conv => {
       const item = document.createElement('article');
@@ -165,41 +129,36 @@ export default {
     this.setupClickHandlers(container);
   },
 
-  renderLeads(leads, container) {
+  renderLeads(convs, container) {
     if (!container) return;
 
     container.innerHTML = '';
     container.hidden = false;
 
-    const interestClass = {
-      'Alto': 'lead-high',
-      'Medio': 'lead-medium',
-      'Bajo': 'lead-low'
-    };
+    if (!convs || convs.length === 0) {
+      container.innerHTML = '<div class="no-results" style="padding:1rem;">Sin leads por el momento.</div>';
+      return;
+    }
 
-    leads.forEach(lead => {
+    convs.forEach(conv => {
       const item = document.createElement('article');
       item.className = 'lead-item';
+      item.dataset.navigate = conv.isNavigate;
 
       item.innerHTML = `
         <div class="lead-info">
-          <h3>${lead.userName}</h3>
-          <p>${lead.vehicleTitle}</p>
-          <small>${lead.phone} • ${lead.source}</small>
+          <h3>${conv.userName}</h3>
+          <p>${conv.vehicleTitle}</p>
+          <small>Interesado en tu publicacion</small>
         </div>
         <div class="lead-meta">
-          <span class="lead-interest ${interestClass[lead.interest] || ''}">${lead.interest}</span>
-          <span class="lead-date">${lead.date}</span>
+          <span class="lead-interest lead-high">Nuevo</span>
+          <span class="lead-date">${conv.timeAgo}</span>
         </div>
-        <button type="button" class="lead-contact-btn" data-phone="${lead.phone}">
-          <i class="bi bi-whatsapp"></i> Contactar
-        </button>
       `;
 
       container.appendChild(item);
     });
-
-    this.setupLeadsHandlers(container);
   },
 
   setupClickHandlers(container) {
@@ -207,18 +166,6 @@ export default {
       item.addEventListener('click', () => {
         const view = item.dataset.navigate;
         if (view) navigateTo(view);
-      });
-    });
-  },
-
-  setupLeadsHandlers(container) {
-    container.querySelectorAll('.lead-contact-btn').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const phone = btn.dataset.phone;
-        if (phone) {
-          window.open(`https://wa.me/${phone.replace(/[^0-9]/g, '')}`, '_blank');
-        }
       });
     });
   }

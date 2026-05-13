@@ -1,6 +1,6 @@
 # MotorMarket - Estado Actual y Plan de Integración Backend
 
-## Estado del Proyecto (12/05/2026)
+## Estado del Proyecto (13/05/2026)
 
 ### Backend — ✅ Funcional
 **Ubicación:** `../Proyect-Web-II-BackEnd/`
@@ -41,11 +41,17 @@
 - **Impacto:** El backend nunca recibe tráfico del frontend.
 - **Solución:** Unificar en un solo archivo de configuración (`src/config.js`) que se pueda cambiar manualmente.
 
-### 🟡 B3 — `API_BASE_URL` hardcodeado como `/api`
-- **Archivo:** `src/hooks/useApi.js:1`
-- **Problema:** `const API_BASE_URL = '/api'` apunta al mismo origen (puerto 8000), no al backend (puerto 3000).
-- **Impacto:** Las peticiones reales irían a `http://localhost:8000/api/*` → 404.
-- **Solución:** Cambiar a `http://localhost:3000/api` en `src/config.js`.
+### 🟡 B3 — `API_BASE_URL` tenía `/api` que el backend no usa (FIXED)
+- **Archivo:** `src/config.js`
+- **Problema:** `API_BASE_URL: 'http://localhost:3000/api'` — el backend NestJS no tiene global prefix `/api`.
+- **Impacto:** Peticiones iban a `http://localhost:3000/api/upload/image` → backend espera en `http://localhost:3000/upload/image` → 404.
+- **Solución:** Cambiado a `http://localhost:3000` (sin `/api`).
+
+### 🔴 B13 — `config.js` no existía (FIXED)
+- **Archivo:** `src/config.js`
+- **Problema:** Solo existía `config.example.js`. `router.js` y `useApi.js` importan de `'../config.js'` → crash al cargar la app.
+- **Impacto:** Frontend nunca cargaba.
+- **Solución:** Creado `src/config.js` con `API_BASE_URL: 'http://localhost:3000'` e `INSPECTOR_MODE: false`.
 
 ### 🟡 B4 — Inconsistencia en `isLoggedIn()` vs `isAuthenticated()`
 - **Archivos:** `src/js/state.js:39` vs `src/hooks/useAuth.js:72`
@@ -153,8 +159,9 @@
 ## Checklist de Integración Frontend ↔ Backend
 
 ### Fase 0: Configuración Inicial
-- [x] Crear `src/config.js` con `API_BASE_URL = 'http://localhost:3000/api'` e `INSPECTOR_MODE = false`
+- [x] Crear `src/config.js` con `API_BASE_URL = 'http://localhost:3000'` e `INSPECTOR_MODE = false`
 - [x] Eliminar `INSPECTOR_MODE` hardcodeado de `useApi.js` y `router.js`, importar desde `config.js`
+- [x] Corregir `API_BASE_URL`: el backend NO tiene global prefix `/api`, usar `http://localhost:3000`
 - [x] Agregar `http://localhost:8000` a `CORS_ORIGINS` en backend (`.env` + `main.ts`)
 - [ ] Matar proceso en puerto 3000 si existe: `kill $(lsof -t -i:3000)`
 - [ ] Verificar que backend responde: `curl http://localhost:3000/`
@@ -174,10 +181,10 @@
 
 ### Fase 3: Favoritos
 - [x] Arreglar `useFavorites.js` para enviar `publicationId` en lugar de `vehicleId`
-- [ ] **Listar**: `GET /favorites` (view usa HTML estático)
-- [ ] **Agregar**: `POST /favorites` con `{ publicationId }`
-- [ ] **Eliminar**: `DELETE /favorites/{publicationId}`
-- [ ] **Check**: `GET /favorites/check/{publicationId}`
+- [x] **Listar**: `GET /favorites` (view usa HTML estático)
+- [x] **Agregar**: `POST /favorites` con `{ publicationId }`
+- [x] **Eliminar**: `DELETE /favorites/{publicationId}`
+- [x] **Check**: `GET /favorites/check/{publicationId}`
 
 ### Fase 4: Mensajería (Chat)
 - [x] **Re-mapear** `useChats.js` de `/messages/*` a `/chats/*`
@@ -186,39 +193,43 @@
 - [x] **Ver mensajes**: `GET /chats/{id}/messages`
 - [x] **Enviar mensaje**: `POST /chats/{id}/messages`
 - [x] **Marcar leído**: `POST /chats/{id}/read`
-- [x] **WebSocket**: Conectar WebSocket para mensajes en tiempo real
+- [x] **WebSocket**: Conectar Socket.IO cliente para mensajes en tiempo real
 
 ### Fase 5: Módulo Vendedor
 - [x] **Publicar vehículo**: `POST /vehicles` (crear vehículo)
 - [x] **Crear publicación**: `POST /publications`
 - [x] **Subir imágenes desde URL**: `POST /upload/image` (Cloudinary via base64 data URL)
-- [ ] **Mis publicaciones**: `GET /publications/filters` con filtro por sellerId
-- [ ] **Editar/Eliminar**: `PUT /vehicles/{id}`, `DELETE /vehicles/{id}`
-- [ ] **Cambiar estado**: `PUT /publications/{id}/status`
+- [x] **Mis publicaciones**: `GET /publications/filters` con filtro por sellerId
+- [x] **Editar/Eliminar**: `PUT /vehicles/{id}`, `DELETE /vehicles/{id}`
+- [x] **Cambiar estado**: `PUT /publications/{id}/status`
 - [ ] **Preferencias de usuario**: `GET /user-preferences`, `PUT /user-preferences`
+- [x] **Perfil vendedor**: `GET /auth/me` para carga de datos
+- [x] **Perfil comprador**: `GET /auth/me` para carga de datos
 
 ### Fase 6: Notificaciones
-- [ ] **Listar**: `GET /notifications`
-- [ ] **Marcar leída**: `POST /notifications/{id}/read`
-- [ ] **Marcar todas leídas**: `POST /notifications/read-all`
-- [ ] **Eliminar**: `DELETE /notifications/{id}`
+- [x] **Listar**: `GET /notifications`
+- [x] **Marcar leída**: `POST /notifications/{id}/read`
+- [x] **Marcar todas leídas**: `POST /notifications/read-all`
+- [x] **Eliminar**: `DELETE /notifications/{id}`
 
 ### Fase 7: Funcionalidades Extra
-- [ ] **Vistas**: Reportar vista `POST /vehicle-views/publication/{id}`
-- [ ] **Búsquedas guardadas**: CRUD `POST /saved-searches`
-- [ ] **Reportes**: Crear reporte `POST /reports`
+- [x] **Vistas**: Reportar vista `POST /vehicle-views/publication/{id}`
+- [x] **Búsquedas guardadas**: CRUD `POST /saved-searches`
+- [x] **Reportes**: Crear reporte `POST /reports`
 - [ ] **Características**: `GET /vehicle-features` para filtros
 - [ ] **Documentos**: Subir/ver documentos del vehículo
-- [ ] **AI Analysis**: Conectar análisis de IA
-- [ ] **Change Password**: `POST /auth/change-password`
+- [x] **AI Analysis**: Generación automática al ver detalle + display de condition bars y resumen IA
+- [x] **Descripción IA (Gemini)**: Botón "Generar descripción con IA" en formulario de publicación
+- [x] **Change Password UI**: `POST /auth/change-password` desde perfil comprador y vendedor
+- [x] **Comparación de vehículos**: Tabla comparativa con localStorage (`compare.html` + `compare.js`)
 
 ### Fase 8: Limpieza y Calidad
 - [x] Reemplazar datos mock de vistas admin con llamadas API reales (publications-admin.js)
-- [ ] Agregar manejo global de errores (toast/snackbar)
+- [x] Agregar manejo global de errores (toast/snackbar)
 - [x] Implementar interceptor de 401 → refresh token
 - [ ] Eliminar archivos mock gradualmente (`inspector-data.js`, `cars.js`)
 - [x] Sincronizar formulario `add.js` con DTOs del backend (2-step vehicle + publication)
-- [ ] Unificar `state.isLoggedIn()` y `useAuth.isAuthenticated()`
+- [x] Unificar `state.isLoggedIn()` y `useAuth.isAuthenticated()`
 
 ---
 
@@ -323,7 +334,7 @@
 
 ---
 
-## Progreso de Integración (12/05/2026)
+## Progreso de Integración (13/05/2026)
 
 ### ✅ Completado
 
@@ -349,18 +360,50 @@
 | 18 | `useFavorites.js` — `check()` renamed to `publicationId` | `useFavorites.js` |
 | 19 | `useUpload.js` — Fix `imageFromUrl` body a `{ imageUrl }` | `useUpload.js` |
 | 20 | `useVehicles.js` — addImage/addImagesBulk/getImages/deleteImage | `useVehicles.js` |
+| 21 | `user/seller/publications.js` — Conectado a `usePublications().getAll({sellerId})` | `publications.js` |
+| 22 | `user/seller/sales.js` — Conectado a `usePublications().getAll({sellerId})`, filtro SOLD | `sales.js` |
+| 23 | `user/seller/insights.js` — Conectado a `usePublications().getAll({sellerId})`, stats client-side | `insights.js` |
+| 24 | `user/seller/menu-seller.js` — Conectado a `usePublications().getAll({sellerId})`, dashboard | `menu-seller.js` |
+| 25 | `user/buyer/favorites.js` — Conectado a `useFavorites().getAll()`, remove, contact | `favorites.js` |
+| 26 | `user/buyer/menu-buyer.js` — Conectado a `usePublications().getAll({status:'ACTIVE'})`, `useFavorites().checkAll()` | `menu-buyer.js` |
+| 27 | `user/buyer/profile-buyer.js` — Conectado a `useAuth().me()`, pre-fill form | `profile-buyer.js` |
+| 28 | `user/seller/profile-seller.js` — Conectado a `useAuth().me()`, pre-fill form | `profile-seller.js` |
+| 29 | `user/buyer/investment-advisor.js` — Refactor a objeto exportable con `init()`, cleanup | `investment-advisor.js` |
+| 30 | `src/config.js` — Creado con `API_BASE_URL: 'http://localhost:3000'` (sin `/api`) | `config.js` |
+| 31 | `.env` — Cloudinary cloud name corregido: `Santiago` → `dgjtuizmg` | `.env` |
+| 32 | `user/buyer/profile-buyer.js` — Change Password UI conectado | `profile-buyer.js` |
+| 33 | `user/seller/profile-seller.js` — Change Password UI conectado | `profile-seller.js` |
+| 34 | `useAiAnalysis.js` — Nuevo hook para `/ai-analysis/*` | `useAiAnalysis.js` (nuevo) |
+| 35 | `vehicles/detail.js` — AI Analysis: condition bars + score badge | `detail.js` |
+| 36 | `notifications/list.html` + `list.js` — Vista completa: listar, marcar leída, eliminar, marcar todas | `notifications/list.*` |
+| 37 | `vehicles/compare.html` + `compare.js` — Comparación con localStorage | `compare.*` |
+| 38 | Menús comprador/vendedor — Enlace "Notificaciones" agregado | 9 archivos HTML |
+| 39 | `compare.css` — Estilos tabla comparativa + notificaciones | `components.css` |
+| 40 | `useSocket.js` — Nuevo hook para Socket.IO cliente | `useSocket.js` (nuevo) |
+| 41 | `index.html` — Socket.IO CDN agregado (`4.7.5`) | `index.html` |
+| 42 | `messages/buyer/chat.js` — Socket: join, newMessage, sendMessage, destroy | `buyer/chat.js` |
+| 43 | `messages/seller/chat.js` — Socket: join, newMessage, sendMessage, destroy | `seller/chat.js` |
+| 44 | `vehicles/detail.js` — Vehicle views tracking (`POST /vehicle-views/publication/{id}`) | `detail.js` |
+| 45 | `vehicles/detail.js` + `.html` — Reportes: modal con motivo/descripción, `POST /reports` | `detail.js`, `detail.html` |
+| 46 | `admin/analytics-admin.js` — JS controller conectado a reports + publications APIs | `analytics-admin.js` |
+| 47 | `admin/engine-admin.js` — JS controller con navegación | `engine-admin.js` |
+| 48 | `admin/alerts-admin.js` — JS controller con navegación | `alerts-admin.js` |
+| 49 | `admin/users-admin.js` — JS controller con datos de reports | `users-admin.js` |
+| 50 | `router.js` — Admin views `script: null` → scripts reales | `router.js` |
+| 51 | `user/saved-searches/` — Vista completa: listar, guardar, eliminar, aplicar filtros | `saved-searches/*` |
+| 52 | `home/index.html` — Botón "Guardar búsqueda" en filtros | `index.html` |
+| 53 | `home/index.js` — Handler guardar búsqueda (`POST /saved-searches`) | `index.js` |
+| 54 | Menús comprador (4 archivos) — Enlace "Búsquedas" agregado | 4 buyer HTML files |
+| 55 | `state.js` — `isLoggedIn()` unified (usa token), `showMessage()` global toast | `state.js` |
+| 56 | **Gemini AI** — Botón "Generar descripción con IA" en add.html + backend module `POST /gemini/generate-description` | `add.html`, `add.js`, backend `gemini/` module |
 
 ### 🔄 Pendiente
 
 | # | Cambio | Archivos |
 |---|--------|----------|
-| — | Profile views — Conectar APIs reales | `profile-buyer.js`, `profile-seller.js` |
-| — | Notifications — Conectar `GET /notifications` | `notifications/*` |
-| — | Reports — Conectar `POST /reports` | reports en detail view |
-| — | Vehicle views — Track `POST /vehicle-views/publication/{id}` | detail.js |
-| — | Saved searches — CRUD `POST /saved-searches` | search view |
-| — | AI Analysis — Conectar análisis IA | `investment-advisor.js` |
-| — | Change Password — `POST /auth/change-password` | profile views |
+| — | Documents — Subir/ver documentos del vehículo | vehicle detail/add views |
+| — | Vehicle features — `GET /vehicle-features` para filtros dinámicos | home filter dropdowns |
+| — | WebSocket heartbeat — Reconexión automática + status indicator | chat views |
 
 ### 🚀 Migraciones Completadas
 
@@ -372,12 +415,29 @@
 | 4 | **Refresh token** → auto-retry | 401 = error directo | Captura 401 → `POST /auth/refresh` → retry original |
 | 5 | **Session validation** → on init | Solo `state.init()` | `state.init()` + `useAuth().me()` para validar token |
 | 6 | **Router chat params** → `chatId` | `window.chatVehicleId` | `window.chatId` |
+| 7 | **Seller views** → `usePublications` | Publicaciones/Sales/Insights/Menu con mock | `usePublications().getAll({sellerId})` con filtro client-side |
+| 8 | **Buyer favorites** → `useFavorites` | Favorites/Menu con mock | `useFavorites().getAll()` + `remove()` + `checkAll()` |
+| 9 | **Profile views** → `useAuth().me()` | Profile buyer/seller con formulario mock | Carga datos reales desde `GET /auth/me` |
+| 10 | **Investment-advisor** → exportable | IIFE con dead code (chat sin HTML) | Objeto exportable con `init()`, solo navegación |
+| 11 | **Profile views** → Change Password | Sin UI de cambio de contraseña | `POST /auth/change-password` con validación (8 chars, mayúscula, número) |
+| 12 | **Notifications** → full CRUD | Sin vista de notificaciones | Vista completa con listar, marcar leída, eliminar, marcar todas |
+| 13 | **Vehicle Compare** → nueva vista | Sin funcionalidad de comparación | `compare.html` + `compare.js` con `localStorage` (key `motormarket_compare`) |
+| 14 | **WebSocket** → chat en tiempo real | Solo REST (`POST /chats/{id}/messages`) | Socket.IO: join room, escuchar `newMessage`, emitir `sendMessage` |
+| 15 | **Vehicle views** → tracking automático | Sin tracking | `POST /vehicle-views/publication/{id}` al cargar detalle |
+| 16 | **Reports** → modal de denuncia | Sin reportes | Modal con motivo + descripción, `POST /reports` |
+| 17 | **Admin views** → JS controllers | `script: null` en analytics, engine, alerts, users | Scripts con navegación + datos de APIs disponibles |
+| 18 | **Saved searches** → CRUD completo | Sin búsquedas guardadas | Vista list.html + list.js: crear, listar, eliminar, aplicar filtros |
+| 19 | **Global toast** → `state.showMessage()` | Sin feedback visual unificado | Toast flotante con tipo/color y auto-dismiss |
+| 20 | **isLoggedIn** → unified | `state.isLoggedIn()` solo chequeaba email | Ahora chequea `token`, consistente con `useAuth.isAuthenticated()` |
+| 21 | **Gemini integration** → descripción IA | Sin generación de descripciones | `POST /gemini/generate-description` con datos del vehículo → descripción + precio sugerido |
 
 ### 📦 Nuevos Hooks
 
 | Hook | Endpoint base | Métodos |
 |------|--------------|---------|
 | `usePublications.js` | `/publications` | `getAll`, `getById`, `getByVehicleId`, `create`, `update`, `updateStatus`, `delete`, `addFeature`, `removeFeature`, `getFeatures` |
+| `useAiAnalysis.js` | `/ai-analysis` | `getByVehicle(vehicleId)`, `create(vehicleId, data)` |
+| `useSocket.js` | Socket.IO | `connect`, `disconnect`, `joinChat`, `leaveChat`, `sendMessage`, `markAsRead`, `on`, `off` |
 
 ### 🔧 Mejoras Internas
 
@@ -387,8 +447,29 @@
 | `useAuth.js` | Guarda `refreshToken` en sesión, login mapea ambos tokens |
 | `useUpload.js` | `imageFromUrl` envía `{ imageUrl }` en vez de `{ url }` |
 | `useVehicles.js` | Nuevos métodos: `addImage`, `addImagesBulk`, `getImages`, `deleteImage` |
-| `router.js` | Session validation on load, `chatVehicleId`→`chatId` |
+| `router.js` | Session validation on load, `chatVehicleId`→`chatId`; rutas `vehicles/compare` y `notifications` agregadas |
 | `messages/seller/list.js` | Fix tab selector `.seller-tab`→`.messages-tab` |
+| `user/buyer/profile-buyer.js` | Change Password + pre-fill desde `useAuth().me()` |
+| `user/seller/profile-seller.js` | Change Password + pre-fill desde `useAuth().me()` |
+| `vehicles/detail.js` | AI Analysis con condition bars + score badge + botón Comparar |
+| `notifications/list.js` | Nueva vista: GET, POST read, DELETE, read-all |
+| `vehicles/compare.js` | Nueva vista: tabla comparativa con localStorage |
+| `useSocket.js` | Nuevo hook: conexión Socket.IO con auth JWT, join/leave rooms, eventos newMessage/messagesRead |
+| `index.html` | Socket.IO CDN v4.7.5 agregado |
+| `messages/buyer/chat.js` | Socket: joinChat en init, newMessage listener, sendMessage vía socket, destroy cleanup |
+| `messages/seller/chat.js` | Socket: joinChat en init, newMessage listener, sendMessage vía socket, destroy cleanup |
+| `vehicles/detail.js` | Vehicle views tracking + Reportes (modal con motivo/descripción) |
+| `vehicles/detail.html` | Botón "Reportar" en header actions |
+| `admin/analytics-admin.js` | Nuevo: stats de reports + publications activas |
+| `admin/engine-admin.js` | Nuevo: navegación + placeholder IA engine |
+| `admin/alerts-admin.js` | Nuevo: navegación + placeholder alertas |
+| `admin/users-admin.js` | Nuevo: tabla de reportes desde API |
+| `router.js` | Admin views `script: null` → scripts reales; ruta `user/saved-searches` |
+| `user/saved-searches/list.js` + `.html` | Nueva vista: CRUD de búsquedas guardadas |
+| `home/index.html` | Botón "Guardar búsqueda" en barra de filtros |
+| `home/index.js` | Handler `POST /saved-searches` con feedback visual |
+| `state.js` | `isLoggedIn()` unified (usa token); `showMessage(msg, type)` global toast |
+| 4 buyer HTML files | Enlace "Búsquedas" agregado en sidebar nav |
 
 ### 🐛 Bugs Arreglados en esta Sesión
 
@@ -397,6 +478,9 @@
 | B10 | `messages/seller/list.js` | Selector de tabs `.seller-tab` no coincide con HTML `.messages-tab` | Cambiado a `.messages-tab` |
 | B11 | `useUpload.js` | `imageFromUrl` enviaba `{ url }` pero backend espera `{ imageUrl }` | Cambiado a `{ imageUrl }` |
 | B12 | `router.js` | `window.chatVehicleId` no coincide con `chats` API (usa chatId, no vehicleId) | Renombrado a `window.chatId` |
+| B13 | `src/config.js` | Archivo no existía, solo `config.example.js`. App crasheaba al importar. | Creado con `API_BASE_URL: 'http://localhost:3000'` |
+| B14 | `.env` | `CLOUDINARY_CLOUD_NAME=Santiago` no es el cloud name real | Corregido a `dgjtuizmg` |
+| B15 | `config.example.js` | `API_BASE_URL` tenía `/api` que el backend no usa | Cambiado a `http://localhost:3000` |
 
 ### Cambios de Formato entre Mock y Backend Real
 

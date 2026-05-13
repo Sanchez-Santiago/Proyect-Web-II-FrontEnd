@@ -29,12 +29,16 @@
         <div class="home-search-filters">
           <select id="homeFilterBrand" class="home-filter-select">
             <option value="">Marca</option>
-            <option value="toyota">Toyota</option>
-            <option value="honda">Honda</option>
-            <option value="volkswagen">Volkswagen</option>
-            <option value="ford">Ford</option>
-            <option value="chevrolet">Chevrolet</option>
-            <option value="peugeot">Peugeot</option>
+          </select>
+          <select id="homeFilterPrice" class="home-filter-select">
+            <option value="">Precio</option>
+            <option value="hasta-10m">Hasta 10M</option>
+            <option value="10m-20m">10M - 20M</option>
+            <option value="20m-35m">20M - 35M</option>
+            <option value="mas-35m">Mas de 35M</option>
+          </select>
+          <select id="homeFilterYear" class="home-filter-select">
+            <option value="">Ano</option>
           </select>
           <select id="homeFilterPrice" class="home-filter-select">
             <option value="">Precio</option>
@@ -51,7 +55,13 @@
             <option value="2021">2021</option>
             <option value="2020">2020</option>
           </select>
+          <select id="homeFilterFeature" class="home-filter-select">
+            <option value="">Característica</option>
+          </select>
           <button type="button" id="homeSearchBtn" class="home-search-btn">Buscar</button>
+          <button type="button" id="homeSaveSearchBtn" class="home-search-btn" style="background:transparent;border:1px solid #f97316;color:#f97316;" title="Guardar esta búsqueda">
+            <i class="bi bi-bookmark-plus"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -75,7 +85,7 @@
         <button type="button" class="home-cta-btn" data-navigate="vehicles/add">Publicar mi auto</button>
       </div>
       <div class="home-cta-visual">
-        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80" alt="Vende tu auto" />
+        <img src="https://picsum.photos/seed/vendeauto/800/600" alt="Vende tu auto" />
       </div>
     </div>
   </section>

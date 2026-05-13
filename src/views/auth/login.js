@@ -2,15 +2,8 @@ import { useAuth } from '../../hooks/useAuth.js';
 import { navigateTo } from '../../core/router.js';
 import state from '../../core/state.js';
 
-const isInspector = typeof window.getInspectorData === 'function';
-
 export default {
   init() {
-    if (isInspector) {
-      navigateTo('home');
-      return;
-    }
-
     const form = document.getElementById('loginForm');
     const emailInput = document.getElementById('loginEmail');
     const passwordInput = document.getElementById('loginPassword');
@@ -67,7 +60,7 @@ export default {
         if (response?.token) {
           state.saveSession(response);
           setMessage('Sesion iniciada. Redirigiendo...', 'success');
-          navigateTo('auth/role');
+          navigateTo('home');
         } else {
           setMessage(response?.message || 'Email o contrasena incorrectos.', 'error');
         }

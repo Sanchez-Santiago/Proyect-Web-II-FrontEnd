@@ -1,7 +1,6 @@
 import CONFIG from '../config.js';
 
 const API_BASE_URL = CONFIG.API_BASE_URL;
-const INSPECTOR_MODE = CONFIG.INSPECTOR_MODE;
 
 function getSession() {
   try {
@@ -37,7 +36,6 @@ async function refreshAccessToken() {
     });
 
     if (!response.ok) {
-      localStorage.removeItem('motormarket_session');
       return null;
     }
 
@@ -65,10 +63,6 @@ async function handleResponse(response) {
 }
 
 async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
-  if (INSPECTOR_MODE) {
-    return handleInspectorRequest(method, endpoint, body);
-  }
-
   const options = {
     method,
     headers: {
@@ -77,13 +71,13 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
     }
   };
 
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
-
   const url = body && method === 'GET'
     ? `${baseUrl}${endpoint}?${new URLSearchParams(body)}`
     : `${baseUrl}${endpoint}`;
+
+  if (body && method !== 'GET') {
+    options.body = JSON.stringify(body);
+  }
 
   let response = await fetch(url, options);
 
@@ -97,98 +91,13 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new ApiError(response.status, errorData.message || 'Error en la solicitud', errorData);
+    const message = response.status === 401
+      ? 'Sesión expirada. Inicia sesión nuevamente.'
+      : (errorData.message || `Error ${response.status}: ${response.statusText || 'Error en la solicitud'}`);
+    throw new ApiError(response.status, message, errorData);
   }
 
   return handleResponse(response);
-}
-
-async function handleInspectorRequest(method, endpoint, body) {
-  await new Promise(resolve => setTimeout(resolve, 200));
-
-  const { getInspectorData } = await import('../data/inspector-data.js');
-  const data = getInspectorData();
-
-  if (endpoint.startsWith('/auth')) {
-    if (endpoint === '/auth/login' && method === 'POST') {
-      return { ...data.session, token: 'inspector-token-123' };
-    }
-    if (endpoint === '/auth/register' && method === 'POST') {
-      return { ...data.session, token: 'inspector-token-123' };
-    }
-    if (endpoint === '/auth/me' && method === 'GET') {
-      return data.session;
-    }
-    if (endpoint === '/auth/logout' && method === 'POST') {
-      return { success: true };
-    }
-    return data.session;
-  }
-
-  if (endpoint.startsWith('/vehicles')) {
-    if (method === 'GET') {
-      if (endpoint === '/vehicles' || endpoint === '/vehicles/' || endpoint === '/vehicles/filters') {
-        return { vehicles: data.vehicles };
-      }
-      const matches = endpoint.match(/\/vehicles\/(\d+)/);
-      if (matches) {
-        const vehicle = data.vehicles.find(v => v.id == matches[1]);
-        return { vehicle: vehicle || null };
-      }
-      return { vehicles: data.vehicles };
-    }
-    if (method === 'POST' && (endpoint === '/vehicles' || endpoint === '/vehicles/')) {
-      const newVehicle = { ...body, id: data.vehicles.length + 1 };
-      data.vehicles.push(newVehicle);
-      return { message: 'Vehículo creado exitosamente', vehicle: newVehicle };
-    }
-    if (method === 'PUT') {
-      const matches = endpoint.match(/\/vehicles\/(\d+)/);
-      if (matches) {
-        const idx = data.vehicles.findIndex(v => v.id == matches[1]);
-        if (idx !== -1) {
-          data.vehicles[idx] = { ...data.vehicles[idx], ...body };
-          return { message: 'Vehículo actualizado exitosamente', vehicle: data.vehicles[idx] };
-        }
-      }
-    }
-    if (method === 'DELETE') {
-      const matches = endpoint.match(/\/vehicles\/(\d+)/);
-      if (matches) {
-        const idx = data.vehicles.findIndex(v => v.id == matches[1]);
-        if (idx !== -1) {
-          data.vehicles.splice(idx, 1);
-          return { success: true };
-        }
-      }
-    }
-  }
-
-  if (endpoint.startsWith('/conversations')) {
-    if (method === 'GET') return data.conversations;
-    if (method === 'POST') {
-      const newConversation = { ...body, id: data.conversations.length + 1 };
-      data.conversations.push(newConversation);
-      return newConversation;
-    }
-  }
-
-  if (endpoint.startsWith('/favorites')) {
-    if (method === 'GET') return data.favorites;
-    if (method === 'POST') {
-      if (!data.favorites.includes(body.vehicleId)) {
-        data.favorites.push(body.vehicleId);
-      }
-      return data.favorites;
-    }
-    if (method === 'DELETE') {
-      const idx = data.favorites.indexOf(body.vehicleId);
-      if (idx !== -1) data.favorites.splice(idx, 1);
-      return data.favorites;
-    }
-  }
-
-  return { success: true };
 }
 
 class ApiError extends Error {
@@ -221,9 +130,6 @@ export function useApi(baseEndpoint = '') {
     },
 
     async upload(path = '', formData) {
-      if (INSPECTOR_MODE) {
-        return { url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d', message: 'Imagen subida' };
-      }
       const options = {
         method: 'POST',
         headers: getAuthHeaders(),

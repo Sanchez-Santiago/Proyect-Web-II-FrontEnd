@@ -38,6 +38,13 @@
             <small>Conversaciones</small>
           </span>
         </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span>
+            <strong>Notificaciones</strong>
+            <small>Alertas y novedades</small>
+          </span>
+        </a>
         <a class="is-active" href="#user/seller/sales" data-navigate="user/seller/sales">
           <i class="bi bi-cash-stack"></i>
           <span>
@@ -71,8 +78,8 @@
       
       <div class="menu-seller-sidebar-note">
         <span>Radar comercial</span>
-        <strong>11 leads calientes</strong>
-        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+        <strong id="salesLeadsCount">Cargando...</strong>
+        <p>Historial de ventas y transacciones cerradas.</p>
       </div>
     </aside>
     
@@ -91,53 +98,22 @@
 
       <section class="sales-view">
         <div class="sales-shell">
-          <div class="sales-stats">
-            <div class="sale-stat is-completed">
+          <div id="salesStats" class="sales-stats">
+            <div class="sale-stat">
               <span>Total Ventas</span>
-              <strong>$142.500.000</strong>
+              <strong id="totalSalesAmount">$0</strong>
             </div>
             <div class="sale-stat is-active">
               <span>En Proceso</span>
-              <strong>2</strong>
+              <strong id="inProcessCount">0</strong>
             </div>
-            <div class="sale-stat">
+            <div class="sale-stat is-completed">
               <span>Cerradas</span>
-              <strong>12</strong>
+              <strong id="completedCount">0</strong>
             </div>
           </div>
 
-          <div class="sales-timeline">
-            <!-- Timeline Item -->
-            <article class="sale-card">
-              <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=400&q=80" alt="Toyota Corolla" />
-              <div class="sale-card-content">
-                <div class="sale-card-header">
-                  <h3>Toyota Corolla XEi 2021</h3>
-                  <span class="sale-status is-completed">Completado</span>
-                </div>
-                <div class="sale-card-meta">
-                  <span><i class="bi bi-person-fill"></i> Comprador: Juan Perez</span>
-                  <span><i class="bi bi-calendar3"></i> 12/04/2026</span>
-                </div>
-              </div>
-              <p class="sale-price">$18.700.000</p>
-            </article>
-
-            <article class="sale-card">
-              <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=400&q=80" alt="Peugeot 208" />
-              <div class="sale-card-content">
-                <div class="sale-card-header">
-                  <h3>Peugeot 208 Style 2022</h3>
-                  <span class="sale-status is-active">En Proceso</span>
-                </div>
-                <div class="sale-card-meta">
-                  <span><i class="bi bi-person-fill"></i> Comprador: Maria Garcia</span>
-                  <span><i class="bi bi-calendar3"></i> 30/04/2026</span>
-                </div>
-              </div>
-              <p class="sale-price">$16.300.000</p>
-            </article>
-          </div>
+          <div id="salesTimeline" class="sales-timeline"></div>
         </div>
       </section>
     </main>

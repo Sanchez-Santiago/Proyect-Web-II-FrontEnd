@@ -38,6 +38,13 @@
             <small>Conversaciones</small>
           </span>
         </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span>
+            <strong>Notificaciones</strong>
+            <small>Alertas y novedades</small>
+          </span>
+        </a>
         <a href="#user/buyer/profile" data-navigate="user/buyer/profile">
           <i class="bi bi-person-fill"></i>
           <span>
@@ -57,8 +64,8 @@
       
       <div class="menu-buyer-sidebar-note">
         <span>Radar IA</span>
-        <strong>14 oportunidades</strong>
-        <p>Tres nuevos autos superan a tus favoritos guardados.</p>
+        <strong id="favoritesCount">Cargando...</strong>
+        <p id="favoritesInsight">Cargando tus favoritos...</p>
       </div>
     </aside>
     
@@ -77,60 +84,7 @@
 
       <section class="favorites-view">
         <div class="favorites-shell">
-          <div id="favoritesGrid" class="favorites-grid">
-            <!-- Card Example -->
-            <article class="favorites-buyer-card">
-              <div class="fav-card-image">
-                <img src="https://images.unsplash.com/photo-1542362567-b07e54369882?auto=format&fit=crop&w=600&q=80" alt="Toyota Corolla" />
-                <span class="fav-score-badge">98% Match</span>
-                <button type="button" class="fav-remove-btn" title="Quitar de favoritos">
-                  <i class="bi bi-x-lg"></i>
-                </button>
-              </div>
-              <div class="favorites-buyer-card-body">
-                <div class="fav-card-header">
-                  <div>
-                    <h3>Toyota Corolla 2021</h3>
-                    <p class="fav-price">$18.700.000</p>
-                  </div>
-                </div>
-                <div class="fav-card-specs">
-                  <span><i class="bi bi-speedometer2"></i> 45.000 km</span>
-                  <span><i class="bi bi-geo-alt"></i> Córdoba</span>
-                </div>
-                <div class="fav-card-actions">
-                  <button type="button" class="favorites-buyer-ghost-btn">Ver detalle</button>
-                  <button type="button" class="favorites-buyer-primary-btn">Contactar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="favorites-buyer-card">
-              <div class="fav-card-image">
-                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80" alt="Peugeot 208" />
-                <span class="fav-score-badge">92% Match</span>
-                <button type="button" class="fav-remove-btn">
-                  <i class="bi bi-x-lg"></i>
-                </button>
-              </div>
-              <div class="favorites-buyer-card-body">
-                <div class="fav-card-header">
-                  <div>
-                    <h3>Peugeot 208 Style 2022</h3>
-                    <p class="fav-price">$16.300.000</p>
-                  </div>
-                </div>
-                <div class="fav-card-specs">
-                  <span><i class="bi bi-speedometer2"></i> 12.000 km</span>
-                  <span><i class="bi bi-geo-alt"></i> Rosario</span>
-                </div>
-                <div class="fav-card-actions">
-                  <button type="button" class="favorites-buyer-ghost-btn">Ver detalle</button>
-                  <button type="button" class="favorites-buyer-primary-btn">Contactar</button>
-                </div>
-              </div>
-            </article>
-          </div>
+          <div id="favoritesGrid" class="favorites-grid"></div>
         </div>
       </section>
     </main>

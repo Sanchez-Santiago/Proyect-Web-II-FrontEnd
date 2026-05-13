@@ -1,23 +1,6 @@
 import { useApi, ApiError } from './useApi.js';
 
-const STORAGE_KEY = 'motormarket_session';
-
-function getSession() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function saveSession(sessionData) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
-}
-
-function clearSession() {
-  localStorage.removeItem(STORAGE_KEY);
-}
+import { getSession, saveSession, clearSession } from '../core/session.js';
 
 function normalizeUser(user, token, refreshToken) {
   return {
@@ -72,14 +55,15 @@ export function useAuth() {
         const response = await api.get('/me');
         const user = response.user;
         if (user) {
-          const session = normalizeUser(user);
+          const current = getSession();
+          const session = normalizeUser(user, current?.token, current?.refreshToken);
           saveSession(session);
           return session;
         }
         clearSession();
         return null;
       } catch (err) {
-        clearSession();
+        if (err.status !== 401) clearSession();
         throw err;
       }
     },
@@ -92,7 +76,8 @@ export function useAuth() {
     isAdmin() {
       const session = getSession();
       if (!session) return false;
-      return session.isAdmin === true || session.role === 'admin';
+      const role = (session.role || '').toLowerCase();
+      return session.isAdmin === true || role === 'admin';
     },
 
     getRole() {

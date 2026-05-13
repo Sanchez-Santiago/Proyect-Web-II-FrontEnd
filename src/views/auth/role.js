@@ -10,18 +10,9 @@ export default {
       return;
     }
 
-    function hasAdminAccess(sessionUser) {
-      if (!sessionUser) return false;
-      if (sessionUser.isAdmin === true || sessionUser.role === 'admin') return true;
-      if (Array.isArray(sessionUser.roles)) {
-        return sessionUser.roles.includes('admin');
-      }
-      return false;
-    }
-
     function renderWelcome(sessionUser) {
       if (!welcome || !sessionUser || !sessionUser.email) return;
-      const accessLabel = hasAdminAccess(sessionUser) ? 'Administrador habilitado' : 'Acceso estandar';
+      const accessLabel = state.hasAdminAccess() ? 'Administrador habilitado' : 'Acceso estandar';
       welcome.hidden = false;
       welcome.textContent = sessionUser.email + ' • ' + accessLabel;
     }
@@ -59,7 +50,7 @@ export default {
     const sessionUser = state.getSession();
     renderWelcome(sessionUser);
 
-    if (hasAdminAccess(sessionUser)) {
+    if (state.hasAdminAccess()) {
       createAdminCard();
     }
 

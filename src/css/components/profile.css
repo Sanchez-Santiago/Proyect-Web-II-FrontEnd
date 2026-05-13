@@ -181,9 +181,14 @@
 .buyer-form-card .form-select,
 .buyer-form-card textarea {
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+.buyer-form-card .form-select option {
+  color: #ffffff;
+  background: #111111;
 }
 
 .buyer-form-card .form-control,
@@ -213,7 +218,7 @@
   border-radius: 28px;
   overflow: hidden;
   background: #191919;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .buyer-avatar-preview img {
@@ -231,8 +236,9 @@
 .buyer-form-card .form-control:focus,
 .buyer-form-card .form-select:focus,
 .buyer-form-card textarea:focus {
-  border-color: rgba(249, 115, 22, 0.36);
-  box-shadow: 0 0 0 0.22rem rgba(249, 115, 22, 0.14);
+  border-color: #f97316;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
 }
 
 .buyer-options-label {
@@ -318,66 +324,17 @@
 
 .buyer-form-card .form-control::placeholder,
 .buyer-form-card textarea::placeholder {
-  color: rgba(248, 250, 252, 0.45);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .buyer-form-card .form-select {
-  color: #f8fafc;
-}
-
-.buyer-form-card .form-select option {
-  color: var(--white);
-  background: var(--panel);
+  color: #ffffff;
 }
 
 .buyer-form-card .form-label {
   color: #f8fafc;
 }
 
-@media (max-width: 991px) {
-  .buyer-page-head {
-    grid-template-columns: 1fr;
-  }
-
-  .buyer-option-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 767px) {
-  .profile-buyer-view {
-    padding: 1rem 0;
-  }
-
-  .buyer-insight-card,
-  .buyer-form-card {
-    padding: 1.2rem;
-    border-radius: 24px;
-  }
-
-  .buyer-page-head h1 {
-    font-size: clamp(2rem, 10vw, 3rem);
-  }
-
-  .buyer-section-head,
-  .buyer-insight-top,
-  .buyer-progress-copy {
-    flex-wrap: wrap;
-  }
-
-  .buyer-avatar-field {
-    grid-template-columns: 1fr;
-  }
-
-  .buyer-avatar-preview {
-    width: 132px;
-    height: 132px;
-  }
-
-  .buyer-insight-grid {
-    grid-template-columns: 1fr;
-  }
-}
 .profile-seller-view {
   min-height: 100svh;
   padding: 2rem 0;
@@ -561,9 +518,22 @@
 .seller-form-card .form-select,
 .seller-form-card textarea {
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+}
+
+.seller-form-card .form-control:focus,
+.seller-form-card .form-select:focus,
+.seller-form-card textarea:focus {
+  border-color: #f97316;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+}
+
+.seller-form-card .form-select option {
+  color: #ffffff;
+  background: #111111;
 }
 
 .seller-form-card .form-control,
@@ -610,13 +580,6 @@
 
 .seller-avatar-hint {
   color: rgba(248, 250, 252, 0.66);
-}
-
-.seller-form-card .form-control:focus,
-.seller-form-card .form-select:focus,
-.seller-form-card textarea:focus {
-  border-color: rgba(249, 115, 22, 0.36);
-  box-shadow: 0 0 0 0.22rem rgba(249, 115, 22, 0.14);
 }
 
 .seller-options-label {
@@ -710,16 +673,11 @@
 
 .seller-form-card .form-control::placeholder,
 .seller-form-card textarea::placeholder {
-  color: rgba(248, 250, 252, 0.45);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .seller-form-card .form-select {
-  color: #f8fafc;
-}
-
-.seller-form-card .form-select option {
-  color: var(--white);
-  background: var(--panel);
+  color: #ffffff;
 }
 
 .seller-form-card .form-label {

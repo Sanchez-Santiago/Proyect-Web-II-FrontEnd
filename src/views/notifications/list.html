@@ -1,0 +1,22 @@
+<div class="notif-page">
+  <header class="notif-header">
+    <div class="notif-header-content">
+      <button type="button" class="notif-back" onclick="window.history.back()">
+        <i class="bi bi-arrow-left"></i> Volver
+      </button>
+      <h1>Notificaciones</h1>
+      <button type="button" class="notif-mark-all-btn" id="notifMarkAllBtn">
+        <i class="bi bi-check-all"></i> Marcar todas leídas
+      </button>
+    </div>
+  </header>
+
+  <section class="notif-body">
+    <div id="notifEmpty" class="notif-empty">
+      <i class="bi bi-bell-slash"></i>
+      <h2>Sin notificaciones</h2>
+      <p>No tenés notificaciones por ahora.</p>
+    </div>
+    <div id="notifList" class="notif-list" style="display:none;"></div>
+  </section>
+</div>

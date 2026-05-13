@@ -38,6 +38,13 @@
             <small>Conversaciones</small>
           </span>
         </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span>
+            <strong>Notificaciones</strong>
+            <small>Alertas y novedades</small>
+          </span>
+        </a>
         <a href="#user/seller/sales" data-navigate="user/seller/sales">
           <i class="bi bi-cash-stack"></i>
           <span>
@@ -96,71 +103,8 @@
 
       <section class="publications-view">
         <div class="publications-shell">
-          <div class="publications-stats">
-            <div class="pub-stat is-active">
-              <span>Activas</span>
-              <strong>4</strong>
-            </div>
-            <div class="pub-stat">
-              <span>En Revisión</span>
-              <strong>1</strong>
-            </div>
-            <div class="pub-stat">
-              <span>Vendidos</span>
-              <strong>12</strong>
-            </div>
-          </div>
-
-          <div id="publicationsGrid" class="publications-grid">
-            <!-- Card Example -->
-            <article class="pub-card">
-              <div class="pub-card-img">
-                <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=800&q=80" alt="Peugeot 208" />
-                <span class="pub-status is-active">Activa</span>
-              </div>
-              <div class="pub-card-body">
-                <h3>Peugeot 208 2022</h3>
-                <p class="pub-price">$16.300.000</p>
-                <div class="pub-metrics">
-                  <span><i class="bi bi-eye-fill"></i> 1.284</span>
-                  <span><i class="bi bi-chat-left-dots-fill"></i> 17</span>
-                  <span><i class="bi bi-heart-fill"></i> 56</span>
-                </div>
-                <div class="pub-ai-score">
-                  <span>Puntuación IA</span>
-                  <strong>91%</strong>
-                </div>
-                <div class="pub-actions">
-                  <button type="button" class="pub-btn pub-btn-edit">Editar</button>
-                  <button type="button" class="pub-btn pub-btn-optimize">Optimizar</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="pub-card">
-              <div class="pub-card-img">
-                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80" alt="Toyota Corolla" />
-                <span class="pub-status is-review">En Revisión</span>
-              </div>
-              <div class="pub-card-body">
-                <h3>Toyota Corolla 2021</h3>
-                <p class="pub-price">$18.700.000</p>
-                <div class="pub-metrics">
-                  <span><i class="bi bi-eye-fill"></i> 450</span>
-                  <span><i class="bi bi-chat-left-dots-fill"></i> 3</span>
-                  <span><i class="bi bi-heart-fill"></i> 12</span>
-                </div>
-                <div class="pub-ai-score">
-                  <span>Puntuación IA</span>
-                  <strong>84%</strong>
-                </div>
-                <div class="pub-actions">
-                  <button type="button" class="pub-btn pub-btn-edit">Editar</button>
-                  <button type="button" class="pub-btn pub-btn-optimize">Revisar</button>
-                </div>
-              </div>
-            </article>
-          </div>
+          <div id="publicationsStats" class="publications-stats"></div>
+          <div id="publicationsGrid" class="publications-grid"></div>
         </div>
       </section>
     </main>

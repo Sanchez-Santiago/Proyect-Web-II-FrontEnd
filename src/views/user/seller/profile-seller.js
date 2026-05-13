@@ -1,9 +1,93 @@
 import { navigateTo } from '../../../core/router.js';
+import { useAuth } from '../../../hooks/useAuth.js';
+import { useApi } from '../../../hooks/useApi.js';
+import state from '../../../core/state.js';
 
 export default {
-  init() {
-    this.setupForm();
+  async init() {
     this.setupNavigation();
+    await this.loadProfile();
+    this.setupProfileForm();
+    this.setupPasswordForm();
+  },
+
+  async loadProfile() {
+    const nameInput = document.getElementById('sellerName');
+
+    const session = state.getSession();
+    if (session) {
+      if (nameInput) nameInput.value = session.name || '';
+    }
+
+    try {
+      const auth = useAuth();
+      const user = await auth.me();
+      if (user) {
+        if (nameInput) nameInput.value = user.name || '';
+      }
+    } catch (err) {
+      console.warn('No se pudo cargar perfil desde API:', err.message);
+    }
+  },
+
+  setupProfileForm() {
+    const form = document.getElementById('sellerProfileForm');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = document.getElementById('sellerProfileMessage');
+      if (message) {
+        message.textContent = 'Perfil guardado exitosamente!';
+        message.classList.remove('error');
+        message.classList.add('success');
+      }
+      setTimeout(() => navigateTo('user/seller/menu'), 1000);
+    });
+  },
+
+  setupPasswordForm() {
+    const form = document.getElementById('sellerChangePasswordForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const current = document.getElementById('sellerCurrentPassword');
+      const newPw = document.getElementById('sellerNewPassword');
+      const msg = document.getElementById('sellerPasswordMessage');
+
+      if (!current || !newPw || !msg) return;
+
+      const newVal = newPw.value.trim();
+      if (newVal.length < 8 || !/[A-Z]/.test(newVal) || !/[0-9]/.test(newVal)) {
+        msg.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.';
+        msg.classList.add('error');
+        return;
+      }
+
+      msg.textContent = 'Cambiando contraseña...';
+      msg.className = 'form-message';
+
+      try {
+        console.log('[PROFILE] Changing password...');
+        const api = useApi('/auth');
+        const response = await api.post('/change-password', {
+          currentPassword: current.value,
+          newPassword: newVal
+        });
+        console.log('[PROFILE] Password changed successfully:', response);
+        msg.textContent = 'Contraseña cambiada exitosamente!';
+        msg.classList.remove('error');
+        msg.classList.add('success');
+        current.value = '';
+        newPw.value = '';
+      } catch (err) {
+        console.error('[PROFILE] Password change error:', err);
+        msg.textContent = err.message || 'Error al cambiar la contraseña.';
+        msg.classList.remove('success');
+        msg.classList.add('error');
+      }
+    });
   },
 
   setupNavigation() {
@@ -14,103 +98,5 @@ export default {
         navigateTo(view);
       });
     });
-  },
-
-  setupForm() {
-    const form = document.getElementById('sellerProfileForm');
-    const message = document.getElementById('sellerProfileMessage');
-    const stage = document.getElementById('sellerProfileStage');
-    const completionText = document.getElementById('sellerCompletionText');
-    const completionBar = document.getElementById('sellerCompletionBar');
-
-    if (!form) return;
-
-    const fields = [
-      'sellerName', 'sellerDisplayName', 'sellerAccountType', 'sellerVerified',
-      'sellerResponseWindow', 'sellerEmail', 'sellerPhone', 'sellerWhatsapp',
-      'sellerProvince', 'sellerCity', 'sellerContactChannel', 'sellerBusinessHours',
-      'sellerAttentionDays', 'sellerSpecialty', 'sellerYearsRange', 'sellerBrands',
-      'sellerTargetClient', 'sellerPriceRange', 'sellerAiTone', 'sellerPresentation',
-      'sellerFaq'
-    ];
-
-    function updateProgress() {
-      const filled = fields.filter(id => {
-        const el = document.getElementById(id);
-        return el && el.value.trim() !== '';
-      }).length;
-      
-      const percent = Math.round((filled / fields.length) * 100);
-      completionText.textContent = percent + '%';
-      completionBar.style.width = percent + '%';
-
-      if (percent >= 80) {
-        stage.textContent = 'Completo';
-      } else if (percent >= 40) {
-        stage.textContent = 'En progreso';
-      } else {
-        stage.textContent = 'Incompleto';
-      }
-    }
-
-    function updateLabels() {
-      const accountType = document.getElementById('sellerAccountType');
-      const channel = document.getElementById('sellerContactChannel');
-      const province = document.getElementById('sellerProvince');
-      const aiReplies = document.getElementById('sellerAiReplies');
-
-      const accountLabels = {
-        'particular': 'Particular',
-        'agencia': 'Agencia',
-        'intermediario': 'Intermediario'
-      };
-
-      const channelLabels = {
-        'chat': 'Chat',
-        'whatsapp': 'WhatsApp',
-        'llamada': 'Llamada',
-        'email': 'Email'
-      };
-
-      document.getElementById('sellerAccountLabel').textContent = 
-        accountType?.value ? (accountLabels[accountType.value] || accountType.value) : 'Particular';
-      document.getElementById('sellerChannelLabel').textContent = 
-        channel?.value ? (channelLabels[channel.value] || channel.value) : 'Sin definir';
-      document.getElementById('sellerLocationLabel').textContent = 
-        province?.value ? province.value : 'Sin definir';
-      document.getElementById('sellerAiLabel').textContent = 
-        aiReplies?.checked ? 'Si' : 'No';
-    }
-
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('input', () => {
-          updateProgress();
-          updateLabels();
-        });
-        el.addEventListener('change', () => {
-          updateProgress();
-          updateLabels();
-        });
-      }
-    });
-
-    const aiReplies = document.getElementById('sellerAiReplies');
-    if (aiReplies) {
-      aiReplies.addEventListener('change', updateLabels);
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (message) {
-        message.textContent = 'Perfil guardado exitosamente!';
-        message.classList.remove('error');
-        message.classList.add('success');
-      }
-      setTimeout(() => navigateTo('menu-seller'), 1000);
-    });
-
-    updateProgress();
   }
 };

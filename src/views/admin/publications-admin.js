@@ -1,15 +1,7 @@
 import { usePublications } from '../../hooks/usePublications.js';
 import { navigateTo } from '../../core/router.js';
 import state from '../../core/state.js';
-
-function formatPrice(price, currency) {
-  if (!price) return '-';
-  return new Intl.NumberFormat('es-AR', {
-    style: 'currency',
-    currency: currency || 'ARS',
-    maximumFractionDigits: 0
-  }).format(price);
-}
+import { formatPrice } from '../../utils/formatters.js';
 
 function getScoreBadgeClass(score) {
   if (!score && score !== 0) return '';
@@ -24,11 +16,6 @@ export default {
     const chip = document.querySelector('.menu-admin-chip');
 
     if (!tbody) return;
-
-    if (!state.isLoggedIn() || !state.hasAdminAccess()) {
-      navigateTo('home');
-      return;
-    }
 
     try {
       const publications = usePublications();

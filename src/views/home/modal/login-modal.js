@@ -3,6 +3,9 @@ import { useAuth } from '../../hooks/useAuth.js';
 
 let modalElement = null;
 let isInitialized = false;
+let unsubscribeState = null;
+let timeouts = [];
+let keydownHandler = null;
 
 function setMessage(text, type) {
   const message = document.getElementById('loginModalMessage');
@@ -82,11 +85,12 @@ async function handleSubmit(event) {
       state.saveSession(session);
       setMessage('¡Bienvenido! Redirigiendo...', 'success');
 
-      setTimeout(() => {
+      const t = setTimeout(() => {
         closeModal();
         state.executePendingAction();
-        window.location.hash = 'auth/role';
+        window.location.hash = 'home';
       }, 600);
+      timeouts.push(t);
     } else {
       setMessage(session?.message || 'Error al iniciar sesión.', 'error');
     }
@@ -116,11 +120,12 @@ function setupEventListeners() {
     });
   }
 
-  document.addEventListener('keydown', (e) => {
+  keydownHandler = (e) => {
     if (e.key === 'Escape' && modalElement && !modalElement.hidden) {
       closeModal();
     }
-  });
+  };
+  document.addEventListener('keydown', keydownHandler);
 
   isInitialized = true;
 }
@@ -148,7 +153,7 @@ export default {
   },
 
   watchState() {
-    state.subscribe((view, session) => {
+    unsubscribeState = state.subscribe((view, session) => {
       const modal = document.getElementById('loginModal');
       if (!modal) return;
       const options = state.getLoginModalOptions();
@@ -158,9 +163,25 @@ export default {
     });
   },
 
+  destroy() {
+    if (unsubscribeState) {
+      unsubscribeState();
+      unsubscribeState = null;
+    }
+    timeouts.forEach(t => clearTimeout(t));
+    timeouts = [];
+    if (keydownHandler) {
+      document.removeEventListener('keydown', keydownHandler);
+      keydownHandler = null;
+    }
+    isInitialized = false;
+    modalElement = null;
+  },
+
   open(options) {
     if (!modalElement) {
-      setTimeout(() => this.open(options), 100);
+      const t = setTimeout(() => this.open(options), 100);
+      timeouts.push(t);
       return;
     }
     openModal(options);

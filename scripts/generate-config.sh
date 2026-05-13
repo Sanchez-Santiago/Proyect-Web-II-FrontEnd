@@ -1,8 +1,8 @@
 #!/bin/bash
 # Genera src/config.js desde variables de entorno
-# Uso: API_BASE_URL=http://localhost:3000/api ./scripts/generate-config.sh
+# Uso: API_BASE_URL=http://localhost:3000 ./scripts/generate-config.sh
 
-API_BASE_URL="${API_BASE_URL:-http://localhost:3000/api}"
+API_BASE_URL="${API_BASE_URL:-http://localhost:3000}"
 INSPECTOR_MODE="${INSPECTOR_MODE:-false}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"

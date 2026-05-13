@@ -1,0 +1,73 @@
+<div class="menu-buyer-page">
+  <div class="menu-buyer-layout">
+    <aside class="menu-buyer-sidebar">
+      <div class="menu-buyer-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Buyer Console</small>
+        </div>
+      </div>
+      <nav class="menu-buyer-nav">
+        <a href="#user/buyer/menu" data-navigate="user/buyer/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span><strong>Dashboard</strong><small>Match y decisiones</small></span>
+        </a>
+        <a href="#user/buyer/favorites" data-navigate="user/buyer/favorites">
+          <i class="bi bi-heart-fill"></i>
+          <span><strong>Favoritos</strong><small>Seguimiento inteligente</small></span>
+        </a>
+        <a class="is-active" href="#user/saved-searches" data-navigate="user/saved-searches">
+          <i class="bi bi-bookmark-fill"></i>
+          <span><strong>Búsquedas</strong><small>Guardadas</small></span>
+        </a>
+        <a href="#user/buyer/investment-advisor" data-navigate="user/buyer/investment-advisor">
+          <i class="bi bi-stars"></i>
+          <span><strong>Insights IA</strong><small>Analisis, comparacion y simulacion</small></span>
+        </a>
+        <a href="#messages/buyer" data-navigate="messages/buyer">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span><strong>Mensajes</strong><small>Conversaciones</small></span>
+        </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span><strong>Notificaciones</strong><small>Alertas y avisos</small></span>
+        </a>
+        <a href="#user/buyer/profile" data-navigate="user/buyer/profile">
+          <i class="bi bi-person-fill"></i>
+          <span><strong>Perfil</strong><small>Configuracion</small></span>
+        </a>
+        <div class="menu-buyer-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span><strong>Volver al Home</strong><small>Salir de la consola</small></span>
+        </a>
+      </nav>
+      <div class="menu-buyer-sidebar-note">
+        <span>Búsquedas inteligentes</span>
+        <strong>Guardá tus filtros</strong>
+        <p>Recibí alertas cuando aparezcan autos que coincidan con tus búsquedas guardadas.</p>
+      </div>
+    </aside>
+    <main class="menu-buyer-main">
+      <header class="menu-buyer-topbar">
+        <div>
+          <nav class="menu-buyer-workspace-switch" aria-label="Cambiar menu">
+            <a class="is-current" href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-buyer-kicker">MIS BÚSQUEDAS</span>
+          <h1>Búsquedas guardadas</h1>
+        </div>
+      </header>
+      <section class="buyer-favorites-view" style="padding:0;">
+        <div id="savedSearchesList" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+        <div id="savedSearchesEmpty" style="display:none;text-align:center;padding:3rem 1rem;color:var(--muted,#9ca3af);">
+          <i class="bi bi-bookmark" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
+          <p>No tenés búsquedas guardadas. Usá el botón <strong>Guardar búsqueda</strong> en la página de inicio.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

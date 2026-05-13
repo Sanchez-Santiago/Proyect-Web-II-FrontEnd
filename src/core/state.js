@@ -1,56 +1,44 @@
-const STORAGE_KEY = 'motormarket_session';
+import { readSession, saveSession as sessionSave, clearSession as sessionClear, getSession, isLoggedIn, hasAdminAccess, getRole } from './session.js';
+import { showMessage, openLoginModal as uiOpenLoginModal, closeLoginModal as uiCloseLoginModal, getLoginModalOptions, onUIChange } from './ui.js';
+
+let sessionCache = readSession();
 
 const state = {
-  session: null,
   currentView: 'home',
+  params: {},
   listeners: [],
   pendingAction: null,
-  loginModalOptions: { showRegister: false },
 
   init() {
-    this.session = this.readSession();
-  },
-
-  readSession() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch {
-      return null;
-    }
+    sessionCache = readSession();
   },
 
   saveSession(sessionData) {
-    this.session = sessionData;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionData));
+    sessionCache = sessionData;
+    sessionSave(sessionData);
     this.notify();
   },
 
   clearSession() {
-    this.session = null;
-    localStorage.removeItem(STORAGE_KEY);
+    sessionCache = null;
+    sessionClear();
     this.notify();
   },
 
   getSession() {
-    return this.session;
+    return sessionCache || getSession();
   },
 
   isLoggedIn() {
-    return this.session !== null && this.session.email;
+    return isLoggedIn();
   },
 
   hasAdminAccess() {
-    if (!this.session) return false;
-    if (this.session.isAdmin === true || this.session.role === 'admin') return true;
-    if (Array.isArray(this.session.roles)) {
-      return this.session.roles.includes('admin');
-    }
-    return false;
+    return hasAdminAccess();
   },
 
   getRole() {
-    return this.session ? this.session.role : null;
+    return getRole();
   },
 
   requireAuth(actionCallback) {
@@ -70,18 +58,18 @@ const state = {
     }
   },
 
-  openLoginModal(options = {}) {
-    this.loginModalOptions = options;
+  openLoginModal(options) {
+    uiOpenLoginModal(options);
     this.notify();
   },
 
   closeLoginModal() {
-    this.loginModalOptions = { showRegister: false };
+    uiCloseLoginModal();
     this.pendingAction = null;
   },
 
   getLoginModalOptions() {
-    return this.loginModalOptions;
+    return getLoginModalOptions();
   },
 
   setView(viewName) {
@@ -89,12 +77,31 @@ const state = {
     this.notify();
   },
 
+  setParams(params) {
+    this.params = { ...params };
+  },
+
+  getParam(key) {
+    return this.params?.[key];
+  },
+
+  clearParams() {
+    this.params = {};
+  },
+
   subscribe(listener) {
     this.listeners.push(listener);
+    return () => {
+      this.listeners = this.listeners.filter(l => l !== listener);
+    };
   },
 
   notify() {
-    this.listeners.forEach(fn => fn(this.currentView, this.session));
+    this.listeners.forEach(fn => fn(this.currentView, sessionCache));
+  },
+
+  showMessage(message, type, duration) {
+    return showMessage(message, type, duration);
   }
 };
 

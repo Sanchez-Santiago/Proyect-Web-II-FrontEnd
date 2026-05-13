@@ -4,4 +4,11 @@
 @import './components/auth.css';
 @import './components/layout.css';
 @import './components/profile.css';
-@import './components/components.css';
+@import './components/home.css';
+@import './components/car-detail.css';
+@import './components/messages.css';
+@import './components/insights.css';
+@import './components/sales.css';
+@import './components/notifications.css';
+@import './components/compare.css';
+@import './components/dashboard.css';

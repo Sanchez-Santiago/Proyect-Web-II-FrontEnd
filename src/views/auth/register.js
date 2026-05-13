@@ -2,15 +2,8 @@ import { useAuth } from '../../hooks/useAuth.js';
 import { navigateTo } from '../../core/router.js';
 import state from '../../core/state.js';
 
-const isInspector = typeof window.getInspectorData === 'function';
-
 export default {
   init() {
-    if (isInspector) {
-      navigateTo('home');
-      return;
-    }
-
     const form = document.getElementById('registerForm');
     const nameInput = document.getElementById('registerName');
     const emailInput = document.getElementById('registerEmail');
@@ -108,7 +101,7 @@ export default {
       const name = nameInput.value.trim();
       const email = emailInput.value.trim();
       const password = passwordInput.value;
-      const role = roleSelect.value;
+      const role = roleSelect.value.toUpperCase();
       const province = provinceInput.value.trim();
       const city = cityInput.value.trim();
 

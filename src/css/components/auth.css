@@ -33,7 +33,7 @@
 .login-footer,
 .login-message,
 .login-copy p {
-  color: var(--muted);
+  color: rgba(248, 250, 252, 0.9);
 }
 
 .login-chip,
@@ -104,26 +104,27 @@
   top: 50%;
   left: 18px;
   transform: translateY(-50%);
-  color: rgba(248, 250, 252, 0.54);
+  color: rgba(248, 250, 252, 0.9);
 }
 
 .input-wrap input {
   min-height: 62px;
   padding-left: 3rem;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.5);
   color: var(--white);
+  font-weight: 500;
 }
 
 .input-wrap input::placeholder {
-  color: rgba(248, 250, 252, 0.38);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .input-wrap input:focus {
-  border-color: rgba(249, 115, 22, 0.36);
-  box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.12);
-  background: rgba(255, 255, 255, 0.06);
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .login-message {
@@ -296,15 +297,15 @@
     min-height: 62px;
     padding-left: 3rem;
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(0, 0, 0, 0.5);
     color: var(--white);
   }
 
   .input-wrap select:focus {
-    border-color: rgba(249, 115, 22, 0.36);
-    box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.12);
-    background: rgba(255, 255, 255, 0.06);
+    border-color: #f97316;
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+    background: rgba(0, 0, 0, 0.6);
   }
 
   .input-wrap select option {

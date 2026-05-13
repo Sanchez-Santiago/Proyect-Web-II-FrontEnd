@@ -1,38 +1,121 @@
-(function () {
-  var cards = document.querySelectorAll('[data-favorite-card]');
-  var removeButtons = document.querySelectorAll('[data-remove-btn]');
-  var countEl = document.getElementById('favoritesCount');
-  var insightEl = document.getElementById('favoritesInsight');
+import { useFavorites } from '../../../hooks/useFavorites.js';
+import { useApi } from '../../../hooks/useApi.js';
+import { formatPrice, formatMileage } from '../../../utils/formatters.js';
 
-  function updateSummary() {
-    var active = Array.from(cards).filter(function (card) {
-      return !card.classList.contains('is-removed');
-    }).length;
+function normalizeFavorite(fav) {
+  const pub = fav.publication;
+  const v = pub?.vehicle;
+  const firstImage = v?.images?.[0]?.imageUrl || '';
+  return {
+    id: fav.id,
+    publicationId: pub?.id,
+    vehicleId: v?.id,
+    brand: v?.brand || '',
+    model: v?.model || '',
+    year: v?.year || '',
+    price: pub?.price || 0,
+    priceFormatted: formatPrice(pub?.price, pub?.currency),
+    mileage: v?.mileage || 0,
+    mileageFormatted: formatMileage(v?.mileage),
+    location: [pub?.province, pub?.city].filter(Boolean).join(', '),
+    image: firstImage,
+    sellerName: pub?.seller?.fullName || 'Vendedor'
+  };
+}
 
-    if (countEl) countEl.textContent = active + ' unidades';
-    if (insightEl) {
-      insightEl.textContent = active >= 3
-        ? 'Sigues teniendo una shortlist útil para comparar con criterio.'
-        : 'La lista se acortó. Conviene volver a buscar o subir nuevos candidatos.';
+function createCard(fav) {
+  const card = document.createElement('article');
+  card.className = 'favorites-buyer-card';
+  card.dataset.favId = fav.id;
+  card.dataset.publicationId = fav.publicationId;
+  card.innerHTML = `
+    <div class="fav-card-image" data-navigate="vehicles/detail/${fav.publicationId}">
+      <img src="${fav.image}" alt="${fav.brand} ${fav.model}" loading="lazy" />
+      <button type="button" class="fav-remove-btn" data-action="remove-fav" title="Quitar de favoritos">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="favorites-buyer-card-body">
+      <div class="fav-card-header">
+        <div>
+          <h3>${fav.brand} ${fav.model} ${fav.year}</h3>
+          <p class="fav-price">${fav.priceFormatted}</p>
+        </div>
+      </div>
+      <div class="fav-card-specs">
+        <span><i class="bi bi-speedometer2"></i> ${fav.mileageFormatted}</span>
+        <span><i class="bi bi-geo-alt"></i> ${fav.location}</span>
+      </div>
+      <div class="fav-card-actions">
+        <button type="button" class="favorites-buyer-ghost-btn" data-navigate="vehicles/detail/${fav.publicationId}">Ver detalle</button>
+        <button type="button" class="favorites-buyer-primary-btn">Contactar</button>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+function updateSidebar(count) {
+  const countEl = document.getElementById('favoritesCount');
+  const insightEl = document.getElementById('favoritesInsight');
+  if (countEl) countEl.textContent = count + ' ' + (count === 1 ? 'oportunidad' : 'oportunidades');
+  if (insightEl) {
+    insightEl.textContent = count >= 3
+      ? 'Tienes una lista util para comparar.'
+      : 'Agrega mas autos para tener una mejor comparativa.';
+  }
+}
+
+function showEmpty() {
+  const grid = document.getElementById('favoritesGrid');
+  if (grid) {
+    grid.innerHTML = '<div class="no-results">No tienes autos favoritos aun. Explora el home para agregar.</div>';
+  }
+}
+
+export default {
+  async init() {
+    const grid = document.getElementById('favoritesGrid');
+    if (!grid) return;
+
+    try {
+      const favApi = useFavorites();
+      const response = await favApi.getAll();
+      const favorites = response?.favorites || [];
+
+      if (favorites.length === 0) {
+        showEmpty();
+        updateSidebar(0);
+        return;
+      }
+
+      const normalized = favorites.map(normalizeFavorite);
+      grid.innerHTML = '';
+      normalized.forEach(fav => grid.appendChild(createCard(fav)));
+      updateSidebar(normalized.length);
+
+      grid.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-action="remove-fav"]');
+        if (!btn) return;
+        const card = btn.closest('.favorites-buyer-card');
+        if (!card) return;
+        const publicationId = card.dataset.publicationId;
+        if (!publicationId) return;
+
+        try {
+          await favApi.remove(publicationId);
+          card.remove();
+          const remaining = grid.querySelectorAll('.favorites-buyer-card').length;
+          updateSidebar(remaining);
+          if (remaining === 0) showEmpty();
+        } catch (err) {
+          console.error('[FAVORITES] Error removing favorite:', err.message);
+        }
+      });
+    } catch (err) {
+      console.error('[FAVORITES] Error loading favorites:', err.message);
+      showEmpty();
+      updateSidebar(0);
     }
   }
-
-  removeButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var card = button.closest('[data-favorite-card]');
-      if (!card) return;
-      card.classList.toggle('is-removed');
-      button.textContent = card.classList.contains('is-removed') ? 'Restaurar' : 'Quitar';
-      updateSummary();
-    });
-  });
-
-  document.querySelectorAll('[data-navigate]').forEach(function (el) {
-    el.addEventListener('click', function (e) {
-      e.preventDefault();
-      window.location.hash = el.getAttribute('data-navigate');
-    });
-  });
-
-  updateSummary();
-})();
+};

@@ -6,56 +6,8 @@
  * sin necesidad de un backend real
  */
 
-import CONFIG from '../config.js';
 import state from './state.js';
 import { useAuth } from '../hooks/useAuth.js';
-
-const INSPECTOR_MODE = CONFIG.INSPECTOR_MODE;
-
-let getInspectorData, findOrCreateConversation;
-const INSPECTOR_KEY = 'motormarket_inspector_session';
-
-if (INSPECTOR_MODE) {
-  const inspector = await import('../data/inspector-data.js');
-  getInspectorData = inspector.getInspectorData;
-  findOrCreateConversation = inspector.findOrCreateConversation;
-  console.log('[INSPECTOR] Mode:', INSPECTOR_MODE);
-}
-
-function initInspectorSession() {
-  if (!INSPECTOR_MODE) return;
-  console.log('[INSPECTOR] initInspectorSession called');
-  const saved = localStorage.getItem(INSPECTOR_KEY);
-  const data = getInspectorData();
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      data.session.role = parsed.role || 'buyer';
-      console.log('[INSPECTOR] Restored role from localStorage:', data.session.role);
-    } catch (e) {
-      console.warn('[INSPECTOR] Error parsing saved role:', e);
-    }
-  }
-  localStorage.setItem('motormarket_session', JSON.stringify(data.session));
-  console.log('[INSPECTOR] Session saved to localStorage:', data.session);
-}
-
-function toggleInspectorRole() {
-  if (!INSPECTOR_MODE) return;
-  const data = getInspectorData();
-  const newRole = data.session.role === 'buyer' ? 'seller' : 'buyer';
-  data.session.role = newRole;
-  data.session.roles = [newRole];
-  localStorage.setItem(INSPECTOR_KEY, JSON.stringify({ role: newRole }));
-  localStorage.setItem('motormarket_session', JSON.stringify(data.session));
-  window.location.reload();
-}
-
-if (INSPECTOR_MODE) {
-  window.getInspectorData = getInspectorData;
-  window.toggleInspectorRole = toggleInspectorRole;
-  window.findOrCreateConversation = findOrCreateConversation;
-}
 
 const routes = {
   '': { template: 'src/views/home/index.html', script: 'src/views/home/index.js', title: 'MotorMarket | Autos usados con IA' },
@@ -67,12 +19,15 @@ const routes = {
   
   'vehicles/detail': { template: 'src/views/vehicles/detail.html', script: 'src/views/vehicles/detail.js', title: 'Detalle del auto | MotorMarket' },
   'vehicles/add': { template: 'src/views/vehicles/add.html', script: 'src/views/vehicles/add.js', title: 'Publicar vehiculo | MotorMarket' },
+  'vehicles/compare': { template: 'src/views/vehicles/compare.html', script: 'src/views/vehicles/compare.js', title: 'Comparar | MotorMarket' },
   
   'user/buyer/menu': { template: 'src/views/user/buyer/menu-buyer.html', script: 'src/views/user/buyer/menu-buyer.js', title: 'Menu comprador | MotorMarket' },
   'user/buyer/profile': { template: 'src/views/user/buyer/profile-buyer.html', script: 'src/views/user/buyer/profile-buyer.js', title: 'Gestionar perfil comprador | MotorMarket' },
   'user/buyer/favorites': { template: 'src/views/user/buyer/favorites.html', script: 'src/views/user/buyer/favorites.js', title: 'Favoritos | MotorMarket' },
   'user/buyer/investment-advisor': { template: 'src/views/user/buyer/investment-advisor.html', script: 'src/views/user/buyer/investment-advisor.js', title: 'Insights IA | MotorMarket' },
   
+  'notifications': { template: 'src/views/notifications/list.html', script: 'src/views/notifications/list.js', title: 'Notificaciones | MotorMarket' },
+  'user/saved-searches': { template: 'src/views/user/saved-searches/list.html', script: 'src/views/user/saved-searches/list.js', title: 'Búsquedas guardadas | MotorMarket' },
   'messages/buyer': { template: 'src/views/messages/buyer/list.html', script: 'src/views/messages/buyer/list.js', title: 'Mensajes | MotorMarket' },
   'messages/buyer/chat': { template: 'src/views/messages/buyer/chat.html', script: 'src/views/messages/buyer/chat.js', title: 'Chat | MotorMarket' },
   
@@ -84,11 +39,12 @@ const routes = {
   'user/seller/publications': { template: 'src/views/user/seller/publications.html', script: 'src/views/user/seller/publications.js', title: 'Mis publicaciones | MotorMarket' },
   
   'admin/menu': { template: 'src/views/admin/menu-admin.html', script: 'src/views/admin/menu-admin.js', title: 'Menu administrador | MotorMarket' },
-  'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: null, title: 'Alertas | MotorMarket' },
-  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: null, title: 'Analíticas | MotorMarket' },
-  'admin/engine': { template: 'src/views/admin/engine-admin.html', script: null, title: 'Motor | MotorMarket' },
-  'admin/users': { template: 'src/views/admin/users-admin.html', script: null, title: 'Gestión de Usuarios | MotorMarket' },
+  'admin/alerts': { template: 'src/views/admin/alerts-admin.html', script: 'src/views/admin/alerts-admin.js', title: 'Alertas | MotorMarket' },
+  'admin/analytics': { template: 'src/views/admin/analytics-admin.html', script: 'src/views/admin/analytics-admin.js', title: 'Analíticas | MotorMarket' },
+  'admin/engine': { template: 'src/views/admin/engine-admin.html', script: 'src/views/admin/engine-admin.js', title: 'Motor | MotorMarket' },
+  'admin/users': { template: 'src/views/admin/users-admin.html', script: 'src/views/admin/users-admin.js', title: 'Gestión de Usuarios | MotorMarket' },
   'admin/publications': { template: 'src/views/admin/publications-admin.html', script: 'src/views/admin/publications-admin.js', title: 'Moderación de Avisos | MotorMarket' },
+  'dashboard': { template: 'src/views/dashboard/index.html', script: 'src/views/dashboard/index.js', title: 'Dashboard | MotorMarket' },
 
 
   'user/seller/sales': { template: 'src/views/user/seller/sales.html', script: 'src/views/user/seller/sales.js', title: 'Ventas | MotorMarket' },
@@ -124,7 +80,7 @@ function extractViewName(hash) {
   if (hash.startsWith('vehicles/detail')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.carDetailId = parts[2];
+      state.setParams({ carDetailId: parts[2] });
       return 'vehicles/detail';
     }
     return 'vehicles/detail';
@@ -133,7 +89,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/buyer/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatId = parts[2];
+      state.setParams({ chatId: parts[2] });
     }
     return 'messages/buyer/chat';
   }
@@ -141,7 +97,7 @@ function extractViewName(hash) {
   if (hash.startsWith('messages/seller/chat')) {
     const parts = hash.split('/');
     if (parts.length >= 3) {
-      window.chatId = parts[2];
+      state.setParams({ chatId: parts[2] });
     }
     return 'messages/seller/chat';
   }
@@ -153,14 +109,22 @@ function extractViewName(hash) {
 }
 
 async function loadView(viewName) {
+  // Global Admin Guard
+  if (viewName.startsWith('admin/') && !state.hasAdminAccess()) {
+    console.warn(`[ROUTER] Acceso denegado a "${viewName}". Redirigiendo a home.`);
+    navigateTo('home');
+    return;
+  }
+
   const route = routes[viewName];
   if (!route) {
-    console.error(`Vista no encontrada: ${viewName}`);
+    console.error(`[ROUTER] Vista no encontrada: "${viewName}" (Hash: ${window.location.hash})`);
     navigateTo('home');
     return;
   }
 
   const app = document.getElementById('app');
+  app.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div><div class="loading-text">Cargando...</div></div>';
   
   try {
     const response = await fetch(route.template);
@@ -171,6 +135,9 @@ async function loadView(viewName) {
     document.title = route.title;
 
     if (currentScriptModule) {
+      if (typeof currentScriptModule.destroy === 'function') {
+        currentScriptModule.destroy();
+      }
       currentScriptModule = null;
     }
 
@@ -178,7 +145,7 @@ async function loadView(viewName) {
       try {
         const scriptPath = '/' + route.script;
         console.log('[ROUTER] Loading script:', scriptPath);
-        const module = await import(scriptPath);
+        const module = await import(`${scriptPath}?v=${Date.now()}`);
         if (module.default && typeof module.default.init === 'function') {
           currentScriptModule = module.default;
           currentScriptModule.init();
@@ -197,18 +164,24 @@ async function loadView(viewName) {
   }
 }
 
+let navigationInitialized = false;
+
 function setupNavigation() {
-  document.querySelectorAll('[data-navigate]').forEach(el => {
-    el.addEventListener('click', e => {
+  if (navigationInitialized) return;
+  navigationInitialized = true;
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-navigate]');
+    if (el) {
       e.preventDefault();
       const view = el.dataset.navigate?.split('?')[0];
       if (view) navigateTo(view);
-    });
+    }
   });
 }
 
 function handleRouteChange() {
   const hash = window.location.hash.slice(1);
+  state.clearParams(); // Clear before extracting new ones
   const viewName = extractViewName(hash);
   loadView(viewName);
 }
@@ -220,18 +193,16 @@ window.navigateTo = navigateTo;
 export { navigateTo, handleRouteChange };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if (INSPECTOR_MODE) {
-    initInspectorSession();
-    console.log('[INSPECTOR] State initialized, isLoggedIn:', state.isLoggedIn());
-  }
   state.init();
 
-  if (!INSPECTOR_MODE && state.isLoggedIn()) {
+  if (state.isLoggedIn()) {
     try {
       const auth = useAuth();
-      await auth.me();
+      await auth.me(); // Wait for session data to be fully loaded
+      console.log('[ROUTER] Session refreshed:', state.getRole());
     } catch (err) {
       console.warn('Sesión expirada o inválida:', err.message);
+      state.clearSession();
     }
   }
 

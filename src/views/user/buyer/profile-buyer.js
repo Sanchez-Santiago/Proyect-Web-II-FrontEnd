@@ -1,9 +1,96 @@
 import { navigateTo } from '../../../core/router.js';
+import { useAuth } from '../../../hooks/useAuth.js';
+import { useApi } from '../../../hooks/useApi.js';
+import state from '../../../core/state.js';
 
 export default {
-  init() {
-    this.setupForm();
+  async init() {
     this.setupNavigation();
+    await this.loadProfile();
+    this.setupProfileForm();
+    this.setupPasswordForm();
+  },
+
+  async loadProfile() {
+    const nameInput = document.getElementById('buyerName');
+    const emailInput = document.getElementById('buyerEmail');
+
+    const session = state.getSession();
+    if (session) {
+      if (nameInput) nameInput.value = session.name || '';
+      if (emailInput) emailInput.value = session.email || '';
+    }
+
+    try {
+      const auth = useAuth();
+      const user = await auth.me();
+      if (user) {
+        if (nameInput) nameInput.value = user.name || '';
+        if (emailInput) emailInput.value = user.email || '';
+      }
+    } catch (err) {
+      console.warn('No se pudo cargar perfil desde API:', err.message);
+    }
+  },
+
+  setupProfileForm() {
+    const form = document.getElementById('buyerProfileForm');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = document.getElementById('buyerProfileMessage');
+      if (message) {
+        message.textContent = 'Perfil guardado exitosamente!';
+        message.classList.remove('error');
+        message.classList.add('success');
+      }
+      setTimeout(() => navigateTo('user/buyer/menu'), 1000);
+    });
+  },
+
+  setupPasswordForm() {
+    const form = document.getElementById('buyerChangePasswordForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const current = document.getElementById('buyerCurrentPassword');
+      const newPw = document.getElementById('buyerNewPassword');
+      const msg = document.getElementById('buyerPasswordMessage');
+
+      if (!current || !newPw || !msg) return;
+
+      const newVal = newPw.value.trim();
+      if (newVal.length < 8 || !/[A-Z]/.test(newVal) || !/[0-9]/.test(newVal)) {
+        msg.textContent = 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número.';
+        msg.classList.add('error');
+        return;
+      }
+
+      msg.textContent = 'Cambiando contraseña...';
+      msg.className = 'form-message';
+
+      try {
+        console.log('[PROFILE] Changing password...');
+        const api = useApi('/auth');
+        const response = await api.post('/change-password', {
+          currentPassword: current.value,
+          newPassword: newVal
+        });
+        console.log('[PROFILE] Password changed successfully:', response);
+        msg.textContent = 'Contraseña cambiada exitosamente!';
+        msg.classList.remove('error');
+        msg.classList.add('success');
+        current.value = '';
+        newPw.value = '';
+      } catch (err) {
+        console.error('[PROFILE] Password change error:', err);
+        msg.textContent = err.message || 'Error al cambiar la contraseña.';
+        msg.classList.remove('success');
+        msg.classList.add('error');
+      }
+    });
   },
 
   setupNavigation() {
@@ -14,104 +101,5 @@ export default {
         navigateTo(view);
       });
     });
-  },
-
-  setupForm() {
-    const form = document.getElementById('buyerProfileForm');
-    const message = document.getElementById('buyerProfileMessage');
-    const stage = document.getElementById('buyerProfileStage');
-    const completionText = document.getElementById('buyerCompletionText');
-    const completionBar = document.getElementById('buyerCompletionBar');
-
-    if (!form) return;
-
-    const fields = [
-      'buyerName', 'buyerEmail', 'buyerPhone', 'buyerProvince', 'buyerCity',
-      'buyerVehicleType', 'buyerBudget', 'buyerUsage', 'buyerContactChannel',
-      'buyerPreferences', 'buyerYearsRange', 'buyerBrands', 'buyerTransmission',
-      'buyerFuel', 'buyerMaxMileage', 'buyerAiPriority'
-    ];
-
-    function updateProgress() {
-      const filled = fields.filter(id => {
-        const el = document.getElementById(id);
-        return el && el.value.trim() !== '';
-      }).length;
-      
-      const percent = Math.round((filled / fields.length) * 100);
-      completionText.textContent = percent + '%';
-      completionBar.style.width = percent + '%';
-
-      if (percent >= 80) {
-        stage.textContent = 'Completo';
-      } else if (percent >= 40) {
-        stage.textContent = 'En progreso';
-      } else {
-        stage.textContent = 'Incompleto';
-      }
-    }
-
-    function updateLabels() {
-      const budget = document.getElementById('buyerBudget');
-      const vehicleType = document.getElementById('buyerVehicleType');
-      const province = document.getElementById('buyerProvince');
-      const alerts = document.getElementById('buyerAlerts');
-
-      const budgetLabels = {
-        'hasta-10m': 'Hasta 10M',
-        '10m-20m': '10-20M',
-        '20m-35m': '20-35M',
-        'mas-35m': 'Mas de 35M'
-      };
-
-      const vehicleLabels = {
-        'sedan': 'Sedan',
-        'suv': 'SUV',
-        'pickup': 'Pickup',
-        'hatchback': 'Hatchback',
-        'utilitario': 'Utilitario',
-        'cualquiera': 'Varias opciones'
-      };
-
-      document.getElementById('buyerBudgetLabel').textContent = 
-        budget?.value ? (budgetLabels[budget.value] || budget.value) : 'Sin definir';
-      document.getElementById('buyerVehicleLabel').textContent = 
-        vehicleType?.value ? (vehicleLabels[vehicleType.value] || vehicleType.value) : 'Sin definir';
-      document.getElementById('buyerLocationLabel').textContent = 
-        province?.value ? province.value : 'Sin definir';
-      document.getElementById('buyerAlertsLabel').textContent = 
-        alerts?.checked ? 'Si' : 'No';
-    }
-
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.addEventListener('input', () => {
-          updateProgress();
-          updateLabels();
-        });
-        el.addEventListener('change', () => {
-          updateProgress();
-          updateLabels();
-        });
-      }
-    });
-
-    const alerts = document.getElementById('buyerAlerts');
-    if (alerts) {
-      alerts.addEventListener('change', updateLabels);
-    }
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (message) {
-        message.textContent = 'Perfil guardado exitosamente!';
-        message.classList.remove('error');
-        message.classList.add('success');
-      }
-      setTimeout(() => navigateTo('menu-buyer'), 1000);
-    });
-
-    updateProgress();
   }
 };
