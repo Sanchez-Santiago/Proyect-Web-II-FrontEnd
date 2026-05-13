@@ -4,7 +4,7 @@
   "description": "Plataforma SPA de compra y venta de autos usados con asistencia de IA",
   "private": true,
   "scripts": {
-    "config": "bash scripts/generate-config.sh",
+    "config": "node scripts/generate-config.js",
     "build": "npm run config",
     "start": "npm run config && http-server -p 8000",
     "dev": "npm run config && http-server -p 8000 -c-1"

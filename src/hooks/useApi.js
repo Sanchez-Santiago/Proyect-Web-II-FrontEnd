@@ -71,9 +71,13 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
     }
   };
 
+  // Normalizar baseUrl y endpoint para evitar double slashes (//)
+  const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  
   const url = body && method === 'GET'
-    ? `${baseUrl}${endpoint}?${new URLSearchParams(body)}`
-    : `${baseUrl}${endpoint}`;
+    ? `${base}${path}?${new URLSearchParams(body)}`
+    : `${base}${path}`;
 
   if (body && method !== 'GET') {
     options.body = JSON.stringify(body);
