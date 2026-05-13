@@ -15,17 +15,9 @@ if (fs.existsSync(envPath)) {
 }
 
 // Configuración de variables con valores por defecto
-const IS_NETLIFY = process.env.NETLIFY === 'true';
-let API_BASE_URL = process.env.API_BASE_URL;
-
-if (!API_BASE_URL) {
-  if (IS_NETLIFY) {
-    console.error('❌ ERROR: La variable API_BASE_URL no está definida en Netlify.');
-    console.error('   Por favor, ve a Site Settings > Build & deploy > Environment variables y agrégala.');
-    process.exit(1);
-  }
-  API_BASE_URL = 'http://localhost:3000';
-}
+// Hardcodeamos la URL de Render como fallback para asegurar que funcione el despliegue
+const DEFAULT_API_URL = 'https://proyect-web-ii-backend.onrender.com';
+let API_BASE_URL = process.env.API_BASE_URL || DEFAULT_API_URL;
 
 const INSPECTOR_MODE = process.env.INSPECTOR_MODE || 'false';
 
