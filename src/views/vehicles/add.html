@@ -1,0 +1,211 @@
+<div class="menu-seller-page">
+  <div class="menu-seller-layout">
+    <aside class="menu-seller-sidebar">
+      <div class="menu-seller-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Seller Console</small>
+        </div>
+      </div>
+      <nav class="menu-seller-nav">
+        <a href="#user/seller/menu" data-navigate="user/seller/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span><strong>Dashboard</strong><small>Estado de ventas</small></span>
+        </a>
+        <a href="#user/seller/publications" data-navigate="user/seller/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span><strong>Mis publicaciones</strong><small>Gestiona tus avisos</small></span>
+        </a>
+        <a class="is-active" href="#vehicles/add" data-navigate="vehicles/add">
+          <i class="bi bi-plus-square-fill"></i>
+          <span><strong>Crear publicacion</strong><small>Carga asistida por IA</small></span>
+        </a>
+        <a href="#messages/seller" data-navigate="messages/seller">
+          <i class="bi bi-chat-dots-fill"></i>
+          <span><strong>Mensajes</strong><small>Conversaciones</small></span>
+        </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span><strong>Notificaciones</strong><small>Alertas y novedades</small></span>
+        </a>
+        <a href="#user/seller/sales" data-navigate="user/seller/sales">
+          <i class="bi bi-cash-stack"></i>
+          <span><strong>Ventas</strong><small>Historial y cierres</small></span>
+        </a>
+        <a href="#user/seller/insights" data-navigate="user/seller/insights">
+          <i class="bi bi-stars"></i>
+          <span><strong>Insights IA</strong><small>Recomendaciones</small></span>
+        </a>
+        <a href="#user/seller/profile" data-navigate="user/seller/profile">
+          <i class="bi bi-person-fill"></i>
+          <span><strong>Perfil</strong><small>Configuracion</small></span>
+        </a>
+        <div class="menu-seller-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span><strong>Volver al Home</strong><small>Salir de la consola</small></span>
+        </a>
+      </nav>
+      <div class="menu-seller-sidebar-note">
+        <span>Radar comercial</span>
+        <strong>11 leads calientes</strong>
+        <p>Dos oportunidades de cierre subieron de prioridad en las ultimas horas.</p>
+      </div>
+    </aside>
+    <main class="menu-seller-main">
+      <header class="menu-seller-topbar">
+        <div>
+          <nav class="menu-seller-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a class="is-current" href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-seller-kicker">Publicar</span>
+          <h1>Crear publicacion con IA</h1>
+        </div>
+      </header>
+      <section class="add-vehicle-view">
+        <div class="add-vehicle-shell">
+          <form id="addVehicleForm" class="add-vehicle-form seller-form-layout" novalidate>
+            <article class="seller-form-card">
+              <div class="seller-section-head">
+                <span class="seller-section-step">01</span>
+                <div>
+                  <span class="seller-section-step-label">Datos basicos</span>
+                  <h2>Marca, modelo y precio</h2>
+                </div>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-4">
+                  <label for="vehicleBrand" class="form-label">Marca *</label>
+                  <select id="vehicleBrand" name="brand" class="form-select form-select-lg" required>
+                    <option value="">Selecciona</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="vehicleModel" class="form-label">Modelo *</label>
+                  <input id="vehicleModel" name="model" type="text" class="form-control form-control-lg" placeholder="Corolla XEi" required />
+                </div>
+                <div class="col-md-4">
+                  <label for="vehicleYear" class="form-label">Ano *</label>
+                  <select id="vehicleYear" name="year" class="form-select form-select-lg" required>
+                    <option value="">Selecciona</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="vehiclePrice" class="form-label">Precio (ARS) *</label>
+                  <input id="vehiclePrice" name="price" type="number" class="form-control form-control-lg" placeholder="14500000" required />
+                </div>
+                <div class="col-md-4">
+                  <label for="vehicleMileage" class="form-label">Kilometraje</label>
+                  <input id="vehicleMileage" name="mileage" type="number" class="form-control form-control-lg" placeholder="50000" />
+                </div>
+                <div class="col-md-4">
+                  <label for="vehicleType" class="form-label">Tipo</label>
+                  <select id="vehicleType" name="vehicleType" class="form-select form-select-lg" required>
+                    <option value="">Selecciona</option>
+                  </select>
+                </div>
+              </div>
+            </article>
+            <article class="seller-form-card">
+              <div class="seller-section-head">
+                <span class="seller-section-step">02</span>
+                <div>
+                  <span class="seller-section-step-label">Detalles</span>
+                  <h2>Informacion adicional</h2>
+                </div>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-3">
+                  <label for="vehicleFuel" class="form-label">Combustible</label>
+                  <select id="vehicleFuel" name="fuelType" class="form-select form-select-lg">
+                    <option value="">Selecciona</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="vehicleTransmission" class="form-label">Transmision</label>
+                  <select id="vehicleTransmission" name="transmission" class="form-select form-select-lg">
+                    <option value="">Selecciona</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="vehicleColor" class="form-label">Color</label>
+                  <input id="vehicleColor" name="color" type="text" class="form-control form-control-lg" placeholder="Negro" />
+                </div>
+                <div class="col-md-3">
+                  <label for="vehicleAccidents" class="form-label">Accidentes</label>
+                  <input id="vehicleAccidents" name="accidents" type="text" class="form-control form-control-lg" placeholder="Ninguno" />
+                </div>
+              </div>
+            </article>
+            <article class="seller-form-card">
+              <div class="seller-section-head">
+                <span class="seller-section-step">03</span>
+                <div>
+                  <span class="seller-section-step-label">Ubicacion</span>
+                  <h2>Lugar de venta</h2>
+                </div>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="vehicleProvince" class="form-label">Provincia *</label>
+                  <input id="vehicleProvince" name="province" type="text" class="form-control form-control-lg" placeholder="Cordoba" required />
+                </div>
+                <div class="col-md-6">
+                  <label for="vehicleCity" class="form-label">Ciudad *</label>
+                  <input id="vehicleCity" name="city" type="text" class="form-control form-control-lg" placeholder="Capital" required />
+                </div>
+              </div>
+            </article>
+            <article class="seller-form-card">
+              <div class="seller-section-head">
+                <span class="seller-section-step">04</span>
+                <div>
+                  <span class="seller-section-step-label">Descripcion</span>
+                  <h2>Descripcion del vehiculo</h2>
+                </div>
+              </div>
+              <button type="button" id="generateAiDescription" class="seller-ai-btn mb-3">
+                <i class="bi bi-stars me-1"></i>Generar descripcion con IA
+              </button>
+              <div class="mb-3">
+                <textarea id="vehicleDescription" name="description" class="form-control form-control-lg" rows="5" placeholder="Describi tu vehiculo..." required></textarea>
+              </div>
+            </article>
+            <article class="seller-form-card">
+              <div class="seller-section-head">
+                <span class="seller-section-step">05</span>
+                <div>
+                  <span class="seller-section-step-label">Fotos</span>
+                  <h2>Sube fotos de tu vehiculo</h2>
+                </div>
+              </div>
+              <div class="add-vehicle-images">
+                <div class="image-upload-area" id="imageUploadArea">
+                  <i class="bi bi-cloud-arrow-up"></i>
+                  <p class="image-upload-text">Arrastra tus fotos aqui</p>
+                  <p class="image-upload-hint">o hace clic para seleccionar archivos</p>
+                  <label for="vehicleImages" class="image-upload-btn">Elegir fotos</label>
+                  <input type="file" id="vehicleImages" name="images" accept="image/*" multiple hidden />
+                </div>
+                <div class="image-preview-grid" id="imagePreviewGrid"></div>
+                <div class="image-upload-footer" id="imageUploadFooter"></div>
+              </div>
+            </article>
+            <div class="seller-form-card form-actions-card">
+              <div class="form-actions-row">
+                <button type="button" class="seller-secondary-btn" data-navigate="user/seller/menu">Cancelar</button>
+                <button type="submit" class="seller-primary-btn">
+                  <i class="bi bi-rocket-takeoff me-1"></i>Publicar con IA
+                </button>
+              </div>
+            </div>
+          </form>
+          <div id="addVehicleMessage" class="seller-form-message" style="margin-top:1rem;"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

@@ -1,0 +1,207 @@
+<div class="menu-admin-page">
+  <div class="menu-admin-layout">
+    <aside class="menu-admin-sidebar">
+      <div class="menu-admin-brand">
+        <span>MM</span>
+        <div>
+          <strong>MotorMarket</strong>
+          <small>AI Admin Console</small>
+        </div>
+      </div>
+      
+      <nav class="menu-admin-nav">
+        <a class="is-active" href="#admin/menu" data-navigate="admin/menu">
+          <i class="bi bi-house-door-fill"></i>
+          <span>
+            <strong>Dashboard</strong>
+            <small>Estado global</small>
+          </span>
+        </a>
+        <a href="#admin/users" data-navigate="admin/users">
+          <i class="bi bi-people-fill"></i>
+          <span>
+            <strong>Usuarios</strong>
+            <small>Fraude y actividad</small>
+          </span>
+        </a>
+        <a href="#admin/publications" data-navigate="admin/publications">
+          <i class="bi bi-car-front-fill"></i>
+          <span>
+            <strong>Publicaciones</strong>
+            <small>Moderacion</small>
+          </span>
+        </a>
+        <a href="#admin/engine" data-navigate="admin/engine">
+          <i class="bi bi-cpu-fill"></i>
+          <span>
+            <strong>Motor IA</strong>
+            <small>Precision y reglas</small>
+          </span>
+        </a>
+        <a href="#admin/analytics" data-navigate="admin/analytics">
+          <i class="bi bi-bar-chart-fill"></i>
+          <span>
+            <strong>Analíticas</strong>
+            <small>Embudo y conversion</small>
+          </span>
+        </a>
+        <a href="#admin/alerts" data-navigate="admin/alerts">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          <span>
+            <strong>Alertas</strong>
+            <small>Criticas y anomalias</small>
+          </span>
+        </a>
+        <a href="#notifications" data-navigate="notifications">
+          <i class="bi bi-bell-fill"></i>
+          <span>
+            <strong>Notificaciones</strong>
+            <small>Avisos del sistema</small>
+          </span>
+        </a>
+        <div class="menu-admin-nav-divider"></div>
+        <a class="nav-back-home" href="#home" data-navigate="home">
+          <i class="bi bi-box-arrow-left"></i>
+          <span>
+            <strong>Volver al Home</strong>
+            <small>Salir de la consola</small>
+          </span>
+        </a>
+      </nav>
+      
+      <div class="menu-admin-sidebar-note">
+        <span>Radar IA</span>
+        <strong>32 alertas activas</strong>
+        <p>Siete alertas requieren revision inmediata por riesgo comercial o fraude.</p>
+      </div>
+    </aside>
+    
+    <main class="menu-admin-main">
+      <header class="menu-admin-topbar">
+        <div>
+          <nav class="menu-admin-workspace-switch" aria-label="Cambiar menu">
+            <a href="#user/buyer/menu" data-navigate="user/buyer/menu">Comprador</a>
+            <a href="#user/seller/menu" data-navigate="user/seller/menu">Vendedor</a>
+            <a class="is-current" href="#admin/menu" data-navigate="admin/menu">Admin</a>
+          </nav>
+          <span class="menu-admin-kicker">Inicio</span>
+          <h1>Tu operacion necesita control inteligente, no solo supervision manual.</h1>
+        </div>
+        <div class="menu-admin-top-actions">
+          <button type="button" class="menu-admin-ghost-btn">Ver alertas</button>
+          <button type="button" class="menu-admin-primary-btn">Abrir motor IA</button>
+        </div>
+      </header>
+      
+      <section class="menu-admin-hero">
+        <article class="menu-admin-hero-card">
+          <div class="menu-admin-hero-copy">
+            <span class="menu-admin-chip">Insight critico</span>
+            <h2>Segmento SUV creciendo en Cordoba</h2>
+            <p>La IA detecta suba de demanda, caida de conversion y avisos sobrevaluados que frenan el rendimiento del embudo.</p>
+            <div class="menu-admin-hero-actions">
+              <button type="button" class="menu-admin-primary-btn">Ver analytics</button>
+              <button type="button" class="menu-admin-ghost-btn">Revisar publicaciones</button>
+            </div>
+          </div>
+          
+          <div class="menu-admin-hero-visual">
+            <img
+              src="https://picsum.photos/seed/ph45fc2ef4/800/600"
+              alt="SUV destacado para analitica"
+            />
+            <div class="menu-admin-score">
+              <strong id="adminAlertCount">0</strong>
+              <span>Alertas IA</span>
+            </div>
+          </div>
+        </article>
+        
+        <aside class="menu-admin-ai-panel">
+          <span class="menu-admin-chip">Copiloto del negocio</span>
+          <h3>Esto deberias mirar ahora</h3>
+          <blockquote>
+            "Refuerza el control de precios en SUV y aumenta la vigilancia antifraude sobre cuentas nuevas con actividad inusual."
+          </blockquote>
+          <div class="menu-admin-ai-metrics">
+            <div>
+              <span>Riesgo actual</span>
+              <strong>Medio / Alto</strong>
+            </div>
+            <div>
+              <span>Zona critica</span>
+              <strong>Cordoba</strong>
+            </div>
+          </div>
+        </aside>
+      </section>
+      
+      <section class="menu-admin-car-grid">
+        <article class="menu-admin-car-card">
+          <img
+            src="https://picsum.photos/seed/ph45fc2ef4/800/600"
+            alt="Publicacion SUV"
+          />
+          <div class="menu-admin-car-body">
+            <div class="menu-admin-car-head">
+              <div>
+                <h3>Publicacion SUV Premium</h3>
+                <p>Sobreprecio detectado</p>
+              </div>
+              <span class="menu-admin-car-score" id="adminMatchScore">87%</span>
+            </div>
+            <div class="menu-admin-car-meta">
+              <span><i class="bi bi-graph-up-arrow"></i> +18% interes</span>
+              <span><i class="bi bi-exclamation-diamond-fill"></i> riesgo medio</span>
+            </div>
+            <div class="menu-admin-car-actions">
+              <button type="button" class="menu-admin-ghost-btn">Auditar</button>
+              <button type="button" class="menu-admin-primary-btn">Moderar</button>
+            </div>
+          </div>
+        </article>
+        
+        <article class="menu-admin-car-card">
+          <img
+            src="https://picsum.photos/seed/ph45fc2ef4/800/600"
+            alt="Cuenta sospechosa"
+          />
+          <div class="menu-admin-car-body">
+            <div class="menu-admin-car-head">
+              <div>
+                <h3>Cuenta nueva sospechosa</h3>
+                <p>Patron de spam anomalo</p>
+              </div>
+              <span class="menu-admin-car-score">91%</span>
+            </div>
+            <div class="menu-admin-car-meta">
+              <span><i class="bi bi-person-fill-exclamation"></i> 4 reportes</span>
+              <span><i class="bi bi-shield-fill-exclamation"></i> riesgo alto</span>
+            </div>
+            <div class="menu-admin-car-actions">
+              <button type="button" class="menu-admin-ghost-btn">Ver cuenta</button>
+              <button type="button" class="menu-admin-primary-btn">Bloquear</button>
+            </div>
+          </div>
+        </article>
+        
+        <article class="menu-admin-chat-card">
+          <div class="menu-admin-chat-head">
+            <span class="menu-admin-chip">Asistente IA</span>
+            <strong>Control ejecutivo</strong>
+          </div>
+          <div class="menu-admin-chat-bubble is-ai">
+            Hay una baja de conversion en Cordoba asociada a sobreprecio y respuesta lenta en publicaciones nuevas.
+          </div>
+          <div class="menu-admin-chat-bubble is-user">
+            Mostrame cuentas sospechosas y avisos a revisar hoy.
+          </div>
+          <div class="menu-admin-chat-input">
+            <input type="text" value="Genera un resumen ejecutivo con alertas criticas." readonly />
+            <button type="button"><i class="bi bi-arrow-up-right"></i></button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>

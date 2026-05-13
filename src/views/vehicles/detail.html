@@ -1,0 +1,131 @@
+<div class="car-detail-page">
+  <header class="car-detail-header">
+    <div class="car-detail-header-content">
+      <button type="button" class="car-detail-back" onclick="window.history.back()">
+        <i class="bi bi-arrow-left"></i>
+        Volver
+      </button>
+      <div class="car-detail-actions">
+        <button type="button" class="car-detail-action" data-action="favorite" id="favoriteBtn">
+          <i class="bi bi-heart"></i>
+          Guardar
+        </button>
+        <button type="button" class="car-detail-action" data-action="report" style="color:#ef4444;">
+          <i class="bi bi-flag"></i>
+          Reportar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="car-detail-main">
+    <div class="car-detail-grid">
+      <div class="car-detail-gallery">
+        <div class="car-main-image">
+          <img id="carMainImage" src="" alt="Auto" />
+          <div class="car-score-badge" id="carScore"></div>
+        </div>
+      </div>
+
+      <div class="car-detail-info">
+        <div class="car-detail-header-info">
+          <div>
+            <span class="car-detail-tag" id="carLocation"></span>
+            <h1 id="carTitle"></h1>
+            <p class="car-detail-price" id="carPrice"></p>
+          </div>
+        </div>
+
+        <div class="car-detail-specs" id="carSpecs"></div>
+
+        <div class="car-detail-state">
+          <h3>Estado del vehículo</h3>
+        </div>
+
+        <div class="car-detail-description">
+          <h3>Descripción</h3>
+          <p>Excelente vehículo en óptimas condiciones. Service oficial, sin deuda de patentes. Listo para transferir. Accepta permuta.</p>
+        </div>
+
+        <div class="car-detail-seller">
+          <h3>Vendedor</h3>
+          <div class="car-detail-seller-card">
+            <div class="car-detail-seller-avatar">
+              <i class="bi bi-person-circle"></i>
+            </div>
+            <div class="car-detail-seller-info">
+              <strong id="sellerName"></strong>
+              <span id="sellerType"></span>
+              <span class="seller-verified" id="sellerVerified"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-detail-documents" id="documentsSection" style="display:none;">
+          <h3>Documentos</h3>
+          <div id="documentsList"></div>
+          <div class="documents-upload" id="documentsUploadArea">
+            <div class="documents-upload-header">
+              <i class="bi bi-file-earmark-plus"></i>
+              <span>Agregar documento</span>
+            </div>
+            <div class="documents-upload-form" style="display:none;">
+              <select id="documentTypeSelect" class="form-select form-select-sm">
+                <option value="TITLE">Título de propiedad</option>
+                <option value="VTV">VTV / ITV</option>
+                <option value="INSURANCE">Seguro</option>
+                <option value="REGISTRATION">Cédula / Registro</option>
+                <option value="TRANSFER">Transferencia</option>
+                <option value="OTHER">Otro</option>
+              </select>
+              <input id="documentFileInput" type="file" accept=".pdf,.jpg,.jpeg,.png" class="form-control form-control-sm" />
+              <button id="uploadDocumentBtn" type="button" class="car-detail-primary-btn" style="padding:0.5rem 1rem;font-size:0.85rem;">
+                <i class="bi bi-upload"></i> Subir
+              </button>
+              <div id="documentUploadMessage" style="margin-top:0.5rem;font-size:0.85rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-detail-buttons">
+          <button type="button" class="car-detail-primary-btn" data-action="contact">
+            <i class="bi bi-chat-dots"></i>
+            Enviar mensaje
+          </button>
+          <button type="button" class="car-detail-secondary-btn" data-action="buy">
+            <i class="bi bi-cart"></i>
+            Comprar ahora
+          </button>
+          <button type="button" class="car-detail-compare-btn" data-action="compare">
+            <i class="bi bi-arrow-left-right"></i>
+            Comparar
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="car-detail-ai">
+    <div class="car-detail-ai-content">
+      <div class="car-detail-ai-header">
+        <span class="car-detail-ai-tag">Análisis IA</span>
+        <h3>Resumen inteligente</h3>
+      </div>
+      <p>Este vehículo ofrece un buen equilibrio entre precio y condición. El kilometraje está dentro del rango esperado para su año. Recomendamos verificar el historial de service y solicitar inspección mecánica.</p>
+      <div class="car-detail-ai-metrics">
+        <div class="car-detail-ai-metric">
+          <span>Precio vs mercado</span>
+          <strong class="positive">Por debajo</strong>
+        </div>
+        <div class="car-detail-ai-metric">
+          <span>Estado general</span>
+          <strong class="positive">Bueno</strong>
+        </div>
+        <div class="car-detail-ai-metric">
+          <span>Demanda</span>
+          <strong class="neutral">Moderada</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
