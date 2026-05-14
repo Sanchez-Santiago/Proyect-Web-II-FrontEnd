@@ -194,12 +194,16 @@ export default {
   async loadBuyerContent(container) {
     try {
       const api = useApi();
-      const favsResponse = await api.get('/favorites').catch(() => ({ favorites: [] }));
+      const [favsResponse, viewsResponse, notifsResponse, recommendationsRes] = await Promise.all([
+        api.get('/favorites').catch(() => ({ favorites: [] })),
+        api.get('/vehicle-views/my-views').catch(() => ({ count: 0 })),
+        api.get('/notifications').catch(() => ({ notifications: [] })),
+        api.get('/publications/filters', { limit: 3, status: 'ACTIVE' }).catch(() => ({ publications: [] })),
+      ]);
       const favs = favsResponse.favorites || [];
       const favCount = favs.length;
-
-      // Get some recommended cars (using /filters as a proxy for exploration)
-      const recommendationsRes = await api.get('/publications/filters', { limit: 3, status: 'ACTIVE' }).catch(() => ({ publications: [] }));
+      const viewCount = viewsResponse.count || 0;
+      const alertCount = (notifsResponse.notifications || []).filter(n => !n.isRead).length;
       const recs = recommendationsRes.publications || [];
 
       container.innerHTML = `
@@ -231,7 +235,7 @@ export default {
                <div style="display:flex; justify-content:space-between; align-items:start;">
                  <div>
                    <span>Vistos</span>
-                   <strong>${Math.floor(Math.random() * 20) + 5}</strong>
+                   <strong>${viewCount}</strong>
                  </div>
                  <i class="bi bi-eye-fill" style="font-size: 1.5rem; opacity: 0.3;"></i>
                </div>
@@ -241,12 +245,12 @@ export default {
                <div style="display:flex; justify-content:space-between; align-items:start;">
                  <div>
                    <span>Alertas</span>
-                   <strong>2</strong>
+                   <strong>${alertCount}</strong>
                  </div>
                  <i class="bi bi-bell-fill" style="font-size: 1.5rem; opacity: 0.3;"></i>
                </div>
-               <p style="font-size:0.8rem; margin-top:0.5rem; opacity:0.6;">Bajas de precio detectadas</p>
-            </div>
+               <p style="font-size:0.8rem; margin-top:0.5rem; opacity:0.6;">Notificaciones sin leer</p>
+             </div>
           </div>
 
           <div class="dashboard-section-title">
@@ -334,8 +338,13 @@ export default {
 
   async loadAdminContent(container) {
     try {
-      const api = useApi('/admin'); 
-      const stats = { users: 1240, activePubs: 450, alerts: 12 };
+      const api = useApi('/admin');
+      const res = await api.get('/analytics/summary').catch(() => null);
+      const totals = res?.summary?.totals || {};
+      const alerts = res?.summary?.alerts || [];
+      const users = totals.users ?? 0;
+      const activePubs = totals.activePublications ?? 0;
+      const alertCount = alerts.length;
 
       container.innerHTML = `
         <div class="dashboard-grid-hero animate-reveal">
@@ -343,7 +352,7 @@ export default {
              <div class="card-copy">
                <span class="badge-ai">Control Total</span>
                <h2>Estado de la Plataforma</h2>
-               <p>Se detectaron ${stats.alerts} anomalías que requieren revisión inmediata.</p>
+               <p>Se detectaron ${alertCount} anomalías que requieren revisión inmediata.</p>
                <button class="btn-primary" data-navigate="admin/alerts">Revisar alertas</button>
              </div>
              <div class="card-visual">
@@ -353,16 +362,16 @@ export default {
           <div class="dashboard-stats-grid">
             <div class="stat-card glass">
                <span>Usuarios</span>
-               <strong>${stats.users}</strong>
+               <strong>${users}</strong>
             </div>
             <div class="stat-card glass">
                <span>Publicaciones</span>
-               <strong>${stats.activePubs}</strong>
+               <strong>${activePubs}</strong>
             </div>
           </div>
         </div>
       `;
-      document.getElementById('radarCount').textContent = `${stats.alerts} alertas`;
+      document.getElementById('radarCount').textContent = `${alertCount} alertas`;
       document.getElementById('radarNote').textContent = 'Riesgos de seguridad o fraude.';
     } catch (err) {
       container.innerHTML = '<p>Error cargando datos de admin.</p>';

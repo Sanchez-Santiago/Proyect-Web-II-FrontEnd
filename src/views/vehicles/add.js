@@ -34,7 +34,7 @@ function readFileAsDataURL(file) {
 }
 
 export default {
-  init() {
+  async init() {
     const form = document.getElementById('addVehicleForm');
     const imageInput = document.getElementById('vehicleImages');
     const imageUploadArea = document.getElementById('imageUploadArea');
@@ -43,6 +43,20 @@ export default {
     const message = document.getElementById('addVehicleMessage');
 
     if (!form || !message) return;
+
+    const api = useApi();
+    const [favsRes, notifsRes] = await Promise.all([
+      api.get('/favorites').catch(() => ({ favorites: [] })),
+      api.get('/notifications').catch(() => ({ notifications: [] })),
+    ]);
+    const favCount = (favsRes.favorites || []).length;
+    const unreadCount = (notifsRes.notifications || []).filter(n => !n.isRead).length;
+    const sidebarLeads = document.getElementById('sidebarLeads');
+    const sidebarDesc = document.getElementById('sidebarLeadDesc');
+    if (sidebarLeads) sidebarLeads.textContent = `${favCount} vehículos seguidos`;
+    if (sidebarDesc) sidebarDesc.textContent = unreadCount > 0
+      ? `${unreadCount} notificaciones sin leer.`
+      : 'Todo al día. Sin novedades.';
 
     populateSelect('vehicleBrand', VEHICLE_BRANDS);
     populateSelect('vehicleYear', getYearOptions());
