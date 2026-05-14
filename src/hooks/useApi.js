@@ -1,4 +1,5 @@
 import CONFIG from '../config.js';
+import { cacheGet, cacheSet, cacheDelete } from '../core/cache.js';
 
 const API_BASE_URL = CONFIG.API_BASE_URL;
 
@@ -116,8 +117,22 @@ class ApiError extends Error {
 export function useApi(baseEndpoint = '') {
   const endpoint = baseEndpoint.startsWith('/') ? baseEndpoint : `/${baseEndpoint}`;
 
+  function buildCacheKey(path, params) {
+    return `${method}:${endpoint}${path}${params ? '?' + JSON.stringify(params) : ''}`;
+  }
+
+  const method = 'GET';
+
   return {
-    async get(path = '', params = null) {
+    async get(path = '', params = null, opts = {}) {
+      if (opts.cache) {
+        const key = buildCacheKey(path, opts.cacheParams || params);
+        const cached = cacheGet(key);
+        if (cached) return cached;
+        const data = await request('GET', `${endpoint}${path}`, params);
+        cacheSet(key, data, opts.ttl || 30000);
+        return data;
+      }
       return request('GET', `${endpoint}${path}`, params);
     },
 

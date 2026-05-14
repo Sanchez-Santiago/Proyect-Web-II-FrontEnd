@@ -26,12 +26,31 @@ function getIcon(type) {
   return typeIcons[type] || 'bi-bell';
 }
 
+function showSkeleton(list) {
+  if (!list) return;
+  list.style.display = '';
+  list.innerHTML = Array(5).fill(0).map(() => `
+    <article class="notif-card skeleton-card" style="pointer-events:none;">
+      <div class="notif-icon">
+        <div class="skeleton" style="width:40px;height:40px;border-radius:50%;"></div>
+      </div>
+      <div class="notif-body">
+        <div class="skeleton" style="height:18px;width:50%;margin-bottom:0.5rem;"></div>
+        <div class="skeleton" style="height:14px;width:80%;margin-bottom:0.3rem;"></div>
+        <div class="skeleton" style="height:14px;width:30%;"></div>
+      </div>
+    </article>
+  `).join('');
+}
+
 export default {
   async init() {
     const api = useApi('/notifications');
 
     const empty = document.getElementById('notifEmpty');
     const list = document.getElementById('notifList');
+
+    showSkeleton(list);
 
     try {
       const response = await api.get('');

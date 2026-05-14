@@ -76,6 +76,8 @@ export default {
       if (type) message.classList.add(type);
     }
 
+    let dragIndex = null;
+
     function renderImagePreviews() {
       objectUrls.forEach(url => URL.revokeObjectURL(url));
       objectUrls.length = 0;
@@ -86,6 +88,7 @@ export default {
         objectUrls.push(url);
         const preview = document.createElement('div');
         preview.className = 'image-preview-item';
+        preview.draggable = true;
         preview.dataset.index = index;
         preview.innerHTML = `
           <img src="${url}" alt="Preview ${index + 1}" />
@@ -93,9 +96,43 @@ export default {
             <i class="bi bi-x-lg"></i>
           </button>
         `;
+        preview.addEventListener('dragstart', (e) => {
+          dragIndex = index;
+          preview.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        preview.addEventListener('dragend', () => {
+          preview.classList.remove('dragging');
+          dragIndex = null;
+        });
         imagePreviewGrid.appendChild(preview);
       });
     }
+
+    imagePreviewGrid.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      imagePreviewGrid.classList.add('drag-over');
+    });
+
+    imagePreviewGrid.addEventListener('dragleave', () => {
+      imagePreviewGrid.classList.remove('drag-over');
+    });
+
+    imagePreviewGrid.addEventListener('drop', (e) => {
+      e.preventDefault();
+      imagePreviewGrid.classList.remove('drag-over');
+      if (dragIndex === null) return;
+
+      const target = e.target.closest('.image-preview-item');
+      if (!target) return;
+      const dropIndex = parseInt(target.dataset.index);
+      if (dragIndex === dropIndex) return;
+
+      const file = selectedFiles.splice(dragIndex, 1)[0];
+      selectedFiles.splice(dropIndex, 0, file);
+      refreshPreviews();
+    });
 
     function renderImageFooter() {
       if (!imageUploadFooter) return;

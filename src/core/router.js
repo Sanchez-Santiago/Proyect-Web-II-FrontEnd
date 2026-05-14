@@ -71,6 +71,10 @@ let currentScriptModule = null;
 let currentViewName = null;
 
 function navigateTo(hash) {
+  if (currentViewName) {
+    const stateData = { view: currentViewName, scrollY: window.scrollY };
+    history.replaceState(stateData, '');
+  }
   window.location.hash = hash;
 }
 
@@ -88,16 +92,16 @@ function extractViewName(hash) {
 
   if (hash.startsWith('messages/buyer/chat')) {
     const parts = hash.split('/');
-    if (parts.length >= 3) {
-      state.setParams({ chatId: parts[2] });
+    if (parts.length >= 4) {
+      state.setParams({ chatId: parts[3] });
     }
     return 'messages/buyer/chat';
   }
 
   if (hash.startsWith('messages/seller/chat')) {
     const parts = hash.split('/');
-    if (parts.length >= 3) {
-      state.setParams({ chatId: parts[2] });
+    if (parts.length >= 4) {
+      state.setParams({ chatId: parts[3] });
     }
     return 'messages/seller/chat';
   }
@@ -111,8 +115,8 @@ function extractViewName(hash) {
 async function loadView(viewName) {
   // Global Admin Guard
   if (viewName.startsWith('admin/') && !state.hasAdminAccess()) {
-    console.warn(`[ROUTER] Acceso denegado a "${viewName}". Redirigiendo a home.`);
-    navigateTo('home');
+    console.warn(`[ROUTER] Acceso denegado a "${viewName}".`);
+    state.showMessage('No tienes permisos de administrador', 'error');
     return;
   }
 
@@ -131,6 +135,11 @@ async function loadView(viewName) {
     if (!response.ok) throw new Error('Template not found');
     const html = await response.text();
     app.innerHTML = html;
+
+    if (!state.hasAdminAccess()) {
+      app.querySelectorAll('[data-navigate="admin/menu"]').forEach(el => el.style.display = 'none');
+    }
+
     window.scrollTo(0, 0);
     document.title = route.title;
 
@@ -158,6 +167,11 @@ async function loadView(viewName) {
     setupNavigation();
     currentViewName = viewName;
     state.setView(viewName);
+
+    const hist = history.state;
+    if (hist?.view === viewName && typeof hist.scrollY === 'number') {
+      requestAnimationFrame(() => window.scrollTo(0, hist.scrollY));
+    }
   } catch (error) {
     console.error('Error loading view:', error);
     app.innerHTML = '<div class="error-view"><h1>Error cargando la vista</h1><p>Por favor recarga la pagina.</p></div>';

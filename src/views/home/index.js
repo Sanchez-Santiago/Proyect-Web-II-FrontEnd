@@ -203,25 +203,6 @@ async function populateFilterOptions() {
 }
 
 async function fetchPublications() {
-  const grid = document.getElementById('homeCarsGrid');
-  if (grid) {
-    grid.innerHTML = Array(6).fill(0).map(() => `
-      <div class="home-car-card skeleton-card">
-        <div class="skeleton skeleton-img" style="height:200px; border-radius:12px 12px 0 0;"></div>
-        <div style="padding:1.5rem;">
-          <div class="skeleton" style="height:24px; width:40%; margin-bottom:1rem;"></div>
-          <div class="skeleton" style="height:28px; width:70%; margin-bottom:1rem;"></div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-            <div class="skeleton" style="height:16px;"></div>
-            <div class="skeleton" style="height:16px;"></div>
-            <div class="skeleton" style="height:16px;"></div>
-            <div class="skeleton" style="height:16px;"></div>
-          </div>
-        </div>
-      </div>
-    `).join('');
-  }
-
   const api = useApi('/publications');
   const filters = buildFilters();
 
@@ -231,11 +212,13 @@ async function fetchPublications() {
     publications = items.map(normalizePublication);
 
     if (filters.search) {
-      const q = filters.search.toLowerCase();
+      const words = filters.search.toLowerCase().split(/\s+/);
       publications = publications.filter(car =>
-        car.brand.toLowerCase().includes(q) ||
-        car.model.toLowerCase().includes(q) ||
-        car.year.toString().includes(q)
+        words.every(word =>
+          car.brand.toLowerCase().includes(word) ||
+          car.model.toLowerCase().includes(word) ||
+          car.year.toString().includes(word)
+        )
       );
     }
 
@@ -424,8 +407,29 @@ function updateAuthUI() {
   }
 }
 
+function renderHomeSkeleton() {
+  const grid = document.getElementById('homeCarsGrid');
+  if (!grid) return;
+  grid.innerHTML = Array(6).fill(0).map(() => `
+    <div class="home-car-card skeleton-card">
+      <div class="skeleton skeleton-img" style="height:200px; border-radius:12px 12px 0 0;"></div>
+      <div style="padding:1.5rem;">
+        <div class="skeleton" style="height:24px; width:40%; margin-bottom:1rem;"></div>
+        <div class="skeleton" style="height:28px; width:70%; margin-bottom:1rem;"></div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+          <div class="skeleton" style="height:16px;"></div>
+          <div class="skeleton" style="height:16px;"></div>
+          <div class="skeleton" style="height:16px;"></div>
+          <div class="skeleton" style="height:16px;"></div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
 export default {
   async init() {
+    renderHomeSkeleton();
     updateAuthUI();
     unsubscribeState = state.subscribe(() => {
       updateAuthUI();
@@ -446,7 +450,8 @@ export default {
     }
     try {
       const fav = useFavorites();
-      const items = await fav.getAll();
+      const response = await fav.getAll();
+      const items = response?.favorites || [];
       userFavorites = new Set(items.map(f => f.publicationId));
     } catch (err) {
       console.warn('[HOME] Error fetching user favorites:', err.message);

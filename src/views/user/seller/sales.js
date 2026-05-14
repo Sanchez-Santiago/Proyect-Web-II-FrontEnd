@@ -45,8 +45,25 @@ function createSaleCard(pub) {
   return article;
 }
 
+function showSkeleton() {
+  const timeline = document.getElementById('salesTimeline');
+  if (!timeline) return;
+  timeline.innerHTML = Array(4).fill(0).map(() => `
+    <article class="sale-card skeleton-card" style="pointer-events:none;">
+      <div class="skeleton" style="height:100px;width:120px;border-radius:12px 0 0 12px;flex-shrink:0;"></div>
+      <div class="sale-card-content" style="flex:1;padding:1.25rem;">
+        <div class="skeleton" style="height:20px;width:60%;margin-bottom:0.75rem;"></div>
+        <div class="skeleton" style="height:14px;width:40%;margin-bottom:0.5rem;"></div>
+        <div class="skeleton" style="height:14px;width:30%;"></div>
+      </div>
+    </article>
+  `).join('');
+}
+
 export default {
   async init() {
+    showSkeleton();
+
     const session = state.getSession();
     if (!session?.id) {
       document.getElementById('salesTimeline').innerHTML = '<div class="no-results">Debes iniciar sesion para ver tus ventas.</div>';

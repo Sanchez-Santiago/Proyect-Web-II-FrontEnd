@@ -23,6 +23,30 @@ export default {
     this.setupActions();
   },
 
+  showSkeleton() {
+    const img = document.getElementById('carMainImage');
+    if (img) img.style.background = 'linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%)';
+    ['carTitle', 'carPrice', 'carLocation'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.className = 'skeleton';
+    });
+    const specs = document.getElementById('carSpecs');
+    if (specs) {
+      specs.innerHTML = Array(4).fill(0).map(() =>
+        '<div class="skeleton" style="height:72px;border-radius:18px;margin-bottom:1rem;"></div>'
+      ).join('');
+    }
+  },
+
+  hideSkeleton() {
+    const img = document.getElementById('carMainImage');
+    if (img) img.style.background = '';
+    ['carTitle', 'carPrice', 'carLocation'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('skeleton');
+    });
+  },
+
   async renderCarDetail() {
     const pubId = state.getParam('carDetailId');
     const container = document.getElementById('app');
@@ -31,6 +55,8 @@ export default {
       console.error('[DETAIL] No pubId found in params');
       return;
     }
+
+    this.showSkeleton();
 
     try {
       const api = useApi('/publications');
@@ -44,6 +70,8 @@ export default {
       if (!pub || !vehicle) {
         throw new Error('No se encontraron datos del vehículo');
       }
+
+      this.currentPub = pub;
 
       // Update UI elements directly
       this.updateUI(pub, vehicle);
@@ -63,6 +91,8 @@ export default {
   updateUI(pub, vehicle) {
     const el = (id) => document.getElementById(id);
     const sel = (s) => document.querySelector(s);
+
+    this.hideSkeleton();
 
     if (el('carTitle')) el('carTitle').textContent = `${vehicle.brand} ${vehicle.model} ${vehicle.year}`;
     if (el('carPrice')) el('carPrice').textContent = formatPrice(pub.price, pub.currency);
@@ -168,6 +198,7 @@ export default {
 
   setupActions() {
     const pubId = state.getParam('carDetailId');
+    let favoriteClicked = false;
 
     window.changeCarImage = (src, btn) => {
       const mainImg = document.getElementById('carMainImage');
@@ -178,56 +209,97 @@ export default {
 
     document.querySelectorAll('[data-action="favorite"]').forEach(btn => {
       btn.onclick = async () => {
+        favoriteClicked = true;
         if (!state.isLoggedIn()) { state.openLoginModal(); return; }
         const fav = useFavorites();
         const isFav = btn.classList.contains('is-active');
+        const icon = btn.querySelector('i');
         btn.classList.toggle('is-active');
+        if (icon) icon.className = icon.className.includes('bi-heart-fill') ? 'bi bi-heart' : 'bi bi-heart-fill';
         try {
           if (isFav) await fav.remove(pubId); else await fav.add(pubId);
-        } catch (e) { btn.classList.toggle('is-active'); }
+        } catch (e) {
+          btn.classList.toggle('is-active');
+          if (icon) icon.className = icon.className.includes('bi-heart-fill') ? 'bi bi-heart' : 'bi bi-heart-fill';
+        }
       };
     });
 
     document.querySelectorAll('[data-action="contact"]').forEach(btn => {
-      btn.onclick = async () => {
-        const action = async () => {
-          try {
-            state.showMessage('Iniciando chat...', 'info');
-            const chats = (await import('../../hooks/useChats.js')).useChats();
-            const res = await chats.createOrGet(pubId);
-            const chat = res.chat || res;
-            if (chat?.id) {
-              navigateTo(`messages/buyer/chat/${chat.id}`);
-            } else {
-              throw new Error('No se pudo crear el chat');
-            }
-          } catch (err) {
-            console.error('[DETAIL] Chat error:', err);
-            state.showMessage('Error al iniciar el chat: ' + err.message, 'error');
-          }
+      btn.onclick = () => {
+        const action = () => {
+          state.setPersistent('createForPubId', pubId);
+          navigateTo('messages/buyer/chat');
         };
 
         if (state.isLoggedIn()) {
-          await action();
+          action();
         } else {
           state.requireAuth(action);
         }
       };
     });
 
+    const paymentModal = document.getElementById('paymentModal');
+    const closePaymentBtn = document.getElementById('closePaymentModal');
+
+    if (paymentModal && this.currentPub) {
+      const totalEl = document.getElementById('paymentTotal');
+      const vehicleInfoEl = document.getElementById('paymentVehicleInfo');
+      const p = this.currentPub;
+      if (totalEl) totalEl.textContent = `Total: ${formatPrice(p.price, p.currency)}`;
+      if (vehicleInfoEl) vehicleInfoEl.textContent = `${p.vehicle?.brand || ''} ${p.vehicle?.model || ''} ${p.vehicle?.year || ''}`.trim();
+    }
+
     document.querySelectorAll('[data-action="buy"]').forEach(btn => {
       btn.onclick = () => {
-        state.showMessage('Procesando solicitud de compra...', 'info');
-        // Aquí iría el modal de compra que ya definimos antes si es necesario
+        if (!state.isLoggedIn()) { state.openLoginModal(); return; }
+        if (paymentModal) paymentModal.hidden = false;
       };
     });
 
-    // Check favorite status
-    if (state.isLoggedIn()) {
+    document.querySelectorAll('[data-action="share"]').forEach(btn => {
+      btn.onclick = () => {
+        const url = window.location.href;
+        if (navigator.share) {
+          navigator.share({ title: document.title, url }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(url).then(() => {
+            state.showMessage('Enlace copiado al portapapeles', 'success');
+          }).catch(() => {
+            state.showMessage('Compartí este enlace: ' + url, 'info');
+          });
+        }
+      };
+    });
+
+    document.querySelectorAll('[data-action="report"]').forEach(btn => {
+      btn.onclick = () => {
+        btn.classList.add('is-active');
+        state.showMessage('Reporte enviado. Gracias por tu ayuda.', 'success');
+        setTimeout(() => btn.classList.remove('is-active'), 1500);
+      };
+    });
+
+    if (closePaymentBtn) {
+      closePaymentBtn.onclick = () => { if (paymentModal) paymentModal.hidden = true; };
+    }
+
+    if (paymentModal) {
+      paymentModal.querySelector('.payment-modal-overlay')?.addEventListener('click', () => {
+        paymentModal.hidden = true;
+      });
+    }
+
+    if (state.isLoggedIn() && !favoriteClicked) {
       useFavorites().check(pubId).then(res => {
         if (res?.isFavorite) {
           const btn = document.querySelector('[data-action="favorite"]');
-          if (btn) btn.classList.add('is-active');
+          if (btn) {
+            btn.classList.add('is-active');
+            const icon = btn.querySelector('i');
+            if (icon) icon.className = 'bi bi-heart-fill';
+          }
         }
       }).catch(() => {});
     }

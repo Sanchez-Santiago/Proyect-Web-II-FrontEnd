@@ -55,7 +55,9 @@ const state = {
       const action = this.pendingAction;
       this.pendingAction = null;
       action();
+      return true;
     }
+    return false;
   },
 
   openLoginModal(options) {
@@ -87,6 +89,20 @@ const state = {
 
   clearParams() {
     this.params = {};
+  },
+
+  _persistent: {},
+
+  setPersistent(key, value) {
+    this._persistent[key] = value;
+  },
+
+  getPersistent(key) {
+    return this._persistent[key];
+  },
+
+  clearPersistent() {
+    this._persistent = {};
   },
 
   subscribe(listener) {

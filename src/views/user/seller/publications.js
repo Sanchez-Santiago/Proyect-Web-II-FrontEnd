@@ -13,12 +13,33 @@ const statusClasses = {
   CANCELLED: 'is-cancelled', EXPIRED: 'is-expired'
 };
 
+function showSkeleton(grid) {
+  if (!grid) return;
+  grid.innerHTML = Array(6).fill(0).map(() => `
+    <article class="pub-card skeleton-card">
+      <div class="pub-card-img">
+        <div class="skeleton" style="height:200px;border-radius:12px 12px 0 0;"></div>
+      </div>
+      <div class="pub-card-body">
+        <div class="skeleton" style="height:24px;width:60%;margin-bottom:0.75rem;"></div>
+        <div class="skeleton" style="height:18px;width:40%;margin-bottom:1rem;"></div>
+        <div style="display:flex;gap:0.75rem;">
+          <div class="skeleton" style="height:14px;width:30%;"></div>
+          <div class="skeleton" style="height:14px;width:30%;"></div>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
 export default {
   async init() {
     const grid = document.getElementById('publicationsGrid');
     const stats = document.querySelectorAll('.pub-stat strong');
 
     if (!grid) return;
+
+    showSkeleton(grid);
 
     if (!state.isLoggedIn()) {
       navigateTo('auth/login');
