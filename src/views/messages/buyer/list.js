@@ -45,6 +45,19 @@ export default {
       return;
     }
 
+    list.innerHTML = Array(4).fill(0).map(() => `
+      <article class="conversation-item" style="pointer-events:none;">
+        <div class="conversation-avatar">
+          <div class="skeleton" style="width:70px;height:70px;border-radius:18px;"></div>
+        </div>
+        <div class="conversation-content">
+          <div class="skeleton" style="height:20px;width:50%;margin-bottom:0.5rem;"></div>
+          <div class="skeleton" style="height:14px;width:70%;margin-bottom:0.4rem;"></div>
+          <div class="skeleton" style="height:14px;width:40%;"></div>
+        </div>
+      </article>
+    `).join('');
+
     const chats = useChats();
     try {
       const response = await chats.getAll();

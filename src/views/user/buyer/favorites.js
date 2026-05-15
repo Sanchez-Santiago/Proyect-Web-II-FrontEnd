@@ -73,10 +73,31 @@ function showEmpty() {
   }
 }
 
+function showSkeleton(grid) {
+  if (!grid) return;
+  grid.innerHTML = Array(6).fill(0).map(() => `
+    <article class="favorites-buyer-card skeleton-card">
+      <div class="fav-card-image">
+        <div class="skeleton" style="height:200px;border-radius:12px 12px 0 0;"></div>
+      </div>
+      <div class="favorites-buyer-card-body">
+        <div class="skeleton" style="height:24px;width:60%;margin-bottom:0.75rem;"></div>
+        <div class="skeleton" style="height:18px;width:40%;margin-bottom:1rem;"></div>
+        <div style="display:flex;gap:0.75rem;">
+          <div class="skeleton" style="height:14px;width:30%;"></div>
+          <div class="skeleton" style="height:14px;width:30%;"></div>
+        </div>
+      </div>
+    </article>
+  `).join('');
+}
+
 export default {
   async init() {
     const grid = document.getElementById('favoritesGrid');
     if (!grid) return;
+
+    showSkeleton(grid);
 
     try {
       const favApi = useFavorites();

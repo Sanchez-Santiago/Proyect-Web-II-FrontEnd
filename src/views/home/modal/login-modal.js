@@ -87,8 +87,8 @@ async function handleSubmit(event) {
 
       const t = setTimeout(() => {
         closeModal();
-        state.executePendingAction();
-        window.location.hash = 'home';
+        const hadAction = state.executePendingAction();
+        if (!hadAction) window.location.hash = 'home';
       }, 600);
       timeouts.push(t);
     } else {

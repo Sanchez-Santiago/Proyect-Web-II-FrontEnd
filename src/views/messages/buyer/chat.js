@@ -6,6 +6,16 @@ import state from '../../../core/state.js';
 let chatId = null;
 let socket = null;
 
+function showSkeleton(container) {
+  if (!container) return;
+  container.innerHTML = Array(5).fill(0).map((_, i) => {
+    const side = i % 2 === 0 ? 'message-incoming' : 'message-outgoing';
+    const align = i % 2 === 0 ? '' : 'align-items:flex-end;';
+    const w = 40 + Math.random() * 35;
+    return `<div class="message ${side}" style="${align}"><p class="skeleton" style="width:${w}%;height:48px;border-radius:20px;margin:0;"></p></div>`;
+  }).join('');
+}
+
 function parseMarkdown(text) {
   if (!text) return '';
   let html = text
@@ -44,18 +54,42 @@ export default {
     const vehicleTitle = document.getElementById('chatVehicleTitle');
     const sellerName = document.getElementById('chatSellerName');
 
-    chatId = state.getParam('chatId');
-
     if (!state.isLoggedIn()) {
       navigateTo('auth/login');
       return;
     }
 
+    showSkeleton(messagesContainer);
+
+    const createForPubId = state.getPersistent('createForPubId');
+    state.clearPersistent();
+
+    if (createForPubId) {
+      try {
+        const chats = useChats();
+        const res = await chats.createOrGet(createForPubId);
+        const chat = res.chat || res;
+        if (chat?.id) {
+          chatId = chat.id;
+          state.setParams({ chatId });
+        }
+      } catch (err) {
+        console.error('[CHAT] Error creating chat:', err.message);
+        if (messagesContainer) messagesContainer.innerHTML = '<div class="no-results" style="padding:2rem;text-align:center;">Error al iniciar el chat.</div>';
+        return;
+      }
+    } else {
+      chatId = state.getParam('chatId');
+    }
+
+    if (!chatId) {
+      navigateTo('messages/buyer');
+      return;
+    }
+
     socket = useSocket();
     socket.connect();
-    if (chatId) {
-      socket.joinChat(chatId);
-    }
+    if (chatId) socket.joinChat(chatId);
     socket.on('newMessage', (data) => {
       const userId = state.getSession()?.id;
       const isOutgoing = data.user?.id === userId;
@@ -63,10 +97,8 @@ export default {
     });
     socket.on('messagesRead', () => {});
 
-    if (chatId) {
-      await this.loadChatInfo(vehicleImage, vehicleTitle, sellerName);
-      await this.loadMessages();
-    }
+    await this.loadChatInfo(vehicleImage, vehicleTitle, sellerName);
+    await this.loadMessages();
 
     if (input) {
       input.addEventListener('keydown', (e) => {

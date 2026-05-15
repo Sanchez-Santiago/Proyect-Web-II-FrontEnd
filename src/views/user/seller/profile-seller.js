@@ -9,6 +9,7 @@ export default {
     await this.loadProfile();
     this.setupProfileForm();
     this.setupPasswordForm();
+    this.setupLogout();
   },
 
   async loadProfile() {
@@ -87,6 +88,22 @@ export default {
         msg.classList.remove('success');
         msg.classList.add('error');
       }
+    });
+  },
+
+  setupLogout() {
+    const btn = document.getElementById('sellerLogoutBtn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Cerrando sesión...';
+      try {
+        const auth = useAuth();
+        await auth.logout();
+      } catch (e) {
+        state.clearSession();
+      }
+      navigateTo('home');
     });
   },
 

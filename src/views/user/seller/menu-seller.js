@@ -10,6 +10,10 @@ export default {
   },
 
   setupNavigation() {
+    if (!state.hasAdminAccess()) {
+      const adminLink = document.querySelector('.menu-seller-workspace-switch a[data-navigate="admin/menu"]');
+      if (adminLink) adminLink.style.display = 'none';
+    }
     document.querySelectorAll('[data-navigate]').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();

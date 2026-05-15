@@ -1,4 +1,5 @@
 import CONFIG from '../config.js';
+import { cacheGet, cacheSet, cacheDelete } from '../core/cache.js';
 
 const API_BASE_URL = CONFIG.API_BASE_URL;
 
@@ -62,6 +63,23 @@ async function handleResponse(response) {
   return response.text();
 }
 
+function normalizeErrorMessage(value, fallback = 'Error en la solicitud') {
+  if (!value) return fallback;
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => normalizeErrorMessage(item, ''))
+      .filter(Boolean)
+      .join('. ');
+  }
+  if (typeof value === 'object') {
+    if (typeof value.message === 'string') return value.message;
+    if (value.message) return normalizeErrorMessage(value.message, fallback);
+    if (typeof value.error === 'string') return value.error;
+  }
+  return fallback;
+}
+
 async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
   const options = {
     method,
@@ -71,9 +89,13 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
     }
   };
 
+  // Normalizar baseUrl y endpoint para evitar double slashes (//)
+  const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  
   const url = body && method === 'GET'
-    ? `${baseUrl}${endpoint}?${new URLSearchParams(body)}`
-    : `${baseUrl}${endpoint}`;
+    ? `${base}${path}?${new URLSearchParams(body)}`
+    : `${base}${path}`;
 
   if (body && method !== 'GET') {
     options.body = JSON.stringify(body);
@@ -93,7 +115,7 @@ async function request(method, endpoint, body = null, baseUrl = API_BASE_URL) {
     const errorData = await response.json().catch(() => ({}));
     const message = response.status === 401
       ? 'Sesión expirada. Inicia sesión nuevamente.'
-      : (errorData.message || `Error ${response.status}: ${response.statusText || 'Error en la solicitud'}`);
+      : normalizeErrorMessage(errorData.message || errorData, `Error ${response.status}: ${response.statusText || 'Error en la solicitud'}`);
     throw new ApiError(response.status, message, errorData);
   }
 
@@ -112,8 +134,22 @@ class ApiError extends Error {
 export function useApi(baseEndpoint = '') {
   const endpoint = baseEndpoint.startsWith('/') ? baseEndpoint : `/${baseEndpoint}`;
 
+  function buildCacheKey(path, params) {
+    return `${method}:${endpoint}${path}${params ? '?' + JSON.stringify(params) : ''}`;
+  }
+
+  const method = 'GET';
+
   return {
-    async get(path = '', params = null) {
+    async get(path = '', params = null, opts = {}) {
+      if (opts.cache) {
+        const key = buildCacheKey(path, opts.cacheParams || params);
+        const cached = cacheGet(key);
+        if (cached) return cached;
+        const data = await request('GET', `${endpoint}${path}`, params);
+        cacheSet(key, data, opts.ttl || 30000);
+        return data;
+      }
       return request('GET', `${endpoint}${path}`, params);
     },
 
@@ -145,7 +181,7 @@ export function useApi(baseEndpoint = '') {
       }
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new ApiError(response.status, errorData.message || 'Error al subir archivo', errorData);
+        throw new ApiError(response.status, normalizeErrorMessage(errorData.message || errorData, 'Error al subir archivo'), errorData);
       }
       return response.json();
     }

@@ -96,9 +96,9 @@
             <i class="bi bi-cart"></i>
             Comprar ahora
           </button>
-          <button type="button" class="car-detail-compare-btn" data-action="compare">
-            <i class="bi bi-arrow-left-right"></i>
-            Comparar
+          <button type="button" class="car-detail-compare-btn" data-action="share">
+            <i class="bi bi-share"></i>
+            Compartir
           </button>
         </div>
       </div>
@@ -128,4 +128,47 @@
       </div>
     </div>
   </section>
+</div>
+
+<div id="paymentModal" class="payment-modal" hidden>
+  <div class="payment-modal-overlay"></div>
+  <div class="payment-modal-content">
+    <button type="button" class="payment-modal-close" id="closePaymentModal">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    <div class="payment-modal-header">
+      <span class="payment-chip">MotorMarket</span>
+      <h2>Completar compra</h2>
+      <p id="paymentVehicleInfo"></p>
+    </div>
+    <div class="payment-coming-soon">
+      <i class="bi bi-clock-history"></i>
+      <span>Próximamente — Pago online no disponible</span>
+    </div>
+    <form id="paymentForm" class="payment-form" novalidate>
+      <div class="payment-field">
+        <label for="cardNumber">Número de tarjeta</label>
+        <input id="cardNumber" type="text" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" disabled />
+      </div>
+      <div class="payment-row">
+        <div class="payment-field">
+          <label for="cardExpiry">Vencimiento</label>
+          <input id="cardExpiry" type="text" maxlength="5" placeholder="MM/AA" disabled />
+        </div>
+        <div class="payment-field">
+          <label for="cardCvv">CVV</label>
+          <input id="cardCvv" type="text" inputmode="numeric" maxlength="4" placeholder="123" disabled />
+        </div>
+      </div>
+      <div class="payment-field">
+        <label for="cardName">Titular</label>
+        <input id="cardName" type="text" placeholder="Nombre completo" disabled />
+      </div>
+      <div id="paymentTotal" class="payment-total"></div>
+      <button type="submit" class="payment-submit" disabled>
+        <i class="bi bi-lock"></i> Pagar ahora
+      </button>
+      <p class="payment-disclaimer">Los datos de pago son simulados. Esta funcionalidad estará disponible próximamente.</p>
+    </form>
+  </div>
 </div>
