@@ -6,6 +6,7 @@ let socket = null;
 let listeners = {};
 let heartbeatInterval = null;
 let reconnectTimer = null;
+const joinedChats = new Set();
 
 function getToken() {
   try {
@@ -106,6 +107,9 @@ export function useSocket() {
       console.log('[Socket] Connected:', socket.id);
       updateStatus('connected');
       startHeartbeat();
+      joinedChats.forEach((chatId) => {
+        socket.emit('joinChat', { chatId });
+      });
       if (listeners.status) listeners.status.forEach(cb => cb('connected'));
     });
 
@@ -134,6 +138,9 @@ export function useSocket() {
       console.log('[Socket] Reconnected after', attempt, 'attempts');
       updateStatus('connected');
       startHeartbeat();
+      joinedChats.forEach((chatId) => {
+        socket.emit('joinChat', { chatId });
+      });
       if (listeners.status) listeners.status.forEach(cb => cb('connected'));
     });
 
@@ -164,17 +171,20 @@ export function useSocket() {
       socket = null;
     }
     listeners = {};
+    joinedChats.clear();
     updateStatus('disconnected');
   }
 
   function joinChat(chatId) {
-    if (!socket?.connected) return;
-    socket.emit('joinChat', { chatId });
+    if (!chatId) return;
+    joinedChats.add(chatId);
+    if (socket?.connected) socket.emit('joinChat', { chatId });
   }
 
   function leaveChat(chatId) {
-    if (!socket?.connected) return;
-    socket.emit('leaveChat', { chatId });
+    if (!chatId) return;
+    joinedChats.delete(chatId);
+    if (socket?.connected) socket.emit('leaveChat', { chatId });
   }
 
   function sendMessage(chatId, message) {

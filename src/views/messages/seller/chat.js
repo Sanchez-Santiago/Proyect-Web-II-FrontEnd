@@ -58,8 +58,8 @@ export default {
     }
     socket.on('newMessage', (data) => {
       const userId = state.getSession()?.id;
-      const isOutgoing = data.user?.id === userId;
-      appendMessage(data, isOutgoing);
+      if (data.user?.id === userId) return;
+      appendMessage(data, false);
     });
     socket.on('messagesRead', () => {});
 
@@ -159,10 +159,6 @@ export default {
     try {
       const chats = useChats();
       const response = await chats.sendMessage(chatId, text);
-
-      if (socket?.isConnected()) {
-        socket.sendMessage(chatId, text);
-      }
 
       if (response?.data) {
         const timeSpan = newMessage.querySelector('.message-time');

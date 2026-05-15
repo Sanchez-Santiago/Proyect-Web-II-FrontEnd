@@ -194,17 +194,17 @@ export default {
   async loadBuyerContent(container) {
     try {
       const api = useApi();
-      const [favsResponse, viewsResponse, notifsResponse, recommendationsRes] = await Promise.all([
+      const [favsResponse, viewsResponse, notifsResponse, marketRes] = await Promise.all([
         api.get('/favorites').catch(() => ({ favorites: [] })),
         api.get('/vehicle-views/my-views').catch(() => ({ count: 0 })),
         api.get('/notifications').catch(() => ({ notifications: [] })),
-        api.get('/publications/filters', { limit: 3, status: 'ACTIVE' }).catch(() => ({ publications: [] })),
+        api.get('/publications/filters', { status: 'ACTIVE', limit: 200 }).catch(() => ({ publications: [] })),
       ]);
       const favs = favsResponse.favorites || [];
       const favCount = favs.length;
       const viewCount = viewsResponse.count || 0;
       const alertCount = (notifsResponse.notifications || []).filter(n => !n.isRead).length;
-      const recs = recommendationsRes.publications || [];
+      const availablePublications = marketRes.publications || [];
 
       container.innerHTML = `
         <div class="dashboard-buyer-welcome animate-reveal">
@@ -254,26 +254,30 @@ export default {
           </div>
 
           <div class="dashboard-section-title">
-            <h3>Recomendados para vos</h3>
+            <h3>Vehiculos disponibles</h3>
             <a href="#home" data-navigate="home" style="color:var(--orange); font-size:0.9rem; font-weight:600; text-decoration:none;">Ver todos</a>
           </div>
 
           <div class="buyer-matches-row">
-            ${recs.length > 0 ? recs.map(pub => {
+            ${availablePublications.length > 0 ? availablePublications.map(pub => {
               const v = pub.vehicle || {};
               const img = (v.images?.[0]?.imageUrl || pub.images?.[0] || 'https://placehold.co/400x300');
+              const analytics = v.analytics || {};
+              const score = analytics.overallScore || 0;
+              const matchScore = score || 80;
               return `
                 <div class="match-card" data-navigate="vehicles/detail/${pub.id}" style="cursor:pointer;">
                   <div class="match-card-img">
-                    <img src="${img}" alt="${v.brand}" />
-                    <span class="match-badge">${Math.floor(Math.random() * 15) + 85}% Match</span>
+                    <img src="${img}" alt="${[v.brand, v.model].filter(Boolean).join(' ') || 'Vehiculo'}" />
+                    <span class="match-badge">${matchScore}% Match</span>
                   </div>
                   <div class="match-card-body">
-                    <h4>${v.brand} ${v.model}</h4>
-                    <p>$${pub.price?.toLocaleString() || 'Consulte'}</p>
+                    <h4>${[v.brand, v.model].filter(Boolean).join(' ') || pub.title || 'Vehiculo'}</h4>
+                    <p>${formatPrice(pub.price, pub.currency)}</p>
                     <div class="match-meta">
-                      <span><i class="bi bi-calendar"></i> ${v.year}</span>
-                      <span><i class="bi bi-speedometer2"></i> ${v.mileage?.toLocaleString()} km</span>
+                      <span><i class="bi bi-calendar"></i> ${v.year || '-'}</span>
+                      <span><i class="bi bi-speedometer2"></i> ${formatMileage(v.mileage)}</span>
+                      <span><i class="bi bi-geo-alt"></i> ${[pub.province, pub.city].filter(Boolean).join(', ') || '-'}</span>
                     </div>
                   </div>
                 </div>
@@ -287,8 +291,8 @@ export default {
           </div>
         </div>
       `;
-      document.getElementById('radarCount').textContent = `${favCount} oportunidades`;
-      document.getElementById('radarNote').textContent = 'Analizando mercado en tiempo real.';
+      document.getElementById('radarCount').textContent = `${availablePublications.length} disponibles`;
+      document.getElementById('radarNote').textContent = 'Mercado activo actualizado.';
     } catch (err) {
       console.error('[DASHBOARD] Buyer Error:', err);
       container.innerHTML = '<p>Error cargando datos de comprador.</p>';
